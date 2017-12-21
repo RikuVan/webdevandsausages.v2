@@ -1,18 +1,24 @@
 import * as functions from 'firebase-functions'
 import admin from 'firebase-admin'
 admin.initializeApp(functions.config().firebase)
+export const config = () => ({
+  slackUrl: functions.config().slack.url,
+  sendgridKey: functions.config().sendgrid.key,
+  google: {
+    secret: functions.config().googleapi.client_secret,
+    id: functions.config().googleapi.client_id
+  }
+})
 import * as express from 'express'
 import api from './api/apiRoutes'
-import cors from 'cors'
 import setMiddleware from './middleware/'
-import { tokensRef } from './services/db'
-const googleAuth = require('google-auth-library')
-import * as google from 'googleapis'
 import {
   setGooogleSheetsApiTokens,
   authenticateForGoogleSheetsApi,
   appendNewEmailToSpreadsheetOnCreate
 } from './services/googleSheets'
+
+console.log(config())
 
 const app = express()
 setMiddleware(app)

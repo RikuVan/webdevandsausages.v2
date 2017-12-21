@@ -4,7 +4,12 @@ import { participantSchema } from './schemas'
 import { CollectionReference } from '@google-cloud/firestore'
 import Future, { tryP, of, ResolveFunction, Next } from 'fluture'
 import * as createError from 'http-errors'
-import { notNil, docDataOrNull, addInsertionDate } from '../utils'
+import {
+  notNil,
+  docDataOrNull,
+  addInsertionDate,
+  createMailMsg
+} from '../utils'
 import { participantsRef, eventsRef } from '../services/db'
 import { filter, traverse, merge, isNil, isEmpty, either } from 'ramda'
 import { Readable } from 'stream'
@@ -66,13 +71,13 @@ export const addParticipant = (
           next(new createError.InternalServerError())
         },
         result => {
-          const msg = {
+          const msg = createMailMsg({
             to: result.email,
-            from: 'richard.vancamp@gmail.com',
-            subject: 'Web dev & sausages mailing list',
+            from: null,
+            subject: 'waiting list',
             text:
               'You have been added to the Web Dev & Sausages mailing list. To unsubscribe please respond to this email with the subject "Unsubscribe".'
-          }
+          })
           sendMail(msg)
           response.status(201).json({ result })
         }

@@ -18,6 +18,7 @@ import {
   concat
 } from 'ramda'
 import { upsertParticipant } from './participants'
+const randomWord = require('random-word')
 
 moment()
   .tz('Europe/Helsinki')
@@ -33,10 +34,10 @@ const isOpen = compose(
 )
 const isEventOpen = allPass([isOpen, isNotClosed])
 
-const getSuccessMessage = (details, action) =>
+const getSuccessMessage = (details, action, verificationToken) =>
   `You have been ${action} for the event at ${details.location} on ${
     details.datetime
-  }.`
+  }. To cancel your registration, use the following personal verification token at the Web Dev & Sausages website: ${verificationToken}`
 
 const hasSpace = details => details.registered.length < details.maxParticipants
 
@@ -47,13 +48,20 @@ const pushToEventQueue = (
   eventId: string,
   details: object
 ) => {
-  const updatedList = compose(uniq, concat(details[type]))([email])
+  const verificationToken = `${randomWord()}-${randomWord()}`
+  const registration = {
+    email,
+    verificationToken
+  }
+  const updatedList = compose(uniq, concat(details[type]))([registration])
 
   return tryP(() =>
     eventsRef.doc(eventId).update({ [type]: updatedList })
   ).bimap(
     identity,
-    merge({ message: getSuccessMessage(details, type.toLowerCase()) })
+    merge({
+      message: getSuccessMessage(details, type.toLowerCase(), verificationToken)
+    })
   )
 }
 
@@ -76,6 +84,7 @@ export const register = (
 ) => {
   const eventId = request.params.eventId
   const email = request.body.email
+  const verificationToken = `${randomWord()}-${randomWord()}`
 
   return (
     Future((rej, res) => {

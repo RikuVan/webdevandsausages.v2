@@ -27,6 +27,7 @@
     "moment": "^2.20.0",
     "moment-timezone": "^0.5.14",
     "ramda": "^0.25.0",
+    "random-word": "^2.0.0",
     "sanctuary": "^0.13.2",
     "sanctuary-def": "^0.14.0"
   },

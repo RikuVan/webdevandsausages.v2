@@ -14,7 +14,7 @@ export interface IParticipant {
 
 export interface IMailMsg {
   to: string
-  from: string
+  from?: string
   subject?: string
   text?: string
 }

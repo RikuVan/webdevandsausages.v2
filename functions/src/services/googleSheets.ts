@@ -1,15 +1,15 @@
 import * as functions from 'firebase-functions'
-import admin from 'firebase-admin'
 const googleAuth = require('google-auth-library')
 import * as google from 'googleapis'
 import Future, { tryP, of, reject } from 'fluture'
 import { tokensRef } from './db'
 import { docDataOrNull } from '../utils'
 import { notifySlack } from './slack'
+import { config } from '..'
 
 // config for goolgeAuthApi
-const FUNCTIONS_CLIENT_ID = functions.config().googleapi.client_id
-const FUNCTIONS_SECRET_KEY = functions.config().googleapi.client_secret
+const FUNCTIONS_CLIENT_ID = config().google.id
+const FUNCTIONS_SECRET_KEY = config().google.secret
 const FUNCTIONS_REDIRECT =
   'https://us-central1-wds-event-tool.cloudfunctions.net/OauthCallback'
 

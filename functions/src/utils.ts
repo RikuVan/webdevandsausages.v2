@@ -9,7 +9,7 @@ import {
   assoc,
   propOr,
   evolve,
-  prop
+  identity
 } from 'ramda'
 import * as moment from 'moment'
 import { IMailMsg } from './models'
@@ -24,9 +24,9 @@ export const addInsertionDate = assoc(
   'insertedOn',
   moment().format('YYYY-MM-DD HH:mm')
 )
-export const createMailMsg = (msg: IMailMsg) =>
-  evolve({
-    from: v => (v ? v : 'richard.vancamp@gmail.com'),
-    subject: s => `Web Dev & Sausages ${s || ''}`,
-    text: propOr('', 'message')
-  })
+export const createMailMsg = evolve({
+  to: identity,
+  from: v => (v ? v : 'richard.vancamp@gmail.com'),
+  subject: s => `Web Dev & Sausages ${s || ''}`,
+  text: identity
+})
