@@ -1,0 +1,6 @@
+secrets.json
+node_modules
+firebase-debug.log
+functions/lib
+functions/etc
+functions/node_modules
