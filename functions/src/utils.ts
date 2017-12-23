@@ -7,12 +7,10 @@ import {
   compose,
   not,
   assoc,
-  propOr,
   evolve,
   identity
 } from 'ramda'
 import * as moment from 'moment'
-import { IMailMsg } from './models'
 
 const checkTypes = process.env.NODE_ENV !== 'production'
 export const S = create({ checkTypes, env: env.concat(flutureEnv) })

@@ -3,8 +3,9 @@ import Future, { tryP, reject } from 'fluture'
 import { eventsRef } from '../services/db'
 import * as createError from 'http-errors'
 import { docDataOrNull, areValidResults } from '../utils'
-import { evolve, identity, merge, pick, compose, equals } from 'ramda'
+import { evolve, identity, merge, pick, compose } from 'ramda'
 import { sendMail } from '../services/mail'
+import { IEventRegistration } from '../models'
 
 const getSuccessMessage = details =>
   `You are not longer registered for the event at ${details.location} on ${
@@ -72,17 +73,14 @@ export const cancelRegistration = (request, response, next) => {
     .chain(() => tryP(() => eventsRef.doc(eventId).get()))
     .map(docDataOrNull)
     .chain(removeFromRegistationQueue(eventId, email, token))
-    .fork(
-      error => next(error),
-      result => {
-        const msg = {
-          to: email,
-          from: 'richard.vancamp@gmail.com',
-          subject: 'Web dev & sausages event registration cancellation',
-          text: result.message
-        }
-        sendMail(msg)
-        response.status(202).json({ result })
+    .chain(result => {
+      const msg = {
+        to: email,
+        from: 'richard.vancamp@gmail.com',
+        subject: 'Web dev & sausages event registration cancellation',
+        text: result.message
       }
-    )
+      return sendMail(msg)
+    })
+    .fork(error => next(error), () => response.status(202).send('OK'))
 }

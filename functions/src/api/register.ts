@@ -1,22 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
-import { JoiObject, validate } from 'joi'
+import { validate } from 'joi'
 import * as moment from 'moment-timezone'
 import Future, { tryP, reject, of } from 'fluture'
 import * as createError from 'http-errors'
-import { S, areValidResults, docDataOrNull } from '../utils'
+import { areValidResults, docDataOrNull } from '../utils'
 import { sendMail } from '../services/mail'
 import { participantSchema } from './schemas'
-import { participantsRef, eventsRef } from '../services/db'
-import {
-  allPass,
-  compose,
-  assoc,
-  prop,
-  merge,
-  identity,
-  uniq,
-  concat
-} from 'ramda'
+import { eventsRef } from '../services/db'
+import { allPass, compose, prop, merge, identity, uniq, concat } from 'ramda'
 import { upsertParticipant } from './participants'
 const randomWord = require('random-word')
 
@@ -48,6 +39,7 @@ const pushToEventQueue = (
   eventId: string,
   details: object
 ) => {
+  // unique token allows cancellation of registration
   const verificationToken = `${randomWord()}-${randomWord()}`
   const registration = {
     email,
@@ -84,7 +76,6 @@ export const register = (
 ) => {
   const eventId = request.params.eventId
   const email = request.body.email
-  const verificationToken = `${randomWord()}-${randomWord()}`
 
   return (
     Future((rej, res) => {
@@ -99,18 +90,15 @@ export const register = (
           .map(docDataOrNull)
           .chain(registerOrWaitlist(eventId, email))
       })
-      .fork(
-        error => next(error),
-        result => {
-          const msg = {
-            to: email,
-            from: 'richard.vancamp@gmail.com',
-            subject: 'Web dev & sausages event registration',
-            text: result.message
-          }
-          sendMail(msg)
-          response.status(201).json({ result })
+      .chain(result => {
+        const msg = {
+          to: email,
+          from: 'richard.vancamp@gmail.com',
+          subject: 'Web dev & sausages event registration',
+          text: result.message
         }
-      )
+        return sendMail(msg)
+      })
+      .fork(error => next(error), () => response.status(201).send('OK'))
   )
 }

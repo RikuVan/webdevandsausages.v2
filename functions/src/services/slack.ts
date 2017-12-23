@@ -6,7 +6,7 @@ const axiosF = encaseP2(axios.post)
 
 export const notifySlack = email => {
   const body = { text: `${email} joined the mailing list!` }
-  axiosF(config().slackUrl, { body }).fork(
+  axiosF(config.SLACK_URL, { body }).fork(
     err =>
       console.log('An error occurred dispatching a message to slack: ', err),
     () => console.log(`Slack has received a notification about ${email}`)

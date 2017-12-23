@@ -4,20 +4,28 @@ import { getAllParticipants, addParticipant } from './participants'
 import { apiErrorHandler } from './apiErrors'
 import { cancelRegistration } from './cancelRegistration'
 import { validateFirebaseIdToken } from '../middleware/auth'
+import { getCodeByEmailOrSms, auth } from './auth'
 
 const router = Router()
 
 /* EVENTS */
-//TODO: get (one && all), post, put, delete
+router.get('/events')
+router.get('/events/id')
+router.post('/events', validateFirebaseIdToken)
+router.put('/events/:id', validateFirebaseIdToken)
+router.delete('/events/:id', validateFirebaseIdToken)
 
 /* PARTICIPANTS */
 router.get('/participants', validateFirebaseIdToken, getAllParticipants)
 router.post('/participants', addParticipant)
-//TODO: add (mailing list), delete
+//TODO: router.delete('/participants, deleteParticipant)
 
 /* REGISTRATION */
 router.post('/register/:eventId', register)
 router.delete('/register/:eventId', cancelRegistration)
+
+router.get('/temppass/:temp', getCodeByEmailOrSms)
+router.post('/auth', auth)
 
 /* ERROR */
 router.use(apiErrorHandler)

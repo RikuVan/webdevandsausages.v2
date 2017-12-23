@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { JoiObject, validate } from 'joi'
 import { participantSchema } from './schemas'
 import { CollectionReference } from '@google-cloud/firestore'
-import Future, { tryP, of, ResolveFunction, Next } from 'fluture'
+import Future, { tryP, of } from 'fluture'
 import * as createError from 'http-errors'
 import {
   notNil,
@@ -65,22 +65,22 @@ export const addParticipant = (
       .chain(upsertParticipant(request.body))
       .chain(() => tryP(() => participantsRef.doc(request.body.email).get()))
       .map(docDataOrNull)
+      .chain(result => {
+        const msg = createMailMsg({
+          to: result.email,
+          from: null,
+          subject: 'waiting list',
+          text:
+            'You have been added to the Web Dev & Sausages mailing list. To unsubscribe please respond to this email with the subject "Unsubscribe".'
+        })
+        return sendMail(msg)
+      })
       .fork(
         error => {
           console.error('Failed to save participant to db: ', error)
           next(new createError.InternalServerError())
         },
-        result => {
-          const msg = createMailMsg({
-            to: result.email,
-            from: null,
-            subject: 'waiting list',
-            text:
-              'You have been added to the Web Dev & Sausages mailing list. To unsubscribe please respond to this email with the subject "Unsubscribe".'
-          })
-          sendMail(msg)
-          response.status(201).json({ result })
-        }
+        () => response.status(201).send('OK')
       )
   )
 }

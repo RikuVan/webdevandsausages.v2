@@ -1,4 +1,3 @@
-import * as functions from 'firebase-functions'
 const googleAuth = require('google-auth-library')
 import * as google from 'googleapis'
 import Future, { tryP, of, reject } from 'fluture'
@@ -7,19 +6,16 @@ import { docDataOrNull } from '../utils'
 import { notifySlack } from './slack'
 import { config } from '..'
 
-// config for goolgeAuthApi
-const FUNCTIONS_CLIENT_ID = config().google.id
-const FUNCTIONS_SECRET_KEY = config().google.secret
-const FUNCTIONS_REDIRECT =
+const GOOGLE_AUTH_REDIRECT =
   'https://us-central1-wds-event-tool.cloudfunctions.net/OauthCallback'
 
 const oauthTokens = null
 
 const auth = new googleAuth()
 const functionsOauthClient = new auth.OAuth2(
-  FUNCTIONS_CLIENT_ID,
-  FUNCTIONS_SECRET_KEY,
-  FUNCTIONS_REDIRECT
+  config.GOOGLE.ID,
+  config.GOOGLE.SECRET,
+  GOOGLE_AUTH_REDIRECT
 )
 
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
@@ -93,7 +89,7 @@ function appendFuture(requestWithoutAuth) {
     )
 }
 
-const GOOGLE_SHEET_ID = '1jnATckAl0Mb3vjkGf7SEQ0wDBR0q4AVnry1ZxrPrhxw'
+const GOOGLE_SHEET_ID = config.GOOGLE.SHEET_ID
 
 export const appendNewEmailToSpreadsheetOnCreate = event => {
   const newParticipant = event.data.data()

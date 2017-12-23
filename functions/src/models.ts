@@ -1,7 +1,6 @@
 export interface IEventRegistration {
-  cancelled: boolean
-  registerOn: string
-  waitListed: boolean
+  validationToken: string
+  email: string
 }
 
 export interface IParticipant {
