@@ -1,0 +1,8 @@
+{
+  "extends": "eslint-config-synacor",
+  "rules": {
+    "semi": [2, "never"],
+    "indent": ["error", 2],
+    "react/jsx-indent-props": [2, 2]
+  }
+}

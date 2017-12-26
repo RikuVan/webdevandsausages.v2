@@ -46,7 +46,7 @@ export const getCodeByEmailOrSms = (req, res, next) => {
         console.log(err)
         next(new InternalServerError())
       },
-      () => res.status(200).send('OK')
+      () => res.status(200).json({ status: 'success' })
     )
 }
 
