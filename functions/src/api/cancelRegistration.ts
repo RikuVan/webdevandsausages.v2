@@ -5,7 +5,6 @@ import * as createError from 'http-errors'
 import { docDataOrNull, areValidResults } from '../utils'
 import { evolve, identity, merge, pick, compose } from 'ramda'
 import { sendMail } from '../services/mail'
-import { IEventRegistration } from '../models'
 
 const getSuccessMessage = details =>
   `You are not longer registered for the event at ${details.location} on ${

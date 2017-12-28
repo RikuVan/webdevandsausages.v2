@@ -60,3 +60,25 @@ body {
   -webkit-animation-name: bounceDown;
   animation-name: bounceDown;
 }
+
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes loading {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.loading {
+  animation: loading 0.7s infinite linear;
+}

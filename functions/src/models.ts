@@ -17,3 +17,13 @@ export interface IMailMsg {
   subject?: string
   text?: string
 }
+
+export interface IEvent {
+  datetime: string
+  location?: string
+  maxParticipants: number
+  registered?: any[] | number
+  registrationOpens?: string
+  registrationCloses?: string
+  waitingListed?: any[] | number
+}

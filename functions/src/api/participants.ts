@@ -16,12 +16,15 @@ import { Readable } from 'stream'
 import { IParticipant } from '../models'
 import { sendMail } from '../services/mail'
 
-const safeData = schema => doc => {
+export const safeData = (schema, withErrors) => doc => {
   const data = docDataOrNull(doc)
   if (either(isNil, isEmpty)(data)) return of(null)
   const { error } = validate(data, schema)
   if (data && error) {
-    return of(merge(data, { validationError: error.message }))
+    const value = withErrors
+      ? merge(data, { validationError: error.message })
+      : data
+    return of(value)
   }
   return of(data)
 }
@@ -34,7 +37,7 @@ export const getCollection = (
     .chain(docsSnapshots => {
       const docs = []
       docsSnapshots.forEach(d => docs.push(d))
-      return traverse(of, safeData(schema), docs)
+      return traverse(of, safeData(schema, true), docs)
     })
     .map(filter(notNil))
     .fork(error => next(createError(500, error)), data => res.json({ data }))

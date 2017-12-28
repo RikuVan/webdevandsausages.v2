@@ -2,7 +2,8 @@ import { h, Component } from 'preact'
 import styled from 'styled-components'
 import { Link } from 'preact-router/match'
 import { toRem } from '../../helpers/styleHelpers'
-import { NAV_HEIGHT } from '.'
+
+import { theme } from '../../style/theme'
 
 const Wrapper = styled.nav`
   display: flex;
@@ -14,7 +15,7 @@ const Wrapper = styled.nav`
 const NavLink = styled(Link)`
   flex: 0 0 auto;
   display: inline-block;
-  line-height: ${toRem(NAV_HEIGHT)};
+  line-height: ${toRem(theme.navHeight)};
   align-text: center;
   font-weight: 400;
   text-decoration: none;
@@ -37,7 +38,7 @@ export const NavSeparator = styled.span`
   height: ${toRem(5)};
   margin: 0 ${toRem(15)};
   border-radius: 50%;
-  background: currentColor;
+  background: black;
   opacity: 0.35;
 `
 

@@ -5,12 +5,13 @@ import { apiErrorHandler } from './apiErrors'
 import { cancelRegistration } from './cancelRegistration'
 import { validateFirebaseIdToken } from '../middleware/auth'
 import { getCodeByEmailOrSms, auth } from './auth'
-import { getAllEvents } from './events'
+import { getAllEvents, getCurrentEvent } from './events'
 
 const router = Router()
 
 /* EVENTS */
-router.get('/events', getAllEvents)
+router.get('/events', getAllEvents) //TODO: add validation
+router.get('/events/current', getCurrentEvent)
 router.get('/events/id')
 //router.post('/events', validateFirebaseIdToken)
 //router.put('/events/:id', validateFirebaseIdToken)
@@ -19,7 +20,7 @@ router.get('/events/id')
 /* PARTICIPANTS */
 router.get('/participants', validateFirebaseIdToken, getAllParticipants)
 router.post('/participants', addParticipant)
-//TODO: router.delete('/participants, deleteParticipant)
+//TODO: router.delete('/participants, validateFirebaseIdToken, deleteParticipant)
 
 /* REGISTRATION */
 router.post('/register/:eventId', register)

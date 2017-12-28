@@ -23,27 +23,34 @@
  */
 
 @font-face {
-    font-family: 'museo_sans500';
-    src: url('MuseoSans_500-webfont.eot');
-    src: url('MuseoSans_500-webfont.eot?#iefix') format('embedded-opentype'),
-         url('MuseoSans_500-webfont.woff2') format('woff2'),
-         url('MuseoSans_500-webfont.woff') format('woff'),
-         url('MuseoSans_500-webfont.ttf') format('truetype'),
-         url('MuseoSans_500-webfont.svg#museo_sans500') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
+  font-family: 'museo_sans500';
+  src: url('MuseoSans_500-webfont.eot');
+  src: url('MuseoSans_500-webfont.eot?#iefix') format('embedded-opentype'),
+    url('MuseoSans_500-webfont.woff2') format('woff2'),
+    url('MuseoSans_500-webfont.woff') format('woff'),
+    url('MuseoSans_500-webfont.ttf') format('truetype'),
+    url('MuseoSans_500-webfont.svg#museo_sans500') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'museo_sans500_italic';
-    src: url('MuseoSans_500_Italic-webfont.eot');
-    src: url('MuseoSans_500_Italic-webfont.eot?#iefix') format('embedded-opentype'),
-         url('MuseoSans_500_Italic-webfont.woff2') format('woff2'),
-         url('MuseoSans_500_Italic-webfont.woff') format('woff'),
-         url('MuseoSans_500_Italic-webfont.ttf') format('truetype'),
-         url('MuseoSans_500_Italic-webfont.svg#museo_sans500_italic') format('svg');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'museo_sans500_italic';
+  src: url('MuseoSans_500_Italic-webfont.eot');
+  src: url('MuseoSans_500_Italic-webfont.eot?#iefix')
+      format('embedded-opentype'),
+    url('MuseoSans_500_Italic-webfont.woff2') format('woff2'),
+    url('MuseoSans_500_Italic-webfont.woff') format('woff'),
+    url('MuseoSans_500_Italic-webfont.ttf') format('truetype'),
+    url('MuseoSans_500_Italic-webfont.svg#museo_sans500_italic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 
+@font-face {
+  font-family: 'zingrustdemo-base';
+  src: url('zingrustdemo-base-webfont.woff2') format('woff2'),
+    url('zingrustdemo-base-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }

@@ -2,9 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { toRem } from '../../helpers/styleHelpers'
-import { NAV_HEIGHT } from '.'
 
-const SOCIAL_COLOR = '#5b5b5b'
+import { theme } from '../../style/theme'
 
 const Wrapper = styled.nav`
   display: flex;
@@ -16,7 +15,7 @@ const Wrapper = styled.nav`
 const SocialLink = styled.a`
   display: inline-block;
   margin-right: ${toRem(20)};
-  line-height: ${toRem(NAV_HEIGHT)};
+  line-height: ${toRem(theme.navHeight)};
   transition: opacity 0.2s, transform 0.2s;
   cursor: pointer;
   &:last-child {
@@ -40,7 +39,7 @@ const SocialLink = styled.a`
 const Svg = styled.svg`
   width: ${p => toRem(Number(p.width))};
   height: ${p => toRem(Number(p.height))};
-  color: ${SOCIAL_COLOR};
+  color: ${theme.iconsColor};
 `
 // Social icons source feather.icons.com
 // TODO: add youtube (should be added to feathers soon)

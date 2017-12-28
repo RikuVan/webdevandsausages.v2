@@ -1,16 +1,16 @@
 import { h, Component } from 'preact'
 import styled, { css } from 'styled-components'
 import darken from 'polished/lib/color/darken'
+
 import { connect } from '../../preact-smitty'
 import { pathOr } from 'ramda'
-
 import { toRem, tablet, phone } from '../../helpers/styleHelpers'
 import NavLinks, { NavSeparator } from './NavLinks'
 import SocialLinks from './SocialLinks'
 import Logo from './Logo'
 import store from '../../store'
 
-const NAV_HEIGHT = 66
+import { theme } from '../../style/theme'
 
 const Svg = styled.svg`
   svg {
@@ -48,20 +48,20 @@ const Wrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: ${toRem(NAV_HEIGHT)};
+    height: ${toRem(theme.navHeight)};
   `)};
 `
 
 const SecondaryMenu = styled.div`
   position: absolute;
-  top: ${toRem(NAV_HEIGHT)};
+  top: ${toRem(theme.navHeight)};
   left: 0;
   right: 0;
   ${tablet(
     p =>
       p.open
         ? css`
-            height: ${toRem(NAV_HEIGHT)};
+            height: ${toRem(theme.navHeight)};
           `
         : css`
             height: 0;
@@ -70,7 +70,7 @@ const SecondaryMenu = styled.div`
       p =>
         p.open
           ? css`
-              height: ${toRem(NAV_HEIGHT * 1.8)};
+              height: ${toRem(theme.navHeight * 1.8)};
               flex-direction: column;
             `
           : css`
@@ -114,13 +114,13 @@ export const resetInput = css`
 
 export const NavButton = styled.button`
   ${resetInput} flex: 0 0 auto;
-  min-width: ${NAV_HEIGHT};
-  height: ${NAV_HEIGHT};
+  min-width: ${theme.navHeight};
+  height: ${theme.navHeight};
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
   padding: ${toRem(18)} ${toRem(26)};
-  color: #5b5b5b;
+  color: ${theme.subduedTexTColor};
   ${p =>
     p.active &&
     css`
