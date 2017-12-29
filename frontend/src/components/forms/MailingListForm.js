@@ -83,56 +83,62 @@ const Title = styled.h2`
   padding: 0;
 `
 
+const FormWrapper = styled.div`
+  padding: 20px;
+`
+
 class MailingListForm extends Component {
   onSubmit = values =>
     store.actions.post({ key: 'mailingList', resource: 'participants', values })
   render({ status }) {
     const loading = status && status === 'started'
     return (
-      <Form
-        id="mailingList"
-        onSubmit={this.onSubmit}
-        initialValues={{ receivesMail: true }}
-        validate={validate}
-        render={({ handleSubmit, reset, submitting, pristine, values }) => (
-          <form onSubmit={handleSubmit}>
-            <TitleWrapper>
-              <Title>
-                Join our mailing list to hear about upcoming events:
-              </Title>
-            </TitleWrapper>
-            <Field name="email">
-              {({ input, meta }) => (
-                <div>
-                  <FieldWrapper>
-                    <Input type="type" {...input} valid={meta.valid} />
-                    <Button
-                      type="submit"
-                      loading={loading}
-                      primary
-                      disabled={!meta.touched || meta.error}
-                      valid={meta.valid}
-                    >
-                      {'+'}
-                    </Button>
-                  </FieldWrapper>
-                  <Notification
-                    type="success"
-                    id="mailingListSuccess"
-                    defaultMessage="Cool, now you are in the loop"
-                  />
-                  <Notification
-                    type="error"
-                    id="mailingListError"
-                    defaultMessage="Oops, something didn't work as planned"
-                  />
-                  <Notification type="info" id="mailingListInfo" />
-                </div>
-              )}
-            </Field>
-          </form>
-        )}
-      />
+      <FormWrapper>
+        <Form
+          id="mailingList"
+          onSubmit={this.onSubmit}
+          initialValues={{ receivesMail: true }}
+          validate={validate}
+          render={({ handleSubmit, reset, submitting, pristine, values }) => (
+            <form onSubmit={handleSubmit}>
+              <TitleWrapper>
+                <Title>
+                  Join our mailing list to hear about upcoming events:
+                </Title>
+              </TitleWrapper>
+              <Field name="email">
+                {({ input, meta }) => (
+                  <div>
+                    <FieldWrapper>
+                      <Input type="type" {...input} valid={meta.valid} />
+                      <Button
+                        type="submit"
+                        loading={loading}
+                        primary
+                        disabled={!meta.touched || meta.error}
+                        valid={meta.valid}
+                      >
+                        {'+'}
+                      </Button>
+                    </FieldWrapper>
+                    <Notification
+                      type="success"
+                      id="mailingListSuccess"
+                      defaultMessage="Cool, now you are in the loop"
+                    />
+                    <Notification
+                      type="error"
+                      id="mailingListError"
+                      defaultMessage="Oops, something didn't work as planned"
+                    />
+                    <Notification type="info" id="mailingListInfo" />
+                  </div>
+                )}
+              </Field>
+            </form>
+          )}
+        />
+      </FormWrapper>
     )
   }
 }

@@ -12,6 +12,7 @@ import { ButtonLink } from '../../components/Button'
 
 import FireyTitle from './FireyTitle'
 import TwitterTimeline from './TwitterTimeline'
+import PreviousEvents from './PreviousEvents'
 
 import format from 'date-fns/format'
 
@@ -50,14 +51,15 @@ const Title = styled.h2`
     0 0 150px #fefcc9;
 `
 
-const EventSection = styled.article`
+const PreviousEventsWrapper = styled.section`
   background: #fff
   min-height: 50vh;
   width: 100%;
+  padding-bottom: 5rem;
 `
 const Footer = styled.article`
   background: #52bdf6;
-  min-height: 20vh;
+  min-height: 10vh;
   width: 100%;
 `
 
@@ -89,6 +91,11 @@ const InnerWrapper = styled.div`
     p.marginTop &&
     css`
       margin-top: ${toRem(p.marginTop)};
+    `};
+  ${p =>
+    p.marginBottom &&
+    css`
+      margin-top: ${toRem(p.marginBottom)};
     `};
 `
 
@@ -139,6 +146,7 @@ const SausageIcon = () => (
   </svg>
 )
 
+//TODO: handle cases when there is no coming event
 class Home extends Component {
   render({ isExpandedMobileNav, hideIcon, event, loadingEvent }) {
     const eventDate = event.datetime
@@ -188,9 +196,9 @@ class Home extends Component {
           <Seperator />
           <MailingListForm />
         </TopSection>
-        <EventSection>
-          <TwitterTimeline />
-        </EventSection>
+        <PreviousEventsWrapper>
+          <PreviousEvents />
+        </PreviousEventsWrapper>
         <Footer />
       </Wrapper>
     )
