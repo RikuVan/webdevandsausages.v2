@@ -7,6 +7,7 @@ import { pathOr, tap, compose, identity } from 'ramda'
 import Nav, { NAV_HEIGHT } from './nav'
 import Home from '../routes/home'
 import About from '../routes/about'
+import Registration from '../routes/registration'
 import Admin from 'async!../routes/admin'
 import ScrollWatcher from './ScrollWatcher'
 import store from '../store'
@@ -35,14 +36,21 @@ class App extends Component {
   }
 
   render({ latestEvent }) {
+    const eventData = latestEvent && latestEvent.data ? latestEvent.data : {}
+    const loadingEvent = !latestEvent || latestEvent.status === 'started'
     return (
       <Main id="app">
         <ScrollWatcher>
           <Nav />
         </ScrollWatcher>
         <Router onChange={this.handleRoute}>
-          <Home path="/" event={latestEvent} />
+          <Home path="/" event={eventData} loadingEvent={loadingEvent} />
           <About path="/about/" />
+          <Registration
+            path="/registration/"
+            event={eventData}
+            loadingEvent={loadingEvent}
+          />
           <Admin path="/admin" />
         </Router>
       </Main>
@@ -51,5 +59,5 @@ class App extends Component {
 }
 
 export default connect(state => ({
-  latestEvent: pathOr({}, ['api', 'latestEvent'], state)
+  latestEvent: pathOr(null, ['api', 'latestEvent'], state)
 }))(App)

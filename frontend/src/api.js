@@ -2,10 +2,10 @@ import { is } from 'ramda'
 
 const API_ROOT = 'https://us-central1-wds-event-tool.cloudfunctions.net/api'
 
-export const toParam = item =>
+const toParam = item =>
   item ? encodeURIComponent(decodeURIComponent(item)) : ''
 
-export const makeQueryParam = params =>
+const makeQueryParam = params =>
   Object.keys(params)
     .filter(k => params[k])
     .map(

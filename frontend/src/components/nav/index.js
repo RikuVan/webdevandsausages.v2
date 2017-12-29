@@ -42,12 +42,14 @@ const StartWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 0 80px;
+  margin-bottom: ${toRem(10)};
 `
 
 const EndWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-bottom: ${toRem(10)};
 `
 
 const NavTitleLink = styled(Link)`
@@ -71,7 +73,6 @@ const NavTitleLink = styled(Link)`
 `
 
 const Navbar = ({ transparent }) => {
-  console.log('transparent', transparent)
   return (
     <Wrapper transparent={transparent}>
       <NormalNavbar>
@@ -85,7 +86,7 @@ const Navbar = ({ transparent }) => {
           <SocialLinks />
         </EndWrapper>
       </NormalNavbar>
-      <MobileNavbar />
+      <MobileNavbar isScrolled={transparent} />
     </Wrapper>
   )
 }

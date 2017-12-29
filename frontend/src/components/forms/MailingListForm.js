@@ -1,11 +1,11 @@
 import { h, Component } from 'preact'
 import styled, { css } from 'styled-components'
-import darken from 'polished/lib/color/darken'
 import { Form, Field } from 'react-final-form'
 import { connect } from '../../preact-smitty'
 import { pathOr } from 'ramda'
 
 import Button from '../Button'
+import Notification from '../Notification'
 import store from '../../store'
 import { toRem, phone, tablet } from '../../helpers/styleHelpers'
 import { isEmail } from '../../helpers/validation'
@@ -21,35 +21,14 @@ const Svg = styled.svg`
   }
 `
 
-const PlusIcon = () => (
-  <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="30"
-    height="30"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    stroke-width="2"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    class="feather feather-plus"
-    color="black"
-  >
-    <line x1="12" y1="5" x2="12" y2="19" />
-    <line x1="5" y1="12" x2="19" y2="12" />
-  </Svg>
-)
-
 const Input = styled.input`
-  border: 1px solid #00caff;
-  box-shadow: inset 0 1px 3px ${darken(0.5, theme.secondaryBlue)};
-  border-radius: 2px;
-  background: #0b7ebc;
+  border: none;
+  background: ${theme.secondaryBlue};
   color: white;
   width: 30%;
   font-size: ${toRem(20)};
   font-weight: 400;
-  height: 62px;
+  height: 52px;
   padding: ${toRem(10)} ${toRem(15)};
   vertical-align: middle;
   box-sizing: border-box;
@@ -78,14 +57,9 @@ const Input = styled.input`
 
 const FieldWrapper = styled.div`
   display: flex;
-  padding: 20px 0;
   justify-content: center;
 `
 
-const Error = styled.span`
-  margin: 0;
-  flex: ;
-`
 const validate = values => {
   const errors = {}
   if (!values.email) {
@@ -95,6 +69,19 @@ const validate = values => {
   }
   return errors
 }
+
+const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
+const Title = styled.h2`
+  color: ${theme.mediumBlue};
+  font-weight: 400;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+`
 
 class MailingListForm extends Component {
   onSubmit = values =>
@@ -109,7 +96,11 @@ class MailingListForm extends Component {
         validate={validate}
         render={({ handleSubmit, reset, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>
-            <label>Keep in the loop and join our mailing list!</label>
+            <TitleWrapper>
+              <Title>
+                Join our mailing list to hear about upcoming events:
+              </Title>
+            </TitleWrapper>
             <Field name="email">
               {({ input, meta }) => (
                 <div>
@@ -122,10 +113,20 @@ class MailingListForm extends Component {
                       disabled={!meta.touched || meta.error}
                       valid={meta.valid}
                     >
-                      <PlusIcon />
+                      {'+'}
                     </Button>
                   </FieldWrapper>
-                  {meta.error && meta.touched && <Error>{meta.error}</Error>}
+                  <Notification
+                    type="success"
+                    id="mailingListSuccess"
+                    defaultMessage="Cool, now you are in the loop"
+                  />
+                  <Notification
+                    type="error"
+                    id="mailingListError"
+                    defaultMessage="Oops, something didn't work as planned"
+                  />
+                  <Notification type="info" id="mailingListInfo" />
                 </div>
               )}
             </Field>
@@ -137,5 +138,5 @@ class MailingListForm extends Component {
 }
 
 export default connect(state => ({
-  status: pathOr(null, ['api', 'mailingList', 'status'], state)
+  status: pathOr(null, ['api', 'mailingList'], state)
 }))(MailingListForm)

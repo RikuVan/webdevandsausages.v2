@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import { h } from 'preact'
 import styled from 'styled-components'
 import { Link } from 'preact-router/match'
 import { toRem } from '../../helpers/styleHelpers'
@@ -52,7 +52,7 @@ const NavLinks = ({ showMobileNav }) => (
       ABOUT
     </NavLink>
     <NavSeparator />
-    <NavLink activeClassName="active" href="/" showMobileNav>
+    <NavLink activeClassName="active" href="/registration" showMobileNav>
       REGISTRATION
     </NavLink>
   </Wrapper>

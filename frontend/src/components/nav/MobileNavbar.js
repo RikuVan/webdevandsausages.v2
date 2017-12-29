@@ -9,17 +9,9 @@ import NavLinks, { NavSeparator } from './NavLinks'
 import SocialLinks from './SocialLinks'
 import Logo from './Logo'
 import store from '../../store'
+import Svg from '../Svg'
 
 import { theme } from '../../style/theme'
-
-const Svg = styled.svg`
-  svg {
-    display: inline-block;
-    path {
-      fill: currentColor;
-    }
-  }
-`
 
 const MenuIcon = () => (
   <Svg
@@ -86,7 +78,14 @@ const SecondaryMenu = styled.div`
   -webkit-overflow-scrolling: touch;
   overflow-x: scroll;
   overflow-y: hidden;
-  background: #d3d3d3;
+  ${p =>
+    p.isScrolled
+      ? css`
+          background: #52bdf6;
+        `
+      : css`
+          background: #f7b733;
+        `};
   color: #868686;
   ${p =>
     p.open &&
@@ -135,7 +134,7 @@ class MobileNavbar extends Component {
   toggleNav = () => {
     store.actions.toggleMobileNav()
   }
-  render({ showMobileNav }) {
+  render({ showMobileNav, isScrolled }) {
     return (
       <Wrapper>
         <Logo />
@@ -146,7 +145,7 @@ class MobileNavbar extends Component {
           </MenuIconWrapper>
         </NavButton>
 
-        <SecondaryMenu open={showMobileNav}>
+        <SecondaryMenu open={showMobileNav} isScrolled={isScrolled}>
           <NavLinks />
           <NavSeparator />
           <SocialLinks />

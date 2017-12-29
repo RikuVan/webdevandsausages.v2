@@ -14,7 +14,7 @@ const rotate360 = keyframes`
 const StyledSpinner = styled.div`
   position: relative;
   margin: 5px 2px 0 3px;
-  border: 4px solid red;
+  border: 4px solid #367db7;
   border-top-color: rgba(0, 0, 0, 0);
   border-left-color: rgba(0, 0, 0, 0);
   width: 40px;

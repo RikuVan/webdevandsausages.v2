@@ -33,6 +33,7 @@ const Cell = styled.section`
   ${({ left }) => left && `grid-column-start: ${left}`};
   ${({ top }) => top && `grid-row-start: ${top}`};
   ${({ center }) => center && `text-align: center`};
+  ${({ textLeft }) => textLeft && `text-align: left`};
   ${({ area }) => area && `grid-area: ${area}`};
   ${/* prettier-ignore */
   ({ middle }) => middle && `

@@ -1,8 +1,11 @@
 import { h } from 'preact'
 import styled, { css } from 'styled-components'
+import { Link } from 'preact-router/match'
+
 import Spinner from './Spinner'
 import { theme } from '../style/theme'
-import opacify from 'polished/lib/color/darken'
+import darken from 'polished/lib/color/darken'
+import opacify from 'polished/lib/color/opacify'
 
 const StyledButton = styled.button`
   display: inline-block;
@@ -15,20 +18,21 @@ const StyledButton = styled.button`
   -webkit-user-drag: none;
   user-select: none;
   box-sizing: border-box;
-  background: ${theme.subduedTexTColor};
+  background: transparent;
   border-radius: 2px;
-  border: 0;
-  height: 60px;
-  font-size: 1.3em;
-  font-weight: 400;
+  border: 3px solid ${theme.secondaryBlue};
+  height: 52px;
+  font-size: 1.7em;
+  font-weight: 470;
+  color: ${theme.secondaryBlue};
+  background: ${darken(-0.1, '#f5b53f')};
   outline: none;
-  padding: 15px 20px 15px 20px;
-  margin: 1px 3px;
+  padding: 2px 17px 4px 17px;
+  margin: 0 4px;
   box-shadow: none;
   &:hover,
   &:disabled {
-    background: ${opacify(0.1, theme.subduedTexTColor)};
-    color: white;
+    background: ${darken(0.1, '#f5b53f')};
   }
   &:disabled {
     background: ${opacify(0.1, theme.subduedTexTColor)};
@@ -38,14 +42,15 @@ const StyledButton = styled.button`
   ${props =>
     props.primary &&
     css`
+      border: none;
       background: ${theme.secondaryBlue};
       color: #fff;
       &:hover {
-        background: ${opacify(0.1, theme.secondaryBlue)};
+        background: ${theme.secondaryBlue};
         color: #fff;
       }
       &:disabled {
-        background: ${opacify(0.1, theme.secondaryBlue)};
+        background: ${theme.secondaryBlue};
         color: lightgrey;
         cursor: not-allowed;
       }
@@ -54,7 +59,7 @@ const StyledButton = styled.button`
     props.valid &&
     css`
       background: ${theme.primaryBlack};
-      color: #fff;
+      color: ${theme.secondaryBlue};
       &:hover {
         background: ${opacify(0.1, theme.secondaryBlue)};
         color: #fff;
@@ -77,5 +82,22 @@ const Button = ({
     </StyledButton>
   )
 }
+
+export const ButtonLink = ({
+  type = 'button',
+  id,
+  loading,
+  primary,
+  children,
+  href,
+  ...rest
+}) => (
+  <Link href={href}>
+    <StyledButton type={type} id={id} primary={primary} {...rest}>
+      {!loading && children}
+      {loading && <Spinner small />}
+    </StyledButton>
+  </Link>
+)
 
 export default Button

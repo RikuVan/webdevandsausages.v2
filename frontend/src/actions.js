@@ -1,4 +1,4 @@
-import { of, encaseP2, tryP, reject } from 'fluture'
+import { of, encaseP2, tryP, reject, delay, encase } from 'fluture'
 import { is } from 'ramda'
 
 import { endpoints } from './api'
@@ -11,11 +11,21 @@ const headers = {
   'Content-Type': 'application/json'
 }
 
+const NOTIFICATION_FLASH_TIME = 4000
+
 const actions = {
   toggleMobileNav: 'ui/MOBILE_TOGGLE',
   setIsScrolled: 'ui/IS_SCROLLED',
   apiStart: 'api/START',
   apiFinish: 'api/FINNISH',
+  notify: 'notifications/NOTIFY',
+  closeNotification: 'notifications/CLOSE',
+  flashNotification: ({ key, message }) => store => {
+    store.actions.notify({ key, message })
+    setTimeout(() => {
+      store.actions.closeNotification({ key })
+    }, NOTIFICATION_FLASH_TIME)
+  },
   post: ({ key, resource, values }) => store => {
     of(store.actions.apiStart({ key }))
       .chain(() => encase(JSON.stringify)(values))
@@ -27,7 +37,7 @@ const actions = {
         })
       )
       .chain(({ status }) => {
-        if (status < 300) {
+        if (status >= 300) {
           return reject(status)
         }
         return of(status)
@@ -35,18 +45,23 @@ const actions = {
       .fork(
         error => {
           if (is(Number, error)) {
+            store.actions.flashNotification({ key: `${key}Error` })
             return store.actions.apiFinish({ key, status: error })
           }
+          store.actions.flashNotification({ key: `${key}Error` })
           return store.actions.apiFinish({ key, status: 500, error })
         },
-        status => store.actions.apiFinish({ key, status })
+        status => {
+          store.actions.flashNotification({ key: `${key}Success` })
+          store.actions.apiFinish({ key, status })
+        }
       )
   },
-  get: ({ key, resource, params, transform = v => v.data }) => async store => {
+  get: ({ key, resource, params, transform = v => v.data }) => store => {
     of(store.actions.apiStart({ key }))
       .chain(() => fetchf(endpoints[resource](params), { headers }))
       .chain(response => {
-        if (response.status >= 300) {
+        if (response.status >= 204) {
           return reject({ status })
         }
         return tryP(() => response.json())
@@ -54,7 +69,7 @@ const actions = {
       .map(transform)
       .fork(
         error => store.actions.apiFinish({ key, status, error }),
-        data => store.actions.apiFinish({ key, status: 200, payload: data })
+        data => store.actions.apiFinish({ key, status: 200, data })
       )
   }
 }

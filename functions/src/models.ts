@@ -20,10 +20,13 @@ export interface IMailMsg {
 
 export interface IEvent {
   datetime: string
+  details: string
   location?: string
   maxParticipants: number
   registered?: any[] | number
   registrationOpens?: string
   registrationCloses?: string
+  sponsor?: string
+  sponsorWWWLink: string
   waitingListed?: any[] | number
 }

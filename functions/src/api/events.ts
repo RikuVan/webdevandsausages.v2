@@ -36,7 +36,7 @@ export const getCurrentEvent = (
     })
     .chain(events => {
       const current = filter(isFutureEvent, events)
-      if (current.length === -1) return reject(new NotFound())
+      if (current.length === 0) return reject(new NotFound())
       return of(transformForPublicApi(current as IEvent[]))
     })
     .fork(error => next(new InternalServerError()), data => res.json({ data }))

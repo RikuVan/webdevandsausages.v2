@@ -46,7 +46,7 @@ export default class Admin extends Component {
   sendPassRequest = () => {
     const { name, bySms } = this.state
     if (this.state.name) {
-      const params = bySms ? { sms } : null
+      const params = bySms ? { params: 'sms' } : null
       return fetch(endpoints.getPass(name, params)).then(res => {
         this.setState({ awaitingPass: true })
       })
@@ -103,9 +103,9 @@ export default class Admin extends Component {
             <TextInput value={name} onInput={this.setInputValue('name')} />
           )}
           {awaitingPass && (
-            <ActionButton onClick={this.sendTokenRequestWithPass}>
+            <Button onClick={this.sendTokenRequestWithPass}>
               Login with temporary password
-            </ActionButton>
+            </Button>
           )}
         </Cell>
       </Grid>
