@@ -12,15 +12,6 @@ import { isEmail } from '../../helpers/validation'
 
 import { theme } from '../../style/theme'
 
-const Svg = styled.svg`
-  svg {
-    display: inline-block;
-    path {
-      fill: currentColor;
-    }
-  }
-`
-
 const Input = styled.input`
   border: none;
   background: ${theme.secondaryBlue};

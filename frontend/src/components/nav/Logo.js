@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { Link } from 'preact-router/match'
 import { toRem } from '../../helpers/styleHelpers'
 

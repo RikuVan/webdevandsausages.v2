@@ -2,7 +2,7 @@ import { h, Component } from 'preact'
 import { Router } from 'preact-router'
 import styled from 'styled-components'
 import { connect } from '../preact-smitty'
-import { pathOr, tap, compose, identity } from 'ramda'
+import { pathOr, tap, compose, identity, pathEq } from 'ramda'
 
 import Nav, { NAV_HEIGHT } from './nav'
 import Home from '../routes/home'
@@ -11,6 +11,9 @@ import Registration from '../routes/registration'
 import Admin from 'async!../routes/admin'
 import ScrollWatcher from './ScrollWatcher'
 import store from '../store'
+
+import isWithinRange from 'date-fns/is_within_range'
+import isValid from 'date-fns/is_valid'
 
 const Main = styled.main`
   font-family: museo_sans500, sans-serif;
@@ -35,21 +38,25 @@ class App extends Component {
     })
   }
 
-  render({ latestEvent }) {
-    const eventData = latestEvent && latestEvent.data ? latestEvent.data : {}
-    const loadingEvent = !latestEvent || latestEvent.status === 'started'
+  render({ latestEvent, loadingEvent, isEventOpen }) {
     return (
       <Main id="app">
         <ScrollWatcher>
           <Nav />
         </ScrollWatcher>
         <Router onChange={this.handleRoute}>
-          <Home path="/" event={eventData} loadingEvent={loadingEvent} />
+          <Home
+            path="/"
+            event={latestEvent}
+            loadingEvent={loadingEvent}
+            isEventOpen={isEventOpen}
+          />
           <About path="/about/" />
           <Registration
             path="/registration/"
-            event={eventData}
+            event={latestEvent}
             loadingEvent={loadingEvent}
+            isEventOpen={isEventOpen}
           />
           <Admin path="/admin" />
         </Router>
@@ -58,6 +65,29 @@ class App extends Component {
   }
 }
 
-export default connect(state => ({
-  latestEvent: pathOr(null, ['api', 'latestEvent'], state)
-}))(App)
+const isRegistrationOpen = event => {
+  if (event.registrationOpens) {
+    const endDate = event.registrationCloses
+      ? event.registrationCloses
+      : new Date(8640000000000000)
+    return isWithinRange(
+      new Date(),
+      event.registrationOpens,
+      event.registrationCloses
+    )
+  }
+  return false
+}
+
+const mapStateToProps = state => {
+  const latestEvent = pathOr({}, ['api', 'latestEvent', 'data'], state)
+  const loadingEvent = pathEq(
+    ['api', 'latestEvent', 'status'],
+    'started',
+    state
+  )
+  const isEventOpen = isRegistrationOpen(latestEvent)
+  return { latestEvent, loadingEvent, isEventOpen }
+}
+
+export default connect(mapStateToProps)(App)

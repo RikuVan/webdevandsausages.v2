@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { connect } from '../../preact-smitty'
 
@@ -72,24 +72,22 @@ const NavTitleLink = styled(Link)`
   }
 `
 
-const Navbar = ({ transparent }) => {
-  return (
-    <Wrapper transparent={transparent}>
-      <NormalNavbar>
-        <StartWrapper>
-          <Logo />
-          <NavTitleLink href="/">Web Dev &amp; Sausages</NavTitleLink>
-          <NavLinks />
-        </StartWrapper>
+const Navbar = ({ transparent }) => (
+  <Wrapper transparent={transparent}>
+    <NormalNavbar>
+      <StartWrapper>
+        <Logo />
+        <NavTitleLink href="/">Web Dev &amp; Sausages</NavTitleLink>
+        <NavLinks />
+      </StartWrapper>
 
-        <EndWrapper>
-          <SocialLinks />
-        </EndWrapper>
-      </NormalNavbar>
-      <MobileNavbar isScrolled={transparent} />
-    </Wrapper>
-  )
-}
+      <EndWrapper>
+        <SocialLinks />
+      </EndWrapper>
+    </NormalNavbar>
+    <MobileNavbar isScrolled={transparent} />
+  </Wrapper>
+)
 
 export default connect(state => ({
   transparent: pathEq(['ui', 'isScrolled'], false, state)

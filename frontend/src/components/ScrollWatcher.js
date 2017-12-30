@@ -7,7 +7,6 @@ class ScrollWatcher extends Component {
   onScroll = () => {
     const isScrolled = (window.pageYOffset || document.body.scrollTop) > 0
     if (isScrolled !== this.props.isScrolled) {
-      console.log('changed', isScrolled)
       store.actions.setIsScrolled(isScrolled)
     }
   }

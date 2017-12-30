@@ -19,6 +19,7 @@ const isNotClosed = compose(
   date => moment().isSameOrBefore(date),
   prop('registrationCloses')
 )
+
 const isOpen = compose(
   date => moment().isSameOrBefore(date),
   prop('registrationOpens')

@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import { h } from 'preact'
 import styled, { css, keyframes } from 'styled-components'
 
 import { tablet, phone } from '../../helpers/styleHelpers'

@@ -29,6 +29,7 @@ const StyledSpinner = styled.div`
       height: 20px;
     `};
 `
+
 const Spinner = ({ small }) => (
   <StyledSpinner className="spinner" small={small} />
 )
