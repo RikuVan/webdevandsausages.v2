@@ -2,9 +2,9 @@ import { h, Component } from 'preact'
 import { Router } from 'preact-router'
 import styled from 'styled-components'
 import { connect } from '../preact-smitty'
-import { pathOr, tap, compose, identity, pathEq } from 'ramda'
+import { pathOr, pathEq } from 'ramda'
 
-import Nav, { NAV_HEIGHT } from './nav'
+import Nav from './nav'
 import Home from '../routes/home'
 import About from '../routes/about'
 import Registration from '../routes/registration'
@@ -13,7 +13,6 @@ import ScrollWatcher from './ScrollWatcher'
 import store from '../store'
 
 import isWithinRange from 'date-fns/is_within_range'
-import isValid from 'date-fns/is_valid'
 
 const Main = styled.main`
   font-family: museo_sans500, sans-serif;
@@ -26,6 +25,7 @@ class App extends Component {
    *	@param {Object} event		"change" event from [preact-router](http://git.io/preact-router)
    *	@param {string} event.url	The newly routed URL
    */
+
   handleRoute = e => {
     this.currentUrl = e.url
   }
@@ -70,11 +70,7 @@ const isRegistrationOpen = event => {
     const endDate = event.registrationCloses
       ? event.registrationCloses
       : new Date(8640000000000000)
-    return isWithinRange(
-      new Date(),
-      event.registrationOpens,
-      event.registrationCloses
-    )
+    return isWithinRange(new Date(), event.registrationOpens, endDate)
   }
   return false
 }

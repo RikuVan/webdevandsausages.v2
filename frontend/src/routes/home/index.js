@@ -8,6 +8,7 @@ import MailingListForm from '../../components/forms/MailingListForm'
 import { theme } from '../../style/theme'
 import Spinner from '../../components/Spinner'
 import { ButtonLink } from '../../components/Button'
+import PageWrapper from '../../components/PageWrapper'
 
 import FireyTitle from './FireyTitle'
 import TwitterTimeline from './TwitterTimeline'
@@ -15,17 +16,6 @@ import PreviousEvents from './PreviousEvents'
 import CurrentEvent from './CurrentEvent'
 
 import format from 'date-fns/format'
-
-const Wrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  justify-content: top;
-  align-items: center;
-  text-align: center;
-  color: white;
-  box-sizing: border-box;
-  min-height: 60vh;
-`
 
 const TopSection = styled.div`
   padding: ${toRem(theme.navHeight)} ${toRem(theme.pagePadding)};
@@ -61,6 +51,7 @@ const PreviousEventsWrapper = styled.section`
   width: 100%;
   padding-bottom: 5rem;
 `
+
 const Footer = styled.article`
   background: #52bdf6;
   min-height: 10vh;
@@ -128,7 +119,7 @@ const Home = ({
   loadingEvent,
   isEventOpen
 }) => (
-  <Wrapper>
+  <PageWrapper>
     <TopSection isExpandedMobileNav={isExpandedMobileNav}>
       <FireyTitle
         isExpandedMobileNav={isExpandedMobileNav}
@@ -150,7 +141,7 @@ const Home = ({
       <PreviousEvents />
     </PreviousEventsWrapper>
     <Footer />
-  </Wrapper>
+  </PageWrapper>
 )
 
 export default connect(state => ({

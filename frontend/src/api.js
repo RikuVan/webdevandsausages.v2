@@ -5,7 +5,7 @@ const API_ROOT = 'https://us-central1-wds-event-tool.cloudfunctions.net/api'
 const toParam = item =>
   item ? encodeURIComponent(decodeURIComponent(item)) : ''
 
-const makeQueryParam = params =>
+const makeQueryParams = params =>
   Object.keys(params)
     .filter(k => params[k])
     .map(

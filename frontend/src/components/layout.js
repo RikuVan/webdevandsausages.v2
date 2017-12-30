@@ -23,6 +23,7 @@ const Grid = styled.div`
     justifyContent && `justify-content: ${justifyContent}`};
   ${({ alignContent }) => alignContent && `align-content: ${alignContent}`};
 `
+
 const Cell = styled.section`
   height: 100%;
   min-width: 0;

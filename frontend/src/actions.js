@@ -1,9 +1,8 @@
-import { of, encaseP2, tryP, reject, delay, encase } from 'fluture'
+import { of, encaseP2, tryP, reject, encase } from 'fluture'
 import { is } from 'ramda'
 
 import { endpoints } from './api'
 
-const identity = v => v
 const fetchf = encaseP2(fetch)
 
 const headers = {
@@ -20,6 +19,7 @@ const actions = {
   apiFinish: 'api/FINNISH',
   notify: 'notifications/NOTIFY',
   closeNotification: 'notifications/CLOSE',
+  changeTab: 'tabs/CHANGE',
   flashNotification: ({ key, message }) => store => {
     store.actions.notify({ key, message })
     setTimeout(() => {

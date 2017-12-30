@@ -5,9 +5,10 @@ export const theme = {
   mediumBlue: '#367db7',
   subduedTexTColor: '#5b5b5b',
   primaryBlack: '#4b4b4b',
+  primaryOrange: '#f7b733',
   notificationSuccess: '#52bdf6',
   notificationError: '#ee725a',
-  notificationDefault: '#f5b53fv',
+  notificationDefault: '#f5b53f',
   normalFont: 'museo_sans500, sans-serif',
   navHeight: 66,
   pagePadding: 20
