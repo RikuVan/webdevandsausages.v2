@@ -6,6 +6,9 @@ import Spinner from './Spinner'
 import { theme } from '../style/theme'
 import darken from 'polished/lib/color/darken'
 import opacify from 'polished/lib/color/opacify'
+import lighten from 'polished/lib/color/lighten'
+
+import { toRem } from '../helpers/styleHelpers'
 
 const StyledButton = styled.button`
   display: inline-block;
@@ -65,6 +68,45 @@ const StyledButton = styled.button`
         color: #fff;
       }
     `};
+  ${props =>
+    props.transparent &&
+    css`
+      background: transparent;
+      border-color: ${theme.secondaryBlue};
+      color: ${theme.secondaryBlue};
+      &:disabled,
+      &:hover {
+        border-color: ${lighten(0.1, theme.secondaryBlue)};
+        color: ${lighten(0.1, theme.secondaryBlue)};
+        background: transparent;
+      }
+    `};
+  ${props =>
+    props.light &&
+    css`
+      background: transparent;
+      border-color: ${theme.iconsColor};
+      color: ${theme.iconsColor};
+      &:disabled,
+      &:hover {
+        border-color: ${lighten(0.1, theme.iconsColor)};
+        color: ${lighten(0.1, theme.iconsColor)};
+        background: transparent;
+      }
+    `};
+  ${props =>
+    props.transparent &&
+    props.valid &&
+    css`
+      &:hover {
+        background: ${theme.primaryOrange};
+      }
+    `};
+  ${props =>
+    props.minWidth &&
+    css`
+      min-width: ${props.minWidth}px;
+    `};
 `
 
 const Button = ({
@@ -73,12 +115,13 @@ const Button = ({
   loading,
   primary,
   children,
+  whiteSpinner,
   ...rest
 }) => {
   return (
     <StyledButton type={type} id={id} primary={primary} {...rest}>
       {!loading && children}
-      {loading && <Spinner small />}
+      {loading && <Spinner small whiteSpinner={whiteSpinner} />}
     </StyledButton>
   )
 }

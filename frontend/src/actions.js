@@ -17,6 +17,7 @@ const actions = {
   setIsScrolled: 'ui/IS_SCROLLED',
   apiStart: 'api/START',
   apiFinish: 'api/FINNISH',
+  resetApi: 'api/RESET',
   notify: 'notifications/NOTIFY',
   closeNotification: 'notifications/CLOSE',
   changeTab: 'tabs/CHANGE',
@@ -26,11 +27,11 @@ const actions = {
       store.actions.closeNotification({ key })
     }, NOTIFICATION_FLASH_TIME)
   },
-  post: ({ key, resource, values }) => store => {
+  post: ({ key, resource, values, params }) => store => {
     of(store.actions.apiStart({ key }))
       .chain(() => encase(JSON.stringify)(values))
       .chain(data =>
-        fetchf(endpoints[resource](), {
+        fetchf(endpoints[resource](params), {
           headers,
           method: 'POST',
           body: data

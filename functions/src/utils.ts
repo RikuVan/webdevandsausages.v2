@@ -16,6 +16,7 @@ const checkTypes = process.env.NODE_ENV !== 'production'
 export const S = create({ checkTypes, env: env.concat(flutureEnv) })
 
 export const docDataOrNull = doc => (!doc || !doc.exists ? null : doc.data())
+export const docIdOrNull = doc => (!doc || !doc.exists ? null : doc.id)
 export const areValidResults = compose(not, either(isNil, has('error')))
 export const notNil = compose(not, isNil)
 export const addInsertionDate = assoc(

@@ -19,6 +19,7 @@ const registrationSchema = Joi.object().keys({
 })
 
 export const eventSchema = Joi.object().keys({
+  id: Joi.string(),
   datetime: Joi.date().required(),
   location: Joi.string()
     .min(3)

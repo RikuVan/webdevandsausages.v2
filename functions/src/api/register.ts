@@ -1,13 +1,25 @@
 import { Request, Response, NextFunction } from 'express'
 import { validate } from 'joi'
 import * as moment from 'moment-timezone'
-import Future, { tryP, reject, of } from 'fluture'
+import Future, { tryP } from 'fluture'
 import * as createError from 'http-errors'
 import { areValidResults, docDataOrNull } from '../utils'
 import { sendMail } from '../services/mail'
 import { participantSchema } from './schemas'
 import { eventsRef } from '../services/db'
-import { allPass, compose, prop, merge, identity, uniq, concat } from 'ramda'
+import {
+  allPass,
+  compose,
+  prop,
+  merge,
+  identity,
+  uniq,
+  concat,
+  find,
+  propEq,
+  or,
+  propOr
+} from 'ramda'
 import { upsertParticipant } from './participants'
 const randomWord = require('random-word')
 
@@ -21,7 +33,7 @@ const isNotClosed = compose(
 )
 
 const isOpen = compose(
-  date => moment().isSameOrBefore(date),
+  date => moment().isSameOrAfter(date),
   prop('registrationOpens')
 )
 const isEventOpen = allPass([isOpen, isNotClosed])
@@ -34,6 +46,7 @@ const getSuccessMessage = (details, action, verificationToken) =>
 const hasSpace = details => details.registered.length < details.maxParticipants
 
 type registrationQueue = 'registered' | 'waitListed'
+
 const pushToEventQueue = (
   email: string,
   type: registrationQueue,
@@ -58,9 +71,20 @@ const pushToEventQueue = (
   )
 }
 
+const findEmail = email => find(propEq('email', email))
+
+const isPreviouslyRegistered = (details, email) =>
+  or(
+    compose(findEmail(email), propOr([], 'registered'))(details),
+    compose(findEmail(email), propOr([], 'wailListed'))(details)
+  )
+
 const registerOrWaitlist = (eventId: string, email: string) => details => {
   const valid = areValidResults(details)
 
+  if (isPreviouslyRegistered(details, email)) {
+    return Future.reject(createError(400, 'This email is already registered'))
+  }
   if (valid && isEventOpen(details) && hasSpace(details)) {
     return pushToEventQueue(email, 'registered', eventId, details)
   } else if (valid && isEventOpen(details)) {
@@ -100,6 +124,9 @@ export const register = (
         }
         return sendMail(msg)
       })
-      .fork(error => next(error), () => response.status(201).send('OK'))
+      .fork(
+        error => next(error),
+        () => response.status(201).json({ success: true })
+      )
   )
 }

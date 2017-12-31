@@ -4,7 +4,7 @@ import { connect } from '../../preact-smitty'
 import { pathOr, pathEq } from 'ramda'
 
 import { toRem, tablet, phone } from '../../helpers/styleHelpers'
-import MailingListForm from '../../components/forms/MailingListForm'
+import MailingListForm from './MailingListForm'
 import { theme } from '../../style/theme'
 import Spinner from '../../components/Spinner'
 import { ButtonLink } from '../../components/Button'

@@ -81,5 +81,8 @@ export const cancelRegistration = (request, response, next) => {
       }
       return sendMail(msg)
     })
-    .fork(error => next(error), () => response.status(202).send('OK'))
+    .fork(
+      error => next(error),
+      () => response.status(202).json({ success: true })
+    )
 }

@@ -28,6 +28,8 @@ store.handleActions({
     assocPath(['api', key], { status: 'started' }, state),
   [store.actions.apiFinish]: (state, { key, status, data, error }) =>
     assocPath(['api', key], { status, data, error }, state),
+  [store.actions.resetApi]: (state, { key }) =>
+    dissocPath(['api', key, 'status'], state),
   [store.actions.notify]: (state, { key }) =>
     assocPath(['notifications', key], true, state),
   [store.actions.closeNotification]: (state, { key }) =>

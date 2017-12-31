@@ -7,26 +7,33 @@ import * as createError from 'http-errors'
 import {
   notNil,
   docDataOrNull,
+  docIdOrNull,
   addInsertionDate,
   createMailMsg
 } from '../utils'
-import { participantsRef, eventsRef } from '../services/db'
-import { filter, traverse, merge, isNil, isEmpty, either } from 'ramda'
-import { Readable } from 'stream'
+import { participantsRef } from '../services/db'
+import { filter, traverse, mergeAll, isNil, isEmpty, either } from 'ramda'
 import { IParticipant } from '../models'
 import { sendMail } from '../services/mail'
 
-export const safeData = (schema, withErrors) => doc => {
+export const safeData = (schema, withErrors, withId) => doc => {
   const data = docDataOrNull(doc)
+  const id = docIdOrNull(doc)
+
   if (either(isNil, isEmpty)(data)) return of(null)
   const { error } = validate(data, schema)
-  if (data && error) {
-    const value = withErrors
-      ? merge(data, { validationError: error.message })
-      : data
-    return of(value)
+  const dataWithExtras = [data]
+
+  if (withErrors) {
+    dataWithExtras.push({ validationError: error.message })
   }
-  return of(data)
+
+  if (withId && id) {
+    dataWithExtras.push({ id })
+  }
+
+  const result = mergeAll(dataWithExtras)
+  return of(result)
 }
 
 export const getCollection = (
@@ -37,7 +44,7 @@ export const getCollection = (
     .chain(docsSnapshots => {
       const docs = []
       docsSnapshots.forEach(d => docs.push(d))
-      return traverse(of, safeData(schema, true), docs)
+      return traverse(of, safeData(schema, true, true), docs)
     })
     .map(filter(notNil))
     .fork(error => next(createError(500, error)), data => res.json({ data }))
@@ -83,7 +90,7 @@ export const addParticipant = (
           console.error('Failed to save participant to db: ', error)
           next(new createError.InternalServerError())
         },
-        () => response.status(201).send('OK')
+        () => response.status(201).json({ success: true })
       )
   )
 }

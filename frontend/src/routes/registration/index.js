@@ -11,7 +11,7 @@ import { toRem, tablet, phone } from '../../helpers/styleHelpers'
 import store from '../../store'
 
 import PageWrapper from '../../components/PageWrapper'
-import RegistrationForm from '../../components/forms/RegistrationForm'
+import RegistrationForm from './RegistrationForm'
 
 const TopSection = styled.div`
   padding: ${toRem(theme.navHeight)} ${toRem(theme.pagePadding)} 100%;
@@ -142,6 +142,7 @@ const Registration = ({
             eventDate={
               event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
             }
+            eventId={event.id}
           />
         </Panel>
         <Panel active={currentTab === 'cancellation'}>Tab 2</Panel>

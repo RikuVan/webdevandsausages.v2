@@ -4,7 +4,7 @@ import { eventsRef } from '../services/db'
 import { eventSchema } from './schemas'
 import { tryP, of, reject } from 'fluture'
 import { NotFound, InternalServerError } from 'http-errors'
-import { filter, traverse, compose, prop, evolve, length, omit } from 'ramda'
+import { filter, traverse, compose, prop, evolve, length } from 'ramda'
 import * as moment from 'moment-timezone'
 import { IEvent } from '../models'
 
@@ -32,7 +32,7 @@ export const getCurrentEvent = (
     .chain(docsSnapshots => {
       const docs = []
       docsSnapshots.forEach(d => docs.push(d))
-      return traverse(of, safeData(eventSchema, false), docs)
+      return traverse(of, safeData(eventSchema, false, true), docs)
     })
     .chain(events => {
       const current = filter(isFutureEvent, events)

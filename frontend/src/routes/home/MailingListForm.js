@@ -4,8 +4,8 @@ import { Form, Field } from 'react-final-form'
 import { connect } from '../../preact-smitty'
 import { pathOr } from 'ramda'
 
-import Button from '../Button'
-import Notification from '../Notification'
+import Button from '../../components/Button'
+import Notification from '../../components/Notification'
 import store from '../../store'
 import { toRem, phone, tablet } from '../../helpers/styleHelpers'
 import { isEmail } from '../../helpers/validation'
@@ -108,6 +108,7 @@ class MailingListForm extends Component {
                         primary
                         disabled={!meta.touched || meta.error}
                         valid={meta.valid}
+                        whiteSpinner
                       >
                         {'+'}
                       </Button>
