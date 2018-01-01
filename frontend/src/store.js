@@ -6,7 +6,7 @@ const initialState = {
   ui: {
     showMobileNav: false,
     isScrolled: false,
-    currentTab: 'registration'
+    currentTab: 'register'
   },
   api: {},
   notifications: {}

@@ -1,6 +1,6 @@
 import { h, Component } from 'preact'
 import { Router } from 'preact-router'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import { connect } from '../preact-smitty'
 import { pathOr, pathEq } from 'ramda'
 
@@ -33,8 +33,7 @@ class App extends Component {
   componentDidMount() {
     store.actions.get({
       key: 'latestEvent',
-      resource: 'events',
-      params: 'current'
+      resource: 'latestEvent'
     })
   }
 

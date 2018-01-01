@@ -9,7 +9,7 @@ import SausageIcon from '../SausageIcon'
 
 import { theme } from '../../style/theme'
 
-const Input = styled.input`
+export const Input = styled.input`
   border: none;
   background: ${theme.secondaryBlue};
   color: white;
@@ -60,7 +60,7 @@ export const FieldWrapper = styled.div`
     `};
 `
 
-const LabelWrapper = styled.label`
+export const LabelWrapper = styled.label`
   font-size: ${toRem(24)};
   font-weight: bold;
   color: ${darken(0.2, theme.iconsColor)};
@@ -70,17 +70,17 @@ const InputCell = styled(Cell)`
   padding-bottom: 15px;
 `
 
-const Label = ({ text }) => (
+export const Label = ({ text }) => (
   <LabelWrapper>
     <SausageIcon /> {text}
   </LabelWrapper>
 )
 
-const LabeledField = ({ name, label, type = 'text', placeholder }) => {
+const LabeledField = ({ name, label, type = 'text', placeholder, ...rest }) => {
   // Why does this need to be reassigned to work?
   const text = label
   return (
-    <InputCell>
+    <InputCell {...rest}>
       <Field name={name}>
         {({ input, meta }) => (
           <div>

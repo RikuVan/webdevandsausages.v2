@@ -1,6 +1,7 @@
-import { h } from 'preact'
+import { h, Component } from 'preact'
+import { route } from 'preact-router'
 import styled, { css } from 'styled-components'
-import { pathOr } from 'ramda'
+import { pathOr, contains, compose, values } from 'ramda'
 import { connect } from '../../preact-smitty'
 import opacify from 'polished/lib/color/opacify'
 import transparentize from 'polished/lib/color/transparentize'
@@ -12,6 +13,8 @@ import store from '../../store'
 
 import PageWrapper from '../../components/PageWrapper'
 import RegistrationForm from './RegistrationForm'
+import CancellationForm from './CancellationForm'
+import VerificationForm from './VerificationForm'
 
 const TopSection = styled.div`
   padding: ${toRem(theme.navHeight)} ${toRem(theme.pagePadding)} 100%;
@@ -102,56 +105,99 @@ const Footer = styled.article`
   width: 100%;
 `
 
-const handleClick = tab => e => {
-  e.preventDefault()
-  store.actions.changeTab(tab)
+const tabs = {
+  REGISTRATION: 'register',
+  CANCELLATION: 'cancel',
+  VERIFICATION: 'verify'
 }
-const Registration = ({
-  isExpandedMobileNav,
-  hideIcon,
-  event,
-  loadingEvent,
-  isEventOpen,
-  currentTab
-}) => (
-  <PageWrapper>
-    <TopSection>
-      <TabsContainer>
-        <Tabs>
-          <Tab
-            active={currentTab === 'registration'}
-            onClick={handleClick('registration')}
-          >
-            Registration
-          </Tab>
-          <Tab
-            active={currentTab === 'cancellation'}
-            onClick={handleClick('cancellation')}
-          >
-            Cancellation
-          </Tab>
-          <Tab
-            active={currentTab === 'verification'}
-            onClick={handleClick('verification')}
-          >
-            Verification
-          </Tab>
-        </Tabs>
-        <Panel active={currentTab === 'registration'}>
-          <RegistrationForm
-            eventDate={
-              event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
-            }
-            eventId={event.id}
-          />
-        </Panel>
-        <Panel active={currentTab === 'cancellation'}>Tab 2</Panel>
-        <Panel active={currentTab === 'verification'}>Tab 3</Panel>
-      </TabsContainer>
-    </TopSection>
-    <Footer />
-  </PageWrapper>
-)
+
+const maybeTab = tab => (contains(tab, values(tabs)) ? tab : null)
+
+class Registration extends Component {
+  componentDidMount() {
+    const tabQuery = compose(maybeTab, pathOr(null, ['matches', 'tab']))(
+      this.props
+    )
+    if (tabQuery && tabQuery !== tabs.REGISTRATION) {
+      store.actions.changeTab(tabQuery)
+    } else {
+      this.setTab(tabs.REGISTRATION)
+    }
+  }
+
+  setTab = tab => {
+    route(`/registration?tab=${encodeURIComponent(tab)}`)
+  }
+
+  handleTabChange = tab => e => {
+    e.preventDefault()
+    this.setTab(tab)
+    store.actions.changeTab(tab)
+  }
+
+  render({
+    isExpandedMobileNav,
+    hideIcon,
+    event,
+    loadingEvent,
+    isEventOpen,
+    currentTab
+  }) {
+    return (
+      <PageWrapper>
+        <TopSection>
+          <TabsContainer>
+            <Tabs>
+              <Tab
+                active={currentTab === tabs.REGISTRATION}
+                onClick={this.handleTabChange(tabs.REGISTRATION)}
+              >
+                Registration
+              </Tab>
+              <Tab
+                active={currentTab === tabs.CANCELLATION}
+                onClick={this.handleTabChange(tabs.CANCELLATION)}
+              >
+                Cancellation
+              </Tab>
+              <Tab
+                active={currentTab === tabs.VERIFICATION}
+                onClick={this.handleTabChange(tabs.VERIFICATION)}
+              >
+                Verification
+              </Tab>
+            </Tabs>
+            <Panel active={currentTab === tabs.REGISTRATION}>
+              <RegistrationForm
+                eventDate={
+                  event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
+                }
+                eventId={event.id}
+              />
+            </Panel>
+            <Panel active={currentTab === tabs.CANCELLATION}>
+              <CancellationForm
+                eventDate={
+                  event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
+                }
+                eventId={event.id}
+              />
+            </Panel>
+            <Panel active={currentTab === tabs.VERIFICATION}>
+              <VerificationForm
+                eventDate={
+                  event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
+                }
+                eventId={event.id}
+              />
+            </Panel>
+          </TabsContainer>
+        </TopSection>
+        <Footer />
+      </PageWrapper>
+    )
+  }
+}
 
 export default connect(state => ({
   currentTab: pathOr('registration', ['ui', 'currentTab'], state)

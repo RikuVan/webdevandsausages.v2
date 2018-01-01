@@ -2,7 +2,11 @@ import * as Joi from 'joi'
 import Future, { tryP, reject } from 'fluture'
 import { eventsRef } from '../services/db'
 import * as createError from 'http-errors'
-import { docDataOrNull, areValidResults } from '../utils'
+import {
+  docDataOrNull,
+  areValidResults,
+  filterOutTokenAndEmail
+} from '../utils'
 import { evolve, identity, merge, pick, compose } from 'ramda'
 import { sendMail } from '../services/mail'
 
@@ -10,9 +14,6 @@ const getSuccessMessage = details =>
   `You are not longer registered for the event at ${details.location} on ${
     details.datetime
   }.`
-
-const filterByTokenAndEmail = (email: string, token: string) => queue =>
-  queue.filter(reg => !(reg.email === email && reg.verificationToken === token))
 
 const removeFromRegistationQueue = (
   eventId: string,
@@ -23,8 +24,8 @@ const removeFromRegistationQueue = (
   if (valid) {
     const updatedEvent = compose(
       evolve({
-        waitListed: filterByTokenAndEmail(email, token),
-        registered: filterByTokenAndEmail(email, token)
+        waitListed: filterOutTokenAndEmail(email, token),
+        registered: filterOutTokenAndEmail(email, token)
       }),
       pick(['waitListed', 'registered'])
     )(details)

@@ -13,7 +13,9 @@
   "eslintConfig": {
     "extends": "eslint-config-synacor"
   },
-  "eslintIgnore": ["build/*"],
+  "eslintIgnore": [
+    "build/*"
+  ],
   "devDependencies": {
     "eslint": "^4.9.0",
     "eslint-config-synacor": "^2.0.2",
@@ -24,6 +26,7 @@
     "@firebase/app": "^0.1.5",
     "@firebase/auth": "^0.3.1",
     "date-fns": "^1.29.0",
+    "eslint-config-prettier": "^2.9.0",
     "final-form": "^3.0.0",
     "fluture": "^7.2.2",
     "mitt": "^1.1.3",

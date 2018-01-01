@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { phone, tablet } from '../helpers/styleHelpers'
 
 const autoRows = ({ minRowHeight = '20px' }) => `minmax(${minRowHeight}, auto)`
 
@@ -22,6 +23,14 @@ const Grid = styled.div`
   ${({ justifyContent }) =>
     justifyContent && `justify-content: ${justifyContent}`};
   ${({ alignContent }) => alignContent && `align-content: ${alignContent}`};
+  ${({ columnsTablet }) =>
+    tablet(css`
+      grid-template-columns: ${columnsTablet};
+    `)};
+  ${({ columnsPhone }) =>
+    phone(css`
+      grid-template-columns: ${columnsPhone};
+    `)};
 `
 
 const Cell = styled.section`

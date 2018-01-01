@@ -27,6 +27,8 @@ export const endpoints = {
   getPass: (name, params) =>
     `${API_ROOT}/temppass/${name}${params ? makeQueryParams(params) : ''}`,
   participants: () => `${API_ROOT}/participants`,
-  events: id => `${API_ROOT}/events/${id ? id : ''}`,
-  registration: id => `${API_ROOT}/register/${id}`
+  events: ({ id }) => `${API_ROOT}/events/${id ? id : ''}`,
+  latestEvent: () => `${API_ROOT}/events/current`,
+  registration: ({ id, params }) =>
+    `${API_ROOT}/register/${id}${params ? '/?' + makeQueryParams(params) : ''}`
 }

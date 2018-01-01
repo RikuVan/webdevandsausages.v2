@@ -8,7 +8,12 @@ import {
   not,
   assoc,
   evolve,
-  identity
+  identity,
+  find,
+  propEq,
+  both,
+  findIndex,
+  equals
 } from 'ramda'
 import * as moment from 'moment'
 
@@ -29,3 +34,16 @@ export const createMailMsg = evolve({
   subject: s => `Web Dev & Sausages ${s || ''}`,
   text: identity
 })
+export const filterOutTokenAndEmail = (email: string, token: string) => queue =>
+  queue.filter(reg => !(reg.email === email && reg.verificationToken === token))
+
+export const findByEmailAndPassword = (
+  email: string,
+  verificationToken: string
+) =>
+  find(
+    both(propEq('email', email), propEq('verificationToken', verificationToken))
+  )
+
+export const findIndexOfRegistration = registration =>
+  findIndex(equals(registration))

@@ -27,11 +27,11 @@ const actions = {
       store.actions.closeNotification({ key })
     }, NOTIFICATION_FLASH_TIME)
   },
-  post: ({ key, resource, values, params }) => store => {
+  post: ({ key, resource, values, id }) => store => {
     of(store.actions.apiStart({ key }))
       .chain(() => encase(JSON.stringify)(values))
       .chain(data =>
-        fetchf(endpoints[resource](params), {
+        fetchf(endpoints[resource]({ id }), {
           headers,
           method: 'POST',
           body: data
@@ -58,9 +58,9 @@ const actions = {
         }
       )
   },
-  get: ({ key, resource, params, transform = v => v.data }) => store => {
+  get: ({ key, resource, id, params, transform = v => v.data }) => store => {
     of(store.actions.apiStart({ key }))
-      .chain(() => fetchf(endpoints[resource](params), { headers }))
+      .chain(() => fetchf(endpoints[resource]({ id, params }), { headers }))
       .chain(response => {
         if (response.status >= 204) {
           return reject({ status })
@@ -71,6 +71,27 @@ const actions = {
       .fork(
         error => store.actions.apiFinish({ key, status, error }),
         data => store.actions.apiFinish({ key, status: 200, data })
+      )
+  },
+  delete: ({ key, resource, id, values = {} }) => store => {
+    of(store.actions.apiStart({ key }))
+      .chain(() => encase(JSON.stringify)(values))
+      .chain(data =>
+        fetchf(endpoints[resource]({ id }), {
+          headers,
+          method: 'DELETE',
+          body: data
+        })
+      )
+      .chain(response => {
+        if (response.status >= 204) {
+          return reject({ status })
+        }
+        return of(response.status)
+      })
+      .fork(
+        error => store.actions.apiFinish({ key, status, error }),
+        status => store.actions.apiFinish({ key, status })
       )
   }
 }

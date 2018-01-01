@@ -35,7 +35,7 @@ const CheckboxLabel = styled.label`
   margin-left: 10px;
 `
 
-const Info = styled.p`
+export const Info = styled.p`
   color: ${darken(0.2, theme.iconsColor)};
   font-weight: 400;
   font-size: ${toRem(24)};
@@ -45,16 +45,19 @@ const Info = styled.p`
   text-align: left;
 `
 
-const FormWrapper = styled.div`
+export const FormWrapper = styled.div`
   width: 100%;
 `
 
-const FormGrid = styled(Grid)`
+export const FormGrid = styled(Grid)`
   padding-top: 20px;
 `
 
-const ButtonWrapper = styled.div`
-  padding-top: 30px;
+export const ButtonWrapper = styled.div`
+  padding: 40px 0;
+  & > button:last-of-type {
+    margin-left: 15px;
+  }
 `
 
 const Message = styled.div`
@@ -89,7 +92,7 @@ const Message = styled.div`
   }};
 `
 
-const ResultMessage = ({ type, message }) => (
+export const ResultMessage = ({ type, message }) => (
   <Message type={type}>{message}</Message>
 )
 
@@ -112,7 +115,7 @@ class RegistrationForm extends Component {
     store.actions.post({
       key: 'registration',
       resource: 'registration',
-      params: this.props.eventId,
+      id: this.props.eventId,
       values
     })
   render({
@@ -120,7 +123,8 @@ class RegistrationForm extends Component {
     loading,
     showErrorMsg,
     showSuccessMsg,
-    showAlreadyRegisteredMsg
+    showAlreadyRegisteredMsg,
+    ...rest
   }) {
     return (
       <FormWrapper>

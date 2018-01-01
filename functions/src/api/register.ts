@@ -1,9 +1,14 @@
 import { Request, Response, NextFunction } from 'express'
-import { validate } from 'joi'
+import * as Joi from 'joi'
 import * as moment from 'moment-timezone'
-import Future, { tryP } from 'fluture'
+import Future, { tryP, reject, of } from 'fluture'
 import * as createError from 'http-errors'
-import { areValidResults, docDataOrNull } from '../utils'
+import {
+  areValidResults,
+  docDataOrNull,
+  findByEmailAndPassword,
+  findIndexOfRegistration
+} from '../utils'
 import { sendMail } from '../services/mail'
 import { participantSchema } from './schemas'
 import { eventsRef } from '../services/db'
@@ -18,7 +23,8 @@ import {
   find,
   propEq,
   or,
-  propOr
+  propOr,
+  inc
 } from 'ramda'
 import { upsertParticipant } from './participants'
 const randomWord = require('random-word')
@@ -104,7 +110,7 @@ export const register = (
 
   return (
     Future((rej, res) => {
-      const { error } = validate(request.body, participantSchema)
+      const { error } = Joi.validate(request.body, participantSchema)
       return error ? rej(createError(422, error.message)) : res(null)
     })
       // save participant to db or merge with existing one
@@ -129,4 +135,78 @@ export const register = (
         () => response.status(201).json({ success: true })
       )
   )
+}
+
+const findInRegistrationQueue = (
+  eventId: string,
+  email: string,
+  token: string
+) => details => {
+  const valid = areValidResults(details)
+  if (valid) {
+    const isRegistered = compose(
+      findByEmailAndPassword(email, token),
+      prop('registered')
+    )(details)
+    const isWaitListed = compose(
+      findByEmailAndPassword(email, token),
+      prop('waitListed')
+    )(details)
+
+    console.log('finding...', isRegistered, isWaitListed, valid, details)
+
+    if (!isRegistered && !isWaitListed) {
+      return reject(
+        createError(
+          401,
+          'Your email and verificationToken do not match a registration.'
+        )
+      )
+    }
+
+    if (isRegistered) {
+      return of(merge(isRegistered, { waitListed: false }))
+    }
+    if (isWaitListed) {
+      const place = compose(
+        inc,
+        findIndexOfRegistration(isWaitListed),
+        prop('waitListed')
+      )(details)
+      return of(merge(isWaitListed, { waitListed: place }))
+    }
+    return reject(new createError.InternalServerError())
+  }
+
+  return reject(createError(404, 'No open event found from database'))
+}
+
+export const verifyRegistration = (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const eventId = request.params.eventId
+  const email = request.query.e
+  const token = request.query.t
+  console.log('request', eventId, email, token)
+
+  return Future((rej, res) => {
+    const { error } = Joi.validate(
+      { email, token },
+      Joi.object({
+        email: Joi.string()
+          .email()
+          .required(),
+        token: Joi.string()
+          .min(3)
+          .required()
+      })
+    )
+    return error ? rej(createError(422, error.message)) : res(null)
+  })
+    .chain(() => tryP(() => eventsRef.doc(eventId).get()))
+    .map(docDataOrNull)
+    .chain(findInRegistrationQueue(eventId, email, token))
+    .fork(error => next(error), data => response.status(200).json({ data }))
 }

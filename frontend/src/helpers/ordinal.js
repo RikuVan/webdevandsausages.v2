@@ -1,0 +1,33 @@
+function validate(number) {
+  return Number.isInteger(number)
+}
+
+function special(number) {
+  return number >= 11 && number <= 13
+}
+
+function defaultCase(number) {
+  return number.toString() + 'th'
+}
+
+function ordinalIndicator(number, ordinal) {
+  return number.toString() + ordinal
+}
+
+export const toOrdinal = number => {
+  if (!validate(number)) throw new Error('input must be an integer')
+  if (number === 0) return '0'
+  if (special(number)) return defaultCase(number)
+
+  switch (number.toString().slice(-1)) {
+    case '1':
+      return ordinalIndicator(number, 'st')
+    case '2':
+      return ordinalIndicator(number, 'nd')
+    case '3':
+      return ordinalIndicator(number, 'rd')
+    default:
+      return defaultCase(number)
+  }
+  return number.toString()
+}

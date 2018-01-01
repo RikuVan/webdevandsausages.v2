@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { register } from './register'
+import { register, verifyRegistration } from './register'
 import { getAllParticipants, addParticipant } from './participants'
 import { apiErrorHandler } from './apiErrors'
 import { cancelRegistration } from './cancelRegistration'
@@ -24,6 +24,7 @@ router.post('/participants', addParticipant)
 
 /* REGISTRATION */
 router.post('/register/:eventId', register)
+router.get('/register/:eventId', verifyRegistration)
 router.delete('/register/:eventId', cancelRegistration)
 
 router.get('/temppass/:id', getCodeByEmailOrSms)
