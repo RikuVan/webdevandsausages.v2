@@ -36,7 +36,7 @@ yarn run serve
 
 ## Backend
 
-The backend was created using the Firebase cli. Notice that unline the frontend, the backend does not currently use Yarn.
+The backend was created using the Firebase cli. Notice that unlike the frontend, the backend does not currently use Yarn.
 
 ### To get started
 
