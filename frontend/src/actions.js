@@ -13,6 +13,7 @@ const headers = {
 const NOTIFICATION_FLASH_TIME = 4000
 
 const actions = {
+  changeTheme: 'ui/CHANGE_THEME',
   toggleMobileNav: 'ui/MOBILE_TOGGLE',
   setIsScrolled: 'ui/IS_SCROLLED',
   apiStart: 'api/START',

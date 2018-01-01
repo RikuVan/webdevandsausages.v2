@@ -18,10 +18,9 @@ const Wrapper = styled.nav`
   box-sizing: border-box;
   z-index: 3;
   width: 100%;
-  height: ${toRem(theme.navHeight)};
   font-weight: 500;
   background: ${props =>
-    props.transparent ? 'transparent' : `${theme.primaryBlue}`};
+    props.transparent ? 'transparent' : `${props.theme.primaryBlue}`};
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   transition: background 300ms ease-out;
   color: white;
@@ -42,14 +41,12 @@ const StartWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   padding: 0 80px;
-  margin-bottom: ${toRem(10)};
 `
 
 const EndWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: ${toRem(10)};
 `
 
 const NavTitleLink = styled(Link)`

@@ -80,6 +80,7 @@ const Wrapper = styled.div`
     }
   }};
 `
+
 const NotificationText = styled.div`
   display: flex;
   align-items: center;
@@ -87,6 +88,7 @@ const NotificationText = styled.div`
   font-size: 16px;
   animation: ${fadeIn} 0.65s ease-in forwards;
 `
+
 const IconWrapper = styled.div`
   display: flex;
   align-items: center;

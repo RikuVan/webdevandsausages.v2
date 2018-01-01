@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import darken from 'polished/lib/color/darken'
 
 import { connect } from '../../preact-smitty'
-import { pathOr } from 'ramda'
+import { pathOr, pathEq } from 'ramda'
 import { toRem, tablet, phone } from '../../helpers/styleHelpers'
 import NavLinks, { NavSeparator } from './NavLinks'
 import SocialLinks from './SocialLinks'
@@ -78,13 +78,13 @@ const SecondaryMenu = styled.div`
   -webkit-overflow-scrolling: touch;
   overflow-x: scroll;
   overflow-y: hidden;
-  ${p =>
-    p.isScrolled
+  ${({ isScrolled, reverse }) =>
+    isScrolled
       ? css`
-          background: #52bdf6;
+          background: ${reverse ? '#f7b733' : '#52bdf6'};
         `
       : css`
-          background: #f7b733;
+          background: ${reverse ? '#52bdf6' : '#f7b733'};
         `};
   color: #868686;
   ${p =>
@@ -134,7 +134,7 @@ class MobileNavbar extends Component {
   toggleNav = () => {
     store.actions.toggleMobileNav()
   }
-  render({ showMobileNav, isScrolled }) {
+  render({ showMobileNav, isScrolled, reverseTheme }) {
     return (
       <Wrapper>
         <Logo />
@@ -145,7 +145,11 @@ class MobileNavbar extends Component {
           </MenuIconWrapper>
         </NavButton>
 
-        <SecondaryMenu open={showMobileNav} isScrolled={isScrolled}>
+        <SecondaryMenu
+          open={showMobileNav}
+          isScrolled={isScrolled}
+          reverse={reverseTheme}
+        >
           <NavLinks />
           <NavSeparator />
           <SocialLinks />
@@ -156,7 +160,8 @@ class MobileNavbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  showMobileNav: pathOr(false, ['ui', 'showMobileNav'], state)
+  showMobileNav: pathOr(false, ['ui', 'showMobileNav'], state),
+  reverseTheme: pathEq(['ui', 'theme'], 'reverse', state)
 })
 
 export default connect(mapStateToProps)(MobileNavbar)

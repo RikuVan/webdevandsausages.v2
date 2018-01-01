@@ -4,6 +4,7 @@ import actions from './actions'
 
 const initialState = {
   ui: {
+    theme: 'standard',
     showMobileNav: false,
     isScrolled: false,
     currentTab: 'register'
@@ -36,6 +37,8 @@ store.handleActions({
     dissocPath(['notifications', key], state),
   [store.actions.changeTab]: (state, tab) =>
     assocPath(['ui', 'currentTab'], tab, state),
+  [store.actions.changeTheme]: (state, theme) =>
+    assocPath(['ui', 'theme'], theme, state),
   '*': (state, e, type) => {
     console.log('CURRENT STATE: ', state, 'ACTION: ', type)
     return state

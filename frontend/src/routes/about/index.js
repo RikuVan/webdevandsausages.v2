@@ -1,45 +1,43 @@
-import { h, Component } from 'preact'
+import { h } from 'preact'
+import styled, { css } from 'styled-components'
 
-export default class About extends Component {
-  state = {
-    time: Date.now(),
-    count: 10
-  }
+import { toRem } from '../../helpers/styleHelpers'
+import PageWrapper from '../../components/PageWrapper'
 
-  // update the current time
-  updateTime = () => {
-    this.setState({ time: Date.now() })
-  }
+const Section = styled.div`
+  ${({ theme }) =>
+    css`
+      padding: ${toRem(theme.navHeight)} ${toRem(theme.pagePadding)} 100%;
+    `};
+  ${p =>
+    p.isExpandedMobileNav &&
+    tablet(css`
+      padding-top: ${toRem(theme.navHeight * 1.8)};
+    `)} ${p =>
+      p.isExpandedMobileNav &&
+      phone(css`
+        padding-top: ${toRem(theme.navHeight * 2.2)};
+      `)};
+  ${({ theme }) =>
+    css`
+      background: linear-gradient(
+        15deg,
+        ${theme.primaryOrange},
+        ${theme.primaryBlue}
+      );
+    `};
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
+  width: 100%;
+`
 
-  increment = () => {
-    this.setState({ count: this.state.count + 1 })
-  }
-
-  // gets called when this route is navigated to
-  componentDidMount() {
-    // start a timer for the clock:
-    this.timer = setInterval(this.updateTime, 1000)
-  }
-
-  // gets called just before navigating away from the route
-  componentWillUnmount() {
-    clearInterval(this.timer)
-  }
-
-  // Note: `user` comes from the URL, courtesy of our router
-  render({ user }, { time, count }) {
-    return (
-      <div>
-        <h1>Profile: {user}</h1>
-        <p>This is the user profile for a user named {user}.</p>
-
-        <div>Current time: {new Date(time).toLocaleString()}</div>
-
-        <p>
-          <button onClick={this.increment}>Click Me</button> Clicked {count}{' '}
-          times.
-        </p>
-      </div>
-    )
-  }
+const About = () => {
+  return (
+    <PageWrapper>
+      <Section>
+        <h1>hi</h1>
+      </Section>
+    </PageWrapper>
+  )
 }
+
+export default About
