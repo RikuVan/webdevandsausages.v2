@@ -2,7 +2,7 @@ import { h, Component } from 'preact'
 import styled, { css } from 'styled-components'
 import { Form, Field } from 'react-final-form'
 import { connect } from '../../preact-smitty'
-import { pathOr } from 'ramda'
+import { pathEq } from 'ramda'
 
 import Button from '../../components/Button'
 import Notification from '../../components/Notification'
@@ -81,8 +81,7 @@ const FormWrapper = styled.div`
 class MailingListForm extends Component {
   onSubmit = values =>
     store.actions.post({ key: 'mailingList', resource: 'participants', values })
-  render({ status }) {
-    const loading = status && status === 'started'
+  render({ loading }) {
     return (
       <FormWrapper>
         <Form
@@ -90,7 +89,14 @@ class MailingListForm extends Component {
           onSubmit={this.onSubmit}
           initialValues={{ receivesMail: true }}
           validate={validate}
-          render={({ handleSubmit, reset, submitting, pristine, values }) => (
+          render={({
+            handleSubmit,
+            reset,
+            submitting,
+            pristine,
+            values,
+            valid
+          }) => (
             <form onSubmit={handleSubmit}>
               <TitleWrapper>
                 <Title>
@@ -106,7 +112,7 @@ class MailingListForm extends Component {
                         type="submit"
                         loading={loading}
                         primary
-                        disabled={!meta.touched || meta.error}
+                        disabled={!valid}
                         valid={meta.valid}
                         whiteSpinner
                       >
@@ -136,5 +142,5 @@ class MailingListForm extends Component {
 }
 
 export default connect(state => ({
-  status: pathOr(null, ['api', 'mailingList'], state)
+  loading: pathEq(['api', 'mailingList', 'status'], 'started', state)
 }))(MailingListForm)

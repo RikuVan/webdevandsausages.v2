@@ -53,28 +53,27 @@ const Wrapper = styled.div`
   font-weight: 500;
   animation: ${scaleIn} 0.3s ease-out forwards,
     ${expand} 0.35s 0.25s ease-out forwards;
-  ${p => {
-    console.log('here', p)
-    switch (p.type) {
+  ${({ theme, type }) => {
+    switch (type) {
       case 'success': {
         return css`
-          background: #a3f5fc;
-          color: ${darken(0.6, '#a3f5fc')};
-          border: 2px solid ${darken(0.4, '#a3f5fc')};
+          background: ${theme.flashSuccess};
+          color: ${darken(0.6, theme.flashSuccess)};
+          border: 2px solid ${darken(0.4, theme.flashSuccess)};
         `
       }
       case 'error': {
         return css`
-          background: #ee725a;
-          color: ${darken(0.6, '#ee725a')};
-          border: 2px solid ${darken(0.4, '#ee725a')};
+          background: ${theme.notificationError};
+          color: ${darken(0.6, theme.notificationError)};
+          border: 2px solid ${darken(0.4, theme.notificationError)};
         `
       }
       default: {
         return css`
-          background: #f5b53f;
-          color: ${darken(0.5, '#f5b53f')};
-          border: 2px solid ${darken(0.4, '#f5b53f')};
+          background: ${theme.notificationDefault};
+          color: ${darken(0.5, theme.notificationDefault)};
+          border: 2px solid ${darken(0.4, theme.notificationDefault)};
         `
       }
     }

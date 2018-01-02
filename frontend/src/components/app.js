@@ -8,7 +8,7 @@ import isWithinRange from 'date-fns/is_within_range'
 import Nav from './nav'
 import Home from '../routes/home'
 import About from '../routes/about'
-import Registration from '../routes/registration'
+import Registration from 'async!../routes/registration'
 import Admin from 'async!../routes/admin'
 import ScrollWatcher from './ScrollWatcher'
 import store from '../store'
@@ -18,7 +18,6 @@ import { theme } from '../style/theme'
 const Main = styled.main`
   font-family: museo_sans500, sans-serif;
   font-weight: 400;
-  height: 100%;
 `
 
 class App extends Component {
@@ -29,10 +28,15 @@ class App extends Component {
 
   handleRoute = e => {
     this.currentUrl = e.url
+    const { reverseTheme } = this.props
+    const { actions: { changeTheme } } = store
+
     if (this.currentUrl.includes('registration')) {
-      store.actions.changeTheme('reverse')
-    } else if (this.props.reverseTheme) {
-      store.actions.changeTheme('standard')
+      changeTheme('reverse')
+    } else if (this.currentUrl.includes('about')) {
+      changeTheme('reverse')
+    } else if (reverseTheme) {
+      changeTheme('standard')
     }
   }
 

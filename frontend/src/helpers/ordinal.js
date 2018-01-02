@@ -29,5 +29,4 @@ export const toOrdinal = number => {
     default:
       return defaultCase(number)
   }
-  return number.toString()
 }

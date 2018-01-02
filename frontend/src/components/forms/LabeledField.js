@@ -1,9 +1,9 @@
-import { h, Component } from 'preact'
+import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { Field } from 'react-final-form'
 import darken from 'polished/lib/color/darken'
 
-import { toRem, phone, tablet } from '../../helpers/styleHelpers'
+import { toRem } from '../../helpers/styleHelpers'
 import { Cell } from '../layout'
 import SausageIcon from '../SausageIcon'
 
@@ -75,6 +75,12 @@ export const Label = ({ text }) => (
     <SausageIcon /> {text}
   </LabelWrapper>
 )
+
+const Error = styled.div`
+  text-align: left;
+  font-weight: 700;
+  color: ${darken(0.2, 'red')};
+`
 
 const LabeledField = ({ name, label, type = 'text', placeholder, ...rest }) => {
   // Why does this need to be reassigned to work?

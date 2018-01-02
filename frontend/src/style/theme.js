@@ -7,6 +7,7 @@ export const theme = {
   primaryBlack: '#4b4b4b',
   primaryOrange: '#f7b733',
   notificationSuccess: '#52bdf6',
+  flashSuccess: '#a3f5fc',
   notificationError: '#ee725a',
   notificationDefault: '#f5b53f',
   normalFont: 'museo_sans500, sans-serif',

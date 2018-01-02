@@ -12,21 +12,13 @@ import { toRem, tablet, phone } from '../../helpers/styleHelpers'
 import store from '../../store'
 
 import PageWrapper from '../../components/PageWrapper'
+import Footer from '../../components/Footer'
 import RegistrationForm from './RegistrationForm'
 import CancellationForm from './CancellationForm'
 import VerificationForm from './VerificationForm'
 
 const TopSection = styled.div`
-  padding: ${toRem(theme.navHeight)} ${toRem(theme.pagePadding)} 100%;
-  ${p =>
-    p.isExpandedMobileNav &&
-    tablet(css`
-      padding-top: ${toRem(theme.navHeight * 1.8)};
-    `)} ${p =>
-      p.isExpandedMobileNav &&
-      phone(css`
-        padding-top: ${toRem(theme.navHeight * 2.2)};
-      `)};
+  padding: ${toRem(theme.navHeight)} ${toRem(theme.pagePadding)} 50vh;
   background: linear-gradient(15deg, ${theme.primaryOrange}, ${'#52bdf6'});
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
   width: 100%;
@@ -97,12 +89,6 @@ const Panel = styled.div`
       display: flex;
       flex-direction: column;
     `};
-`
-
-const Footer = styled.article`
-  background: ${theme.primaryOrange};
-  min-height: 10vh;
-  width: 100%;
 `
 
 const tabs = {
@@ -193,7 +179,7 @@ class Registration extends Component {
             </Panel>
           </TabsContainer>
         </TopSection>
-        <Footer />
+        <Footer color="primaryOrange" />
       </PageWrapper>
     )
   }

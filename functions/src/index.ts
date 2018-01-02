@@ -1,7 +1,6 @@
 import * as functions from 'firebase-functions'
 import admin from 'firebase-admin'
 const serviceAccount = require('../serviceAccountKey.json')
-console.log(functions.config().firebase)
 admin.initializeApp({
   ...functions.config().firebase,
   credential: admin.credential.cert(serviceAccount)

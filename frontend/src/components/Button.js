@@ -8,8 +8,6 @@ import darken from 'polished/lib/color/darken'
 import opacify from 'polished/lib/color/opacify'
 import lighten from 'polished/lib/color/lighten'
 
-import { toRem } from '../helpers/styleHelpers'
-
 const StyledButton = styled.button`
   display: inline-block;
   zoom: 1;
@@ -117,14 +115,12 @@ const Button = ({
   children,
   whiteSpinner,
   ...rest
-}) => {
-  return (
-    <StyledButton type={type} id={id} primary={primary} {...rest}>
-      {!loading && children}
-      {loading && <Spinner small whiteSpinner={whiteSpinner} />}
-    </StyledButton>
-  )
-}
+}) => (
+  <StyledButton type={type} id={id} primary={primary} {...rest}>
+    {!loading && children}
+    {loading && <Spinner small whiteSpinner={whiteSpinner} />}
+  </StyledButton>
+)
 
 export const ButtonLink = ({
   type = 'button',

@@ -79,7 +79,7 @@ export const addParticipant = (
         const msg = createMailMsg({
           to: result.email,
           from: null,
-          subject: 'waiting list',
+          subject: 'maiting list',
           text:
             'You have been added to the Web Dev & Sausages mailing list. To unsubscribe please respond to this email with the subject "Unsubscribe".'
         })

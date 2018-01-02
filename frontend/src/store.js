@@ -20,6 +20,14 @@ store.createActions(actions)
 const togglePath = (slicePath, state) =>
   assocPath(slicePath, compose(not, path(slicePath))(state))(state)
 
+/* eslint no-console: 0, no-unused-vars: 0 */
+const log = (type, e, state) => {
+  console.group('%c action type', 'color: gray; font-weight: lighter;', type)
+  console.log('%c data', 'color: #9E9E9E; font-weight: bold;', e)
+  console.log('%c state', 'color: #03A9F4; font-weight: bold;', state)
+  console.groupEnd()
+}
+
 store.handleActions({
   [store.actions.toggleMobileNav]: state =>
     togglePath(['ui', 'showMobileNav'], state),
@@ -40,7 +48,8 @@ store.handleActions({
   [store.actions.changeTheme]: (state, theme) =>
     assocPath(['ui', 'theme'], theme, state),
   '*': (state, e, type) => {
-    console.log('CURRENT STATE: ', state, 'ACTION: ', type)
+    // for dev purposes
+    //log(type, e, state)
     return state
   }
 })

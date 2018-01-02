@@ -1,4 +1,4 @@
-import { h, Component } from 'preact'
+import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { connect } from '../../preact-smitty'
 import { pathOr, pathEq } from 'ramda'
@@ -9,9 +9,9 @@ import { theme } from '../../style/theme'
 import Spinner from '../../components/Spinner'
 import { ButtonLink } from '../../components/Button'
 import PageWrapper from '../../components/PageWrapper'
+import Footer from '../../components/Footer'
 
 import FireyTitle from './FireyTitle'
-import TwitterTimeline from './TwitterTimeline'
 import PreviousEvents from './PreviousEvents'
 import CurrentEvent from './CurrentEvent'
 
@@ -50,12 +50,6 @@ const PreviousEventsWrapper = styled.section`
   min-height: 50vh;
   width: 100%;
   padding-bottom: 5rem;
-`
-
-const Footer = styled.article`
-  background: #52bdf6;
-  min-height: 10vh;
-  width: 100%;
 `
 
 const Seperator = styled.hr`
@@ -140,7 +134,7 @@ const Home = ({
     <PreviousEventsWrapper>
       <PreviousEvents />
     </PreviousEventsWrapper>
-    <Footer />
+    <Footer color="primaryBlue" />
   </PageWrapper>
 )
 
