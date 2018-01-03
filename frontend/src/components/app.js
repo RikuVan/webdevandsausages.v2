@@ -8,6 +8,7 @@ import isWithinRange from 'date-fns/is_within_range'
 import Nav from './nav'
 import Home from '../routes/home'
 import About from '../routes/about'
+import NotFound from '../routes/notfound'
 import Registration from 'async!../routes/registration'
 import Admin from 'async!../routes/admin'
 import ScrollWatcher from './ScrollWatcher'
@@ -27,6 +28,10 @@ class App extends Component {
    */
 
   handleRoute = e => {
+    if (this.currentUrl !== e.url) {
+      document.body.scrollTop = 0
+    }
+
     this.currentUrl = e.url
     const { reverseTheme } = this.props
     const { actions: { changeTheme } } = store
@@ -69,7 +74,8 @@ class App extends Component {
               loadingEvent={loadingEvent}
               isEventOpen={isEventOpen}
             />
-            <Admin path="/admin" />
+            <Admin path="/__admin__" />
+            <NotFound default />
           </Router>
         </Main>
       </ThemeProvider>

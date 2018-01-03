@@ -29,8 +29,8 @@ const validate = values => {
   } else if (!isEmail(values.email)) {
     errors.email = 'Invalid format'
   }
-  if (!values.token) {
-    errors.token = 'Required'
+  if (!values.verificationToken) {
+    errors.verificationToken = 'Required'
   }
   return errors
 }

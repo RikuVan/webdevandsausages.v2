@@ -10,8 +10,6 @@ import SocialLinks from './SocialLinks'
 import Logo from './Logo'
 import { pathEq } from 'ramda'
 
-import { theme } from '../../style/theme'
-
 const Wrapper = styled.nav`
   position: fixed;
   left: 0;
@@ -19,8 +17,10 @@ const Wrapper = styled.nav`
   z-index: 3;
   width: 100%;
   font-weight: 500;
-  background: ${props =>
-    props.transparent ? 'transparent' : `${props.theme.primaryBlue}`};
+  ${({ theme, transparent }) =>
+    css`
+      background: ${transparent ? 'transparent' : `${theme.primaryBlue}`};
+    `};
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   transition: background 300ms ease-out;
   color: white;
@@ -52,10 +52,16 @@ const EndWrapper = styled.div`
 const NavTitleLink = styled(Link)`
   font-family: museo_sans500_Italic, sans-serif;
   font-size: 18px;
-  line-height: ${toRem(theme.navHeight)};
+  ${({ theme }) =>
+    css`
+      line-height: ${toRem(theme.navHeight)};
+    `};
   align-text: center;
   font-weight: 400;
-  color: ${theme.subduedTexTColor};
+  ${({ theme }) =>
+    css`
+      color: ${theme.subduedTexTColor};
+    `};
   text-decoration: none;
   transition: opacity 0.2s, transform 0.2s;
   cursor: pointer;

@@ -13,21 +13,33 @@ import {
   propEq,
   both,
   findIndex,
-  equals
+  equals,
+  gt,
+  propOr,
+  flip,
+  length
 } from 'ramda'
 import * as moment from 'moment'
 
 const checkTypes = process.env.NODE_ENV !== 'production'
 export const S = create({ checkTypes, env: env.concat(flutureEnv) })
 
+// safety utils
 export const docDataOrNull = doc => (!doc || !doc.exists ? null : doc.data())
 export const docIdOrNull = doc => (!doc || !doc.exists ? null : doc.id)
 export const areValidResults = compose(not, either(isNil, has('error')))
 export const notNil = compose(not, isNil)
+
+// date utils
 export const addInsertionDate = assoc(
   'insertedOn',
   moment().format('YYYY-MM-DD HH:mm')
 )
+
+export const formatDate = date =>
+  `${moment(date).format('MMMM Do, YYYY')} at ${moment(date).format('HH:mm')}`
+
+// mail utils
 export const createMailMsg = evolve({
   to: identity,
   from: v => (v ? v : 'richard.vancamp@gmail.com'),
@@ -36,7 +48,6 @@ export const createMailMsg = evolve({
 })
 export const filterOutTokenAndEmail = (email: string, token: string) => queue =>
   queue.filter(reg => !(reg.email === email && reg.verificationToken === token))
-
 export const findByEmailAndPassword = (
   email: string,
   verificationToken: string
@@ -45,5 +56,8 @@ export const findByEmailAndPassword = (
     both(propEq('email', email), propEq('verificationToken', verificationToken))
   )
 
+// other
 export const findIndexOfRegistration = registration =>
   findIndex(equals(registration))
+export const propHasLength = prop =>
+  compose(flip(gt)(0), length, propOr([], prop))

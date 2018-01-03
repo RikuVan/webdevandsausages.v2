@@ -1,9 +1,7 @@
 import { h } from 'preact'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Link } from 'preact-router/match'
 import { toRem } from '../../helpers/styleHelpers'
-
-import { theme } from '../../style/theme'
 
 const Wrapper = styled.nav`
   display: flex;
@@ -15,7 +13,10 @@ const Wrapper = styled.nav`
 const NavLink = styled(Link)`
   flex: 0 0 auto;
   display: inline-block;
-  line-height: ${toRem(theme.navHeight)};
+  ${({ theme }) =>
+    css`
+      line-height: ${toRem(theme.navHeight)};
+    `};
   align-text: center;
   font-weight: 400;
   text-decoration: none;

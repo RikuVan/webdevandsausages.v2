@@ -36,17 +36,21 @@ const MenuIcon = () => (
 const Wrapper = styled.div`
   display: none;
 
-  ${tablet(css`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: ${toRem(theme.navHeight)};
-  `)};
+  ${({ theme }) =>
+    tablet(css`
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: ${toRem(theme.navHeight)};
+    `)};
 `
 
 const SecondaryMenu = styled.div`
   position: absolute;
-  top: ${toRem(theme.navHeight)};
+  ${({ theme }) =>
+    css`
+      top: ${toRem(theme.navHeight)};
+    `};
   left: 0;
   right: 0;
   ${tablet(
@@ -119,7 +123,10 @@ export const NavButton = styled.button`
   vertical-align: middle;
   cursor: pointer;
   padding: ${toRem(18)} ${toRem(26)};
-  color: ${theme.subduedTexTColor};
+  ${({ theme }) =>
+    css`
+      color: ${theme.subduedTexTColor};
+    `}};
   ${p =>
     p.active &&
     css`

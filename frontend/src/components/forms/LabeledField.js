@@ -7,11 +7,12 @@ import { toRem } from '../../helpers/styleHelpers'
 import { Cell } from '../layout'
 import SausageIcon from '../SausageIcon'
 
-import { theme } from '../../style/theme'
-
 export const Input = styled.input`
   border: none;
-  background: ${theme.secondaryBlue};
+  ${({ theme }) =>
+    css`
+      background: ${theme.secondaryBlue};
+    `};
   color: white;
   width: 100%;
   font-size: ${toRem(20)};
@@ -63,7 +64,10 @@ export const FieldWrapper = styled.div`
 export const LabelWrapper = styled.label`
   font-size: ${toRem(24)};
   font-weight: bold;
-  color: ${darken(0.2, theme.iconsColor)};
+  ${({ theme }) =>
+    css`
+      color: ${darken(0.2, theme.iconsColor)};
+    `};
 `
 
 const InputCell = styled(Cell)`
