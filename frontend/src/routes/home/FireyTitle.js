@@ -1,5 +1,6 @@
 import { h } from 'preact'
 import styled, { css, keyframes } from 'styled-components'
+import transparentize from 'polished/lib/color/transparentize'
 
 import { tablet, phone } from '../../helpers/styleHelpers'
 
@@ -67,10 +68,10 @@ const fireAnimation = keyframes`
 	`
 
 const WDSTitle = styled.h1`
-  font-family: zingrustdemo-base, sans-serif;
+  font-family: sansation-bold, sans-serif;
   margin-top: 100px;
   font-size: 4rem;
-  color: #367db7;
+  color: #fff;
   z-index: 1;
   ${tablet(
     css`
@@ -85,8 +86,8 @@ const WDSTitle = styled.h1`
   animation: ${fireAnimation} 2s cubic-bezier(0.7, 0.37, 0.93, 0.67);
 `
 const TagLine = styled.h3`
-  color: #367db7;
-  padding-top: 2rem;
+  color: #fff;
+  padding-top: 1rem;
   font-family: museo_sans500_Italic, sans-serif;
   font-size: 1.5rem;
 `
@@ -94,11 +95,11 @@ const TagLine = styled.h3`
 const FireyTitle = ({ isExpandedMobileNav, hideIcon }) => (
   <firey-title->
     <WDSTitle>WEB DEV & SAUSAGES</WDSTitle>
-    <GrillImg
+    {/*<GrillImg
       src="../../assets/grill.svg"
       isExpandedMobileNav={isExpandedMobileNav}
       hide={hideIcon}
-    />
+    />*/}
     <TagLine>Feeding hungry devs with ideas and sausages since 2016</TagLine>
   </firey-title->
 )

@@ -2,18 +2,21 @@ import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { Field } from 'react-final-form'
 import darken from 'polished/lib/color/darken'
+import transparentize from 'polished/lib/color/transparentize'
+import lighten from 'polished/lib/color/lighten'
 
 import { toRem } from '../../helpers/styleHelpers'
 import { Cell } from '../layout'
 import SausageIcon from '../SausageIcon'
 
 export const Input = styled.input`
-  border: none;
   ${({ theme }) =>
     css`
-      background: ${theme.secondaryBlue};
+      border: 2px solid ${transparentize(0.2, theme.secondaryBlue)};
+      background: #fff;
     `};
-  color: white;
+  border-radius: 3px;
+  color: #111;
   width: 100%;
   font-size: ${toRem(20)};
   font-weight: 400;
@@ -23,9 +26,12 @@ export const Input = styled.input`
   box-sizing: border-box;
   margin: 0;
   outline: 0;
-  ::placeholder {
-    color: #52bdf6;
-  }
+  ${({ theme }) =>
+    css`
+      ::placeholder {
+        color: ${lighten(0.3, theme.iconsColor)};
+      }
+    `};
   &:hover,
   &:readonly,
   &:focus {
@@ -34,16 +40,23 @@ export const Input = styled.input`
     color: white;
   }
   ${p =>
-    p.touched &&
-    p.valid &&
+    p.active &&
     css`
-      background-color: #4b4b4b;
-      color: #00caff;
+      background-color: ${transparentize(0.2, p.theme.secondaryBlue)};
+      color: #fff;
     `};
   ${p =>
     p.width &&
     css`
       width: ${toRem(p.width)};
+    `};
+  ${p =>
+    p.active &&
+    p.valid &&
+    css`
+      background-color: ${p.theme.secondaryBlue};
+      border: 2px solid ${p.theme.secondaryBlue};
+      color: #fff;
     `};
 `
 
@@ -101,6 +114,7 @@ const LabeledField = ({ name, label, type = 'text', placeholder, ...rest }) => {
                 {...input}
                 valid={meta.valid}
                 placeholder={placeholder}
+                active={!!input.value.length}
               />
             </FieldWrapper>
             {meta.touched && meta.error && <Error>{meta.error}</Error>}

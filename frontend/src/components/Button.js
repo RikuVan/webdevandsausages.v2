@@ -7,6 +7,7 @@ import { theme } from '../style/theme'
 import darken from 'polished/lib/color/darken'
 import opacify from 'polished/lib/color/opacify'
 import lighten from 'polished/lib/color/lighten'
+import transparentize from 'polished/lib/color/transparentize'
 
 const StyledButton = styled.button`
   display: inline-block;
@@ -21,19 +22,18 @@ const StyledButton = styled.button`
   box-sizing: border-box;
   background: transparent;
   border-radius: 2px;
-  border: 3px solid ${theme.secondaryBlue};
+  border: 2px solid #fff;
   height: 52px;
   font-size: 1.7em;
   font-weight: 470;
-  color: ${theme.secondaryBlue};
-  background: ${darken(-0.1, '#f5b53f')};
+  color: #fff;
   outline: none;
   padding: 2px 17px 4px 17px;
   margin: 0 4px;
   box-shadow: none;
   &:hover,
   &:disabled {
-    background: ${darken(0.1, '#f5b53f')};
+    background: ${transparentize(0.5, theme.primaryBlue)};
   }
   &:disabled {
     background: ${opacify(0.1, theme.subduedTexTColor)};
@@ -43,24 +43,24 @@ const StyledButton = styled.button`
   ${props =>
     props.primary &&
     css`
-      border: none;
-      background: ${theme.secondaryBlue};
-      color: #fff;
+      border: 2px solid ${theme.secondaryBlue};
+      background: ${transparentize(0.8, theme.secondaryBlue)};
+      color: ${theme.secondaryBlue};
       &:hover {
-        background: ${theme.secondaryBlue};
-        color: #fff;
+        background: ${transparentize(0.7, theme.secondaryBlue)};
+        color: ${theme.secondaryBlue};
       }
       &:disabled {
-        background: ${theme.secondaryBlue};
-        color: lightgrey;
+        background: ${transparentize(0.6, theme.secondaryBlue)};
+        color: ${transparentize(0.3, theme.secondaryBlue)};
         cursor: not-allowed;
       }
     `};
   ${props =>
     props.valid &&
     css`
-      background: ${theme.primaryBlack};
-      color: ${theme.secondaryBlue};
+      background: ${theme.secondaryBlue};
+      color: #fff;
       &:hover {
         background: ${opacify(0.1, theme.secondaryBlue)};
         color: #fff;
@@ -97,7 +97,7 @@ const StyledButton = styled.button`
     props.valid &&
     css`
       &:hover {
-        background: ${theme.primaryOrange};
+        background: transparent;
       }
     `};
   ${props =>

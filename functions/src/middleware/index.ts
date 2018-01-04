@@ -1,10 +1,20 @@
-import { Request, Response, NextFunction } from 'express'
-const cors = require('cors')({ origin: true })
-import * as cookieParser from 'cookie-parser'
+const cors = require('cors')
+import * as cookieSession from 'firebase-cookie-session'
+import { config } from '../'
 
 const setMiddleware = app => {
-  app.use(cors)
-  app.use(cookieParser())
+  // credentials:true needed for cookies
+  app.use(cors({ origin: true, credentials: true }))
+  app.options('*', cors())
+  app.use(
+    // firebase fucntions only allow one cookie with the name __session
+    cookieSession({
+      secure: false,
+      httpOnly: false,
+      keys: [config.GOOGLE.SECRET],
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    })
+  )
   return app
 }
 

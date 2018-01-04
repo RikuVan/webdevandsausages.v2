@@ -46,7 +46,7 @@ export const getCollection = (
       docsSnapshots.forEach(d => docs.push(d))
       return traverse(of, safeData(schema, true, true), docs)
     })
-    .map(filter(notNil))
+    .map(filter(isNil))
     .fork(error => next(createError(500, error)), data => res.json({ data }))
 }
 

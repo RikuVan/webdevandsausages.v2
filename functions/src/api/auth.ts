@@ -3,7 +3,7 @@ const randomWord = require('random-word')
 import { sendSms } from '../services/sms'
 import { sendMail } from '../services/mail'
 import { adminsRef } from '../services/db'
-import { tryP, reject, both } from 'fluture'
+import { tryP, reject, both, of } from 'fluture'
 import { docDataOrNull } from '../utils'
 import { Unauthorized, InternalServerError } from 'http-errors'
 import { compose, toLower, pathOr } from 'ramda'
@@ -58,19 +58,36 @@ const isValidPass = (data, pass) => {
 }
 
 export const auth = (req, res, next) => {
+  const name = req.session.user
+  console.log(req.session)
+  tryP(() => adminsRef.doc(name).get())
+    .map(docDataOrNull)
+    .chain(data => {
+      if (!data) {
+        req.session = null
+        return reject(new Unauthorized())
+      }
+      return of({ name, admin: true })
+    })
+    .fork(err => next(err), data => res.status(200).send({ data }))
+}
+
+export const login = (req, res, next) => {
   const pass = req.body.pass
   const name = req.body.name
   tryP(() => adminsRef.doc(name).get())
     .map(docDataOrNull)
     .chain(data => {
       if (isValidPass(data, pass)) {
-        return tryP(() => admin.auth().createCustomToken(name, { admin: true }))
+        req.session.user = name
+        return of({ name, admin: true })
       }
       return reject(new Unauthorized())
     })
-    .map(token => {
-      console.log(token)
-      return token
-    })
-    .fork(err => next(err), token => res.status(200).send({ token }))
+    .fork(err => next(err), data => res.status(200).send({ data }))
+}
+
+export const logout = (req, res, next) => {
+  req.session = null
+  res.status(200).json({ user: null })
 }

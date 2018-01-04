@@ -57,29 +57,30 @@ const Tab = styled.div`
   cursor: pointer;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  border: 1px solid ${opacify(0.1, theme.secondaryBlue)};
+  border: 1px solid ${opacify(0.3, theme.secondaryBlue)};
   font-size: ${toRem(24)};
-  color: ${theme.secondaryBlue};
+  color: ${transparentize(0.1, '#fff')};
   &:hover {
-    background: ${transparentize(0.5, '#52bdf6')};
+    background: ${transparentize(0.4, '#fff')};
     border-top: 5px solid ${theme.secondaryBlue};
+    color: ${theme.secondaryBlue};
   }
   ${p =>
     p.active &&
     css`
-      background: ${transparentize(0.4, theme.primaryOrange)};
+      background: #fff;
       color: ${theme.secondaryBlue};
       border-top: 5px solid ${theme.secondaryBlue};
       border-bottom: none;
       &:hover {
-        background: ${transparentize(0.3, theme.primaryOrange)};
-        border-top: 5px solid ${theme.secondaryBlue};
+        background: ${transparentize(0.4, '#fff')};
+        border-top: 5px solid ${theme.secondayBlue};
     `};
 `
 
 const Panel = styled.div`
   min-height: 200px;
-  background: ${transparentize(0.4, theme.primaryOrange)};
+  background: #fff;
   display: none;
   align-items: start;
   padding: ${toRem(20)};

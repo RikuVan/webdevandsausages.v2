@@ -2,6 +2,7 @@ import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { connect } from '../../preact-smitty'
 import { pathOr, pathEq } from 'ramda'
+import transparentize from 'polished/lib/color/transparentize'
 
 import { toRem, tablet, phone } from '../../helpers/styleHelpers'
 import MailingListForm from './MailingListForm'
@@ -35,13 +36,11 @@ const TopSection = styled.div`
 
 const Title = styled.h2`
   font-size: 2rem;
-  color: #367db7;
+  color: ${transparentize(0.3, '#fff')};
   ${p =>
     p.isActive &&
     css`
-      text-shadow: 0 0 10px #52bdf6, 0 0 20px #52bdf6, 0 0 30px #52bdf6,
-        0 0 40px #fefcc9, 0 0 70px #fefcc9, 0 0 80px #fefcc9, 0 0 100px #fefcc9,
-        0 0 150px #fefcc9;
+      color: #fff;
     `};
 `
 
@@ -81,7 +80,7 @@ const InnerWrapper = styled.div`
 `
 
 const NoEventText = styled.div`
-  color: #367db7;
+  color: #fff;
   padding-top: 2rem;
   font-size: 1.5rem;
 `

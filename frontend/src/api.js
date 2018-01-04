@@ -24,8 +24,8 @@ const makeQueryParams = params =>
 
 export const endpoints = {
   auth: () => `${API_ROOT}/auth`,
-  getPass: (name, params) =>
-    `${API_ROOT}/temppass/${name}${params ? makeQueryParams(params) : ''}`,
+  pass: ({ id, params }) =>
+    `${API_ROOT}/temppass/${id}${params ? '/?' + makeQueryParams(params) : ''}`,
   participants: () => `${API_ROOT}/participants`,
   events: ({ id }) => `${API_ROOT}/events/${id ? id : ''}`,
   latestEvent: () => `${API_ROOT}/events/current`,

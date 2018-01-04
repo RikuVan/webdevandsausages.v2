@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 import { Form, Field } from 'react-final-form'
 import { connect } from '../../preact-smitty'
 import { pathEq } from 'ramda'
+import transparentize from 'polished/lib/color/transparentize'
 
 import Button from '../../components/Button'
 import Notification from '../../components/Notification'
@@ -13,8 +14,9 @@ import { isEmail } from '../../helpers/validation'
 import { theme } from '../../style/theme'
 
 const Input = styled.input`
-  border: none;
-  background: ${theme.secondaryBlue};
+  border: 2px solid ${theme.secondaryBlue};
+  background: ${transparentize(0.8, theme.secondaryBlue)};
+  border-radius: 3px;
   color: white;
   width: 30%;
   font-size: ${toRem(20)};
@@ -41,8 +43,7 @@ const Input = styled.input`
   ${p =>
     p.valid &&
     css`
-      background-color: #4b4b4b;
-      color: #00caff;
+      background-color: ${theme.secondaryBlue};
     `};
 `
 
@@ -67,7 +68,7 @@ const TitleWrapper = styled.div`
 `
 
 const Title = styled.h2`
-  color: ${theme.mediumBlue};
+  color: #fff;
   font-weight: 400;
   font-size: 20px;
   margin: 0;

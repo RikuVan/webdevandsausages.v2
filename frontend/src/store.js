@@ -1,16 +1,23 @@
 import { createStore } from 'smitty'
-import { assocPath, dissocPath, path, not, compose } from 'ramda'
+import { assocPath, dissocPath, path, not, compose, merge, prop } from 'ramda'
 import actions from './actions'
 
 const initialState = {
   ui: {
-    theme: 'standard',
+    theme: 'reverse',
     showMobileNav: false,
     isScrolled: false,
     currentTab: 'register'
   },
   api: {},
-  notifications: {}
+  notifications: {},
+  auth: {
+    name: null,
+    user: null,
+    pass: '',
+    bySms: false,
+    admin: false
+  }
 }
 
 const store = createStore(initialState)
@@ -47,9 +54,11 @@ store.handleActions({
     assocPath(['ui', 'currentTab'], tab, state),
   [store.actions.changeTheme]: (state, theme) =>
     assocPath(['ui', 'theme'], theme, state),
+  [store.actions.setAuth]: (state, data) =>
+    assocPath(['auth'], merge(prop('auth', state), data), state),
   '*': (state, e, type) => {
     // for dev purposes
-    //log(type, e, state)
+    log(type, e, state)
     return state
   }
 })

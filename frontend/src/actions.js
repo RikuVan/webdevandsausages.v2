@@ -16,12 +16,13 @@ const actions = {
   changeTheme: 'ui/CHANGE_THEME',
   toggleMobileNav: 'ui/MOBILE_TOGGLE',
   setIsScrolled: 'ui/IS_SCROLLED',
+  changeTab: 'ui/CHANGE_TAB',
   apiStart: 'api/START',
   apiFinish: 'api/FINNISH',
   resetApi: 'api/RESET',
   notify: 'notifications/NOTIFY',
   closeNotification: 'notifications/CLOSE',
-  changeTab: 'tabs/CHANGE',
+  setAuth: 'auth/SET_AUTH',
   flashNotification: ({ key, message }) => store => {
     store.actions.notify({ key, message })
     setTimeout(() => {
@@ -33,16 +34,17 @@ const actions = {
       .chain(() => encase(JSON.stringify)(values))
       .chain(data =>
         fetchf(endpoints[resource]({ id }), {
+          credentials: 'include',
           headers,
           method: 'POST',
           body: data
         })
       )
-      .chain(({ status }) => {
-        if (status >= 300) {
-          return reject(status)
+      .chain(res => {
+        if (res.status >= 300) {
+          return reject(res.status)
         }
-        return of(status)
+        return tryP(() => res.json())
       })
       .fork(
         error => {
@@ -53,15 +55,23 @@ const actions = {
           store.actions.flashNotification({ key: `${key}Error` })
           return store.actions.apiFinish({ key, status: 500, error })
         },
-        status => {
+        data => {
           store.actions.flashNotification({ key: `${key}Success` })
-          store.actions.apiFinish({ key, status })
+          store.actions.apiFinish({ key, status: 201, data })
+          if (key === 'auth') {
+            store.actions.setAuth(data)
+          }
         }
       )
   },
   get: ({ key, resource, id, params, transform = v => v.data }) => store => {
-    of(store.actions.apiStart({ key }))
-      .chain(() => fetchf(endpoints[resource]({ id, params }), { headers }))
+    of(store.actions.apiStart({ key: key || resource }))
+      .chain(() =>
+        fetchf(endpoints[resource]({ id, params }), {
+          headers,
+          credentials: 'include'
+        })
+      )
       .chain(response => {
         if (response.status >= 204) {
           return reject({ status })
@@ -70,18 +80,29 @@ const actions = {
       })
       .map(transform)
       .fork(
-        error => store.actions.apiFinish({ key, status, error }),
-        data => store.actions.apiFinish({ key, status: 200, data })
+        error =>
+          store.actions.apiFinish({ key: key || resource, status, error }),
+        data => {
+          store.actions.apiFinish({ key: key || resource, status: 200, data })
+          if (key === 'auth') {
+            store.actions.setAuth({
+              user: data.name,
+              admin: data.admin,
+              loggedIn: true
+            })
+          }
+        }
       )
   },
   delete: ({ key, resource, id, values = {} }) => store => {
-    of(store.actions.apiStart({ key }))
+    of(store.actions.apiStart({ key: key || resource }))
       .chain(() => encase(JSON.stringify)(values))
       .chain(data =>
         fetchf(endpoints[resource]({ id }), {
           headers,
           method: 'DELETE',
-          body: data
+          body: data,
+          credentials: 'include'
         })
       )
       .chain(response => {
@@ -91,8 +112,14 @@ const actions = {
         return of(response.status)
       })
       .fork(
-        error => store.actions.apiFinish({ key, status, error }),
-        status => store.actions.apiFinish({ key, status })
+        error =>
+          store.actions.apiFinish({ key: key || resource, status, error }),
+        status => {
+          store.actions.apiFinish({ key: key || resource, status })
+          if (key === 'auth') {
+            store.actions.setAuth({ user: null, admin: null })
+          }
+        }
       )
   }
 }

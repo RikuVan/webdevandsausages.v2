@@ -1,11 +1,12 @@
 import { h } from 'preact'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import darken from 'polished/lib/color/darken'
+import lighten from 'polished/lib/color/lighten'
 
 import { toRem } from '../../helpers/styleHelpers'
 import { theme } from '../../style/theme'
 
-import SausageIcon from '../../components/SausageIcon'
+//import SausageIcon from '../../components/SausageIcon'
 
 const EventWrapper = styled.article`
   font-size: ${toRem(20)};
@@ -18,12 +19,15 @@ const EventWrapper = styled.article`
 const SponsorAnnouncement = styled.h3`
   font-size: 1.5em;
   font-family: museo_sans500_Italic, sans-serif;
-  color: #367db7;
+  ${({ theme }) =>
+    css`
+      color: ${lighten(0.8, theme.iconsColor)};
+    `};
 `
 
 const EventDetailLabel = styled.label`
-  font-weight: bold;
-  color: #111;
+  text-transform: uppercase;
+  color: #fff;
   margin: 0;
   padding: 0;
 `
@@ -32,27 +36,23 @@ const EventDetail = styled.p`
   margin: 0;
   padding-left: 1.5rem;
   line-height: 100%;
+  ${({ theme }) =>
+    css`
+      color: ${darken(0.1, theme.secondaryBlue)};
+    `};
 `
 
 const CurrentEvent = ({ event, eventDate }) => (
   <div>
     <SponsorAnnouncement>Sponsored by {event.sponsor}</SponsorAnnouncement>
     <EventWrapper>
-      <EventDetailLabel>
-        <SausageIcon /> Details
-      </EventDetailLabel>
+      <EventDetailLabel># Details</EventDetailLabel>
       <EventDetail>{event.details}</EventDetail>
-      <EventDetailLabel>
-        <SausageIcon /> When
-      </EventDetailLabel>
+      <EventDetailLabel># When</EventDetailLabel>
       <EventDetail>{eventDate}</EventDetail>
-      <EventDetailLabel>
-        <SausageIcon /> Where
-      </EventDetailLabel>
+      <EventDetailLabel># Where</EventDetailLabel>
       <EventDetail>{event.location}</EventDetail>
-      <EventDetailLabel>
-        <SausageIcon /> Contact
-      </EventDetailLabel>
+      <EventDetailLabel># Contact</EventDetailLabel>
       <EventDetail>{event.contact}</EventDetail>
     </EventWrapper>
   </div>
