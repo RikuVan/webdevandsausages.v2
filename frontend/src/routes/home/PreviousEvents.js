@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import styled from 'styled-components'
 import YouTube from 'react-youtube'
+import darken from 'polished/lib/color/darken'
 
 import events from '../../../../events.json'
 import { theme } from '../../style/theme'
@@ -18,18 +19,41 @@ const EventTitle = styled.h1`
   font-weight: 700;
 `
 
-const EventPanelTitle = styled.h4`
+const EventPanelTitle = styled.div`
   margin: 0;
   padding: 0;
-  color: ${theme.subduedTexTColor};
-  line-height: 100%;
+  color: ${darken(0.1, theme.primaryOrange)};
+  line-height: 120%;
 `
 
-const MeetupDetails = styled.div`
-  margin: 10px 10px;
+const MeetupDetails = styled.small`
   padding: 0;
   line-height: 100%;
   color: ${theme.subduedTexTColor};
+`
+
+const Panel = styled(Cell)`
+  text-align: left;
+  padding-left: 10px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  & > span > iframe {
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.20);
+  };
+  line-height: 110%;
+`
+
+const StyledLink = styled.a`
+  padding-bottom: 1px;
+  text-decoration: none;
+  &:hover {
+    background: lightgrey;
+  }
+`
+
+const VideoInfo = styled.div`
+  width: 320px;
+  padding: 2px;
 `
 
 const YOUTUBE_OPTS = { height: '180', width: '320' }
@@ -38,18 +62,19 @@ const EventPanel = ({ youtubeId, title, titleLink, details, startsFrom }) => {
   const speakersAndMeetup = details.split('-')
   const start = startsFrom ? `#t=${startsFrom}` : ''
   return (
-    <Cell>
+    <Panel>
+      {youtubeId && <YouTube videoId={youtubeId} opts={YOUTUBE_OPTS} />}
+      <VideoInfo>
       {title && !titleLink && <EventPanelTitle>{title}</EventPanelTitle>}
       {title &&
-        titleLink && (
-          <a href={`${titleLink}${start}`}>
-            <EventPanelTitle>{title}</EventPanelTitle>
-          </a>
-        )}
-      <MeetupDetails>{speakersAndMeetup[0]}</MeetupDetails>
+      titleLink && (
+        <StyledLink href={`${titleLink}${start}`}>
+          <EventPanelTitle>{title}</EventPanelTitle>
+        </StyledLink>
+      )}
       <MeetupDetails>{speakersAndMeetup[1]}</MeetupDetails>
-      {youtubeId && <YouTube videoId={youtubeId} opts={YOUTUBE_OPTS} />}
-    </Cell>
+      </VideoInfo>
+    </Panel>
   )
 }
 
