@@ -61,7 +61,10 @@ const EventPanel = ({ youtubeId, title, titleLink, details, startsFrom }) => {
       <a
         href={`https://youtu.be/${youtubeId}?list=PLzTZiC7Lgr5PXKGvz8Y9xPTrLRYI5dVhx`}
       >
-        <img src={`https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`} />
+        <img
+          src={`https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`}
+          alt="Youtube video"
+        />
       </a>{' '}
       {title && !titleLink && <EventPanelTitle>{title}</EventPanelTitle>}
       {title &&

@@ -76,30 +76,19 @@ class Registration extends Component {
   }
 
   handleTabChange = tab => e => {
-    e.preventDefault()
     this.setTab(tab)
-    store.actions.changeTab(tab)
   }
 
+  getTab = () => compose(maybeTab, pathOr(null, ['matches', 'tab']))(this.props)
+
   componentDidMount() {
-    const tabQuery = compose(maybeTab, pathOr(null, ['matches', 'tab']))(
-      this.props
-    )
-    if (tabQuery && tabQuery !== tabs.REGISTRATION) {
-      store.actions.changeTab(tabQuery)
-    } else {
+    if (!this.getTab()) {
       this.setTab(tabs.REGISTRATION)
     }
   }
 
-  render({
-    isExpandedMobileNav,
-    hideIcon,
-    event,
-    loadingEvent,
-    isEventOpen,
-    currentTab
-  }) {
+  render({ isExpandedMobileNav, hideIcon, event, loadingEvent, isEventOpen }) {
+    const tab = this.getTab()
     return (
       <PageWrapper>
         <TopSection isExpandedMobileNav={isExpandedMobileNav}>
@@ -114,25 +103,26 @@ class Registration extends Component {
           <TabsContainer>
             <Tabs>
               <Tab
-                active={currentTab === tabs.REGISTRATION}
+                id={tabs.REGISTRATION}
+                active={tab === tabs.REGISTRATION}
                 onClick={this.handleTabChange(tabs.REGISTRATION)}
               >
                 Registration
               </Tab>
               <Tab
-                active={currentTab === tabs.CANCELLATION}
+                active={tab === tabs.CANCELLATION}
                 onClick={this.handleTabChange(tabs.CANCELLATION)}
               >
                 Cancellation
               </Tab>
               <Tab
-                active={currentTab === tabs.VERIFICATION}
+                active={tab === tabs.VERIFICATION}
                 onClick={this.handleTabChange(tabs.VERIFICATION)}
               >
                 Verification
               </Tab>
             </Tabs>
-            <Panel active={currentTab === tabs.REGISTRATION}>
+            <Panel active={tab === tabs.REGISTRATION}>
               <RegistrationForm
                 eventDate={
                   event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
@@ -140,7 +130,7 @@ class Registration extends Component {
                 eventId={event.id}
               />
             </Panel>
-            <Panel active={currentTab === tabs.CANCELLATION}>
+            <Panel active={tab === tabs.CANCELLATION}>
               <CancellationForm
                 eventDate={
                   event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
@@ -148,7 +138,7 @@ class Registration extends Component {
                 eventId={event.id}
               />
             </Panel>
-            <Panel active={currentTab === tabs.VERIFICATION}>
+            <Panel active={tab === tabs.VERIFICATION}>
               <VerificationForm
                 eventDate={
                   event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
@@ -165,6 +155,5 @@ class Registration extends Component {
 }
 
 export default connect(state => ({
-  currentTab: pathOr('registration', ['ui', 'currentTab'], state),
   isExpandedMobileNav: pathOr(false, ['ui', 'showMobileNav'], state)
 }))(Registration)

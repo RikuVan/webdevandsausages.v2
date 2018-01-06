@@ -6,8 +6,7 @@ const initialState = {
   ui: {
     theme: 'reverse',
     showMobileNav: false,
-    isScrolled: false,
-    currentTab: 'register'
+    isScrolled: false
   },
   api: {},
   notifications: {},
@@ -50,15 +49,13 @@ store.handleActions({
     assocPath(['notifications', key], true, state),
   [store.actions.closeNotification]: (state, { key }) =>
     dissocPath(['notifications', key], state),
-  [store.actions.changeTab]: (state, tab) =>
-    assocPath(['ui', 'currentTab'], tab, state),
   [store.actions.changeTheme]: (state, theme) =>
     assocPath(['ui', 'theme'], theme, state),
   [store.actions.setAuth]: (state, data) =>
     assocPath(['auth'], merge(prop('auth', state), data), state),
   '*': (state, e, type) => {
     // for dev purposes
-    log(type, e, state)
+    // log(type, e, state)
     return state
   }
 })

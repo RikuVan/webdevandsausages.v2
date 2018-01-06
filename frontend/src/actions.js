@@ -16,7 +16,6 @@ const actions = {
   changeTheme: 'ui/CHANGE_THEME',
   toggleMobileNav: 'ui/MOBILE_TOGGLE',
   setIsScrolled: 'ui/IS_SCROLLED',
-  changeTab: 'ui/CHANGE_TAB',
   apiStart: 'api/START',
   apiFinish: 'api/FINNISH',
   resetApi: 'api/RESET',
