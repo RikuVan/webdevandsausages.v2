@@ -2,7 +2,7 @@ import { h, Component } from 'preact'
 import styled from 'styled-components'
 import { Form } from 'react-final-form'
 import { connect } from '../../preact-smitty'
-import { pathOr, pathEq, compose, has, propOr, isNil, complement } from 'ramda'
+import R from '../../helpers'
 
 import Button from '../../components/Button'
 import LabeledField from '../../components/forms/LabeledField'
@@ -141,20 +141,22 @@ class CancellationForm extends Component {
 const verificationPath = ['api', 'verification']
 const verificationStatusPath = verificationPath.concat(['status'])
 const verificationDataPath = verificationPath.concat(['data'])
-const getWaitListPosition = compose(
-  propOr(false, 'waitListed'),
-  pathOr({}, verificationDataPath)
+const getWaitListPosition = R.compose(
+  R.propOr(false, 'waitListed'),
+  R.pathOr({}, verificationDataPath)
 )
-const maybeHasData = compose(
-  complement(isNil),
-  pathOr(null, verificationDataPath)
+const maybeHasData = R.compose(
+  R.complement(R.isNil),
+  R.pathOr(null, verificationDataPath)
 )
 
 const mapStateToProps = state => {
-  const hasStatus = compose(has('status'), pathOr({}, verificationPath))(state)
-  const loading = pathEq(verificationStatusPath, 'started', state)
+  const hasStatus = R.compose(R.has('status'), R.pathOr({}, verificationPath))(
+    state
+  )
+  const loading = R.pathEq(verificationStatusPath, 'started', state)
   const hasData = maybeHasData(state)
-  const showSuccessMsg = pathEq(verificationStatusPath, 200, state) && hasData
+  const showSuccessMsg = R.pathEq(verificationStatusPath, 200, state) && hasData
   const waitListPosition = getWaitListPosition(state)
   const showErrorMsg = hasStatus && !loading && !showSuccessMsg
 

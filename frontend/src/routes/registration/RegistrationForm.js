@@ -2,7 +2,7 @@ import { h, Component } from 'preact'
 import styled, { css } from 'styled-components'
 import { Form, Field } from 'react-final-form'
 import { connect } from '../../preact-smitty'
-import { pathOr, pathEq, compose, has } from 'ramda'
+import R from '../../helpers'
 import darken from 'polished/lib/color/darken'
 import transparentize from 'polished/lib/color/transparentize'
 
@@ -227,10 +227,12 @@ const registrationPath = ['api', 'registration']
 const registrationStatusPath = registrationPath.concat(['status'])
 
 const mapStateToProps = state => {
-  const hasStatus = compose(has('status'), pathOr({}, registrationPath))(state)
-  const loading = pathEq(registrationStatusPath, 'started', state)
-  const showSuccessMsg = pathEq(registrationStatusPath, 201, state)
-  const showAlreadyRegisteredMsg = pathEq(registrationStatusPath, 400, state)
+  const hasStatus = R.compose(R.has('status'), R.pathOr({}, registrationPath))(
+    state
+  )
+  const loading = R.pathEq(registrationStatusPath, 'started', state)
+  const showSuccessMsg = R.pathEq(registrationStatusPath, 201, state)
+  const showAlreadyRegisteredMsg = R.pathEq(registrationStatusPath, 400, state)
   const showErrorMsg =
     hasStatus && !loading && !showSuccessMsg && !showAlreadyRegisteredMsg
 

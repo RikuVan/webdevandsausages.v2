@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 import darken from 'polished/lib/color/darken'
 
 import { connect } from '../../preact-smitty'
-import { pathOr, pathEq } from 'ramda'
+import R from '../../helpers'
 import { toRem, tablet, phone } from '../../helpers/styleHelpers'
 import NavLinks, { NavSeparator } from './NavLinks'
 import SocialLinks from './SocialLinks'
@@ -167,8 +167,8 @@ class MobileNavbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  showMobileNav: pathOr(false, ['ui', 'showMobileNav'], state),
-  reverseTheme: pathEq(['ui', 'theme'], 'reverse', state)
+  showMobileNav: R.pathOr(false, ['ui', 'showMobileNav'], state),
+  reverseTheme: R.pathEq(['ui', 'theme'], 'reverse', state)
 })
 
 export default connect(mapStateToProps)(MobileNavbar)

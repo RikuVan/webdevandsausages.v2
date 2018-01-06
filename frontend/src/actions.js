@@ -1,5 +1,5 @@
 import { of, encaseP2, tryP, reject, encase } from 'fluture'
-import { is } from 'ramda'
+import R from './helpers'
 
 import { endpoints } from './api'
 
@@ -47,7 +47,7 @@ const actions = {
       })
       .fork(
         error => {
-          if (is(Number, error)) {
+          if (R.is(Number, error)) {
             store.actions.flashNotification({ key: `${key}Error` })
             return store.actions.apiFinish({ key, status: error })
           }

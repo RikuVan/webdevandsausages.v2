@@ -1,7 +1,7 @@
 import { h, Component } from 'preact'
 import styled from 'styled-components'
 import { connect } from '../../preact-smitty'
-import { propOr, pathOr, pathEq, compose, isNil, not } from 'ramda'
+import R from '../../helpers'
 
 import { Grid, Cell } from '../../components/layout'
 import storage from '../../helpers/storage'
@@ -127,11 +127,11 @@ class Admin extends Component {
 }
 
 const mapStateToProps = state => ({
-  ...propOr({}, 'auth', state),
-  loading: pathEq(['auth', 'status'], 'started', state),
-  hasPass: pathEq(['pass', 'status'], 200, state),
-  passSending: pathEq(['pass', 'status'], 'started', state),
-  loggedIn: compose(not, isNil, pathOr(null, ['auth', 'user']))(state)
+  ...R.propOr({}, 'auth', state),
+  loading: R.pathEq(['auth', 'status'], 'started', state),
+  hasPass: R.pathEq(['pass', 'status'], 200, state),
+  passSending: R.pathEq(['pass', 'status'], 'started', state),
+  loggedIn: R.compose(R.not, R.isNil, R.pathOr(null, ['auth', 'user']))(state)
 })
 
 export default connect(mapStateToProps)(Admin)

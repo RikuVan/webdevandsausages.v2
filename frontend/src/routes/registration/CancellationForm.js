@@ -2,7 +2,7 @@ import { h, Component } from 'preact'
 import styled from 'styled-components'
 import { Form } from 'react-final-form'
 import { connect } from '../../preact-smitty'
-import { pathOr, pathEq, compose, has } from 'ramda'
+import R from '../../helpers'
 
 import Button from '../../components/Button'
 import LabeledField from '../../components/forms/LabeledField'
@@ -127,9 +127,11 @@ const cancellationPath = ['api', 'cancellation']
 const cancellationStatusPath = cancellationPath.concat(['status'])
 
 const mapStateToProps = state => {
-  const hasStatus = compose(has('status'), pathOr({}, cancellationPath))(state)
-  const loading = pathEq(cancellationStatusPath, 'started', state)
-  const showSuccessMsg = pathEq(cancellationStatusPath, 202, state)
+  const hasStatus = R.compose(R.has('status'), R.pathOr({}, cancellationPath))(
+    state
+  )
+  const loading = R.pathEq(cancellationStatusPath, 'started', state)
+  const showSuccessMsg = R.pathEq(cancellationStatusPath, 202, state)
   const showErrorMsg = hasStatus && !loading && !showSuccessMsg
 
   return {

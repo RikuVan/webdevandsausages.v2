@@ -1,6 +1,6 @@
 import { h, Component } from 'preact'
 import { connect } from '../../preact-smitty'
-import { pathOr, pathEq } from 'ramda'
+import R from '../../helpers'
 
 import PageWrapper from '../../components/PageWrapper'
 
@@ -25,8 +25,8 @@ class AdminPanel extends Component {
 }
 
 const mapStateToProps = state => ({
-  loading: pathEq(false, ['allParticipants', 'status'], 'started', state),
-  participants: pathOr({}, ['allParticipants', 'data'], state)
+  loading: R.pathEq(false, ['allParticipants', 'status'], 'started', state),
+  participants: R.pathOr({}, ['allParticipants', 'data'], state)
 })
 
 export default connect(mapStateToProps)(AdminPanel)

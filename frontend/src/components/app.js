@@ -2,7 +2,7 @@ import { h, Component } from 'preact'
 import { Router } from 'preact-router'
 import styled, { ThemeProvider } from 'styled-components'
 import { connect } from '../preact-smitty'
-import { pathOr, pathEq } from 'ramda'
+import R from '../helpers'
 import isWithinRange from 'date-fns/is_within_range'
 
 import Nav from './nav'
@@ -94,14 +94,14 @@ const isRegistrationOpen = event => {
 }
 
 const mapStateToProps = state => {
-  const latestEvent = pathOr({}, ['api', 'latestEvent', 'data'], state)
-  const loadingEvent = pathEq(
+  const latestEvent = R.pathOr({}, ['api', 'latestEvent', 'data'], state)
+  const loadingEvent = R.pathEq(
     ['api', 'latestEvent', 'status'],
     'started',
     state
   )
   const isEventOpen = isRegistrationOpen(latestEvent)
-  const reverseTheme = pathEq(['ui', 'theme'], 'reverse', state)
+  const reverseTheme = R.pathEq(['ui', 'theme'], 'reverse', state)
   return { latestEvent, loadingEvent, isEventOpen, reverseTheme }
 }
 

@@ -2,7 +2,7 @@ import { h, Component } from 'preact'
 import styled, { css } from 'styled-components'
 import { Form, Field } from 'react-final-form'
 import { connect } from '../../preact-smitty'
-import { pathEq } from 'ramda'
+import R from '../../helpers/'
 import transparentize from 'polished/lib/color/transparentize'
 
 import Button from '../../components/Button'
@@ -143,5 +143,5 @@ class MailingListForm extends Component {
 }
 
 export default connect(state => ({
-  loading: pathEq(['api', 'mailingList', 'status'], 'started', state)
+  loading: R.pathEq(['api', 'mailingList', 'status'], 'started', state)
 }))(MailingListForm)

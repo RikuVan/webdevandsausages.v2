@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { connect } from '../../preact-smitty'
-import { pathOr, pathEq } from 'ramda'
+import R from '../../helpers'
 
 import { toRem, tablet, phone } from '../../helpers/styleHelpers'
 import MailingListForm from './MailingListForm'
@@ -137,6 +137,6 @@ const Home = ({
 )
 
 export default connect(state => ({
-  isExpandedMobileNav: pathOr(false, ['ui', 'showMobileNav'], state),
-  hideIcon: pathEq(['ui', 'isScrolled'], true, state)
+  isExpandedMobileNav: R.pathOr(false, ['ui', 'showMobileNav'], state),
+  hideIcon: R.pathEq(['ui', 'isScrolled'], true, state)
 }))(Home)

@@ -1,4 +1,4 @@
-import { is } from 'ramda'
+import R from './helpers'
 
 const API_ROOT = 'https://us-central1-wds-event-tool.cloudfunctions.net/api'
 
@@ -10,7 +10,7 @@ const makeQueryParams = params =>
     .filter(k => params[k])
     .map(
       k =>
-        is(Array, params[k])
+        R.is(Array, params[k])
           ? params[k].reduce(
               (acc, val, index) =>
                 index === params[k].length - 1

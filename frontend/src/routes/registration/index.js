@@ -1,7 +1,7 @@
 import { h, Component } from 'preact'
 import { route } from 'preact-router'
 import styled, { css } from 'styled-components'
-import { pathOr, contains, compose, values } from 'ramda'
+import R from '../../helpers'
 import { connect } from '../../preact-smitty'
 import format from 'date-fns/format'
 
@@ -68,7 +68,7 @@ const tabs = {
   VERIFICATION: 'verify'
 }
 
-const maybeTab = tab => (contains(tab, values(tabs)) ? tab : null)
+const maybeTab = tab => (R.contains(tab, R.values(tabs)) ? tab : null)
 
 class Registration extends Component {
   setTab = tab => {
@@ -79,7 +79,8 @@ class Registration extends Component {
     this.setTab(tab)
   }
 
-  getTab = () => compose(maybeTab, pathOr(null, ['matches', 'tab']))(this.props)
+  getTab = () =>
+    R.compose(maybeTab, R.pathOr(null, ['matches', 'tab']))(this.props)
 
   componentDidMount() {
     if (!this.getTab()) {
@@ -155,5 +156,5 @@ class Registration extends Component {
 }
 
 export default connect(state => ({
-  isExpandedMobileNav: pathOr(false, ['ui', 'showMobileNav'], state)
+  isExpandedMobileNav: R.pathOr(false, ['ui', 'showMobileNav'], state)
 }))(Registration)

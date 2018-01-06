@@ -9,7 +9,7 @@ import { toRem, tablet } from '../../helpers/styleHelpers'
 import NavLinks from './NavLinks'
 import SocialLinks from './SocialLinks'
 import Logo from './Logo'
-import { pathEq } from 'ramda'
+import R from '../../helpers'
 
 const Wrapper = styled.nav`
   position: fixed;
@@ -95,6 +95,6 @@ const Navbar = ({ transparent, reverseTheme }) => (
 )
 
 export default connect(state => ({
-  transparent: pathEq(['ui', 'isScrolled'], false, state),
-  reverseTheme: pathEq(['ui', 'theme'], 'reverse', state)
+  transparent: R.pathEq(['ui', 'isScrolled'], false, state),
+  reverseTheme: R.pathEq(['ui', 'theme'], 'reverse', state)
 }))(Navbar)

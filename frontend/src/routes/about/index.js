@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { connect } from '../../preact-smitty'
-import { pathOr } from 'ramda'
+import R from '../../helpers'
 import lighten from 'polished/lib/color/lighten'
 
 import speakers from '../../../../speakers.json'
@@ -165,5 +165,5 @@ const About = ({ isExpandedMobileNav }) => (
 )
 
 export default connect(state => ({
-  isExpandedMobileNav: pathOr(false, ['ui', 'showMobileNav'], state)
+  isExpandedMobileNav: R.pathOr(false, ['ui', 'showMobileNav'], state)
 }))(About)

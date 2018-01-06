@@ -1,7 +1,7 @@
 import { h, Component } from 'preact'
 import store from '../store'
 import { connect } from '../preact-smitty'
-import { path } from 'ramda'
+import R from '../helpers'
 
 class ScrollWatcher extends Component {
   onScroll = () => {
@@ -32,5 +32,5 @@ class ScrollWatcher extends Component {
 }
 
 export default connect(state => ({
-  isScrolled: path(['ui', 'isScrolled'], state)
+  isScrolled: R.path(['ui', 'isScrolled'], state)
 }))(ScrollWatcher)

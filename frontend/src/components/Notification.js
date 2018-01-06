@@ -2,7 +2,7 @@ import { h } from 'preact'
 import styled, { keyframes, css } from 'styled-components'
 import darken from 'polished/lib/color/darken'
 import { connect } from '../preact-smitty'
-import { pathOr } from 'ramda'
+import R from '../helpers'
 import Svg from './Svg'
 
 const scaleIn = keyframes`
@@ -174,7 +174,7 @@ const Notification = ({
 }
 
 const mapStateToProps = (state, { id }) => ({
-  visible: pathOr(false, ['notifications', id], state)
+  visible: R.pathOr(false, ['notifications', id], state)
 })
 
 export default connect(mapStateToProps)(Notification)
