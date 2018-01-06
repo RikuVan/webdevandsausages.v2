@@ -1,4 +1,6 @@
-# New Web Dev & Sausages Hompages and Registration Tool
+# Web Dev & Sausages HompageWebsite and Registration Tool
+
+## [Development version](https://wds-event-tool.firebaseapp.com/)
 
 ## Frontend
 
@@ -6,7 +8,7 @@ The frontend was created with the [Preact-cli](https://github.com/developit/prea
 
 ### To get started
 
-You must add a secrets.json file at the root of the project that includes the Firebase client config.
+Add a secrets.json file at the root of the project that includes the Firebase client config.
 
 ```json
 {
@@ -60,4 +62,22 @@ To deploy to Firebase, you must have a project with a Firestore database enabled
     "key": "<API_KEY>"
   }
 }
+```
+
+## To deploy
+
+You must have the Firebase CLI installed.
+
+### Backend
+
+```bash
+firebase deploy --only functions
+```
+
+### Frontend
+
+```bash
+cd frontend
+yarn run build
+direbase deploy --only hosting
 ```
