@@ -2,11 +2,11 @@ import { h, Component } from 'preact'
 import { route } from 'preact-router'
 import styled, { css, keyframes } from 'styled-components'
 import darken from 'polished/lib/color/darken'
-import lighten from 'polished/lib/color/lighten'
 
 import { toRem, phone, tablet } from '../../helpers/styleHelpers'
 import { theme } from '../../style/theme'
 
+/*
 const SponsorWrapper = styled.article`
   display: flex;
   flex-flow: row wrap;
@@ -14,7 +14,6 @@ const SponsorWrapper = styled.article`
   padding: 0 1rem;
   margin-bottom: 2rem;
 `
-
 const SponsorLogo = styled.img`
   position: relative;
   height: ${p => p.height || '4rem'};
@@ -27,6 +26,7 @@ const SponsorLogo = styled.img`
     opacity: 1;
   }
 `
+*/
 
 const EventWrapper = styled.article`
   font-size: ${toRem(20)};

@@ -2,7 +2,6 @@ import { h, Component } from 'preact'
 import { connect } from '../../preact-smitty'
 import { pathOr, pathEq } from 'ramda'
 
-import { endpoints } from '../../api'
 import PageWrapper from '../../components/PageWrapper'
 
 import store from '../../store'

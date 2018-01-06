@@ -3,12 +3,12 @@ import styled from 'styled-components'
 import { connect } from '../../preact-smitty'
 import { propOr, pathOr, pathEq, compose, isNil, not } from 'ramda'
 
-import { endpoints } from '../../api'
 import { Grid, Cell } from '../../components/layout'
 import storage from '../../helpers/storage'
 import Button from '../../components/Button'
 import PageWrapper from '../../components/PageWrapper'
 import Spinner from '../../components/Spinner'
+
 import AdminPanel from './AdminPanel'
 
 import store from '../../store'

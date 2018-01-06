@@ -1,6 +1,5 @@
 import { h } from 'preact'
 import styled, { css, keyframes } from 'styled-components'
-import transparentize from 'polished/lib/color/transparentize'
 
 import { tablet, phone } from '../../helpers/styleHelpers'
 

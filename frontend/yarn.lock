@@ -4138,10 +4138,6 @@ load-json-file@^2.0.0:
     pify "^2.0.0"
     strip-bom "^3.0.0"
 
-load-script@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/load-script/-/load-script-1.0.0.tgz#0491939e0bee5643ee494a7e3da3d2bac70c6ca4"
-
 loader-runner@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/loader-runner/-/loader-runner-2.3.0.tgz#f482aea82d543e07921700d5a46ef26fdac6b8a2"
@@ -5557,7 +5553,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.3, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0:
+prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -5711,14 +5707,6 @@ rc@^1.0.1, rc@^1.1.2, rc@^1.1.6, rc@^1.1.7:
 react-final-form@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-2.1.1.tgz#44b79005ffc6e7abfba36c1c04a2bb3b93424223"
-
-react-youtube@^7.5.0:
-  version "7.5.0"
-  resolved "https://registry.yarnpkg.com/react-youtube/-/react-youtube-7.5.0.tgz#3175a9c4e078164cf103ce4bc780a9e4ca4f1f94"
-  dependencies:
-    lodash "^4.17.4"
-    prop-types "^15.5.3"
-    youtube-player "^5.4.0"
 
 read-all-stream@^3.0.0:
   version "3.1.0"
@@ -6220,10 +6208,6 @@ simplehttp2server@^2.0.0:
     bin-build "^2.2.0"
     bin-wrapper "^3.0.2"
     logalot "^2.1.0"
-
-sister@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/sister/-/sister-3.0.0.tgz#88eb57047cb283da1e070b1a7cae8212f3bcb2db"
 
 slash@^1.0.0:
   version "1.0.0"
@@ -7410,11 +7394,3 @@ yauzl@^2.2.1:
   dependencies:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.0.1"
-
-youtube-player@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/youtube-player/-/youtube-player-5.4.0.tgz#9e3fc8a1fcae6a6cc89140e7add7c7cd86299d6e"
-  dependencies:
-    debug "^2.6.6"
-    load-script "^1.0.0"
-    sister "^3.0.0"

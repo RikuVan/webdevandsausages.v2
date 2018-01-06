@@ -2,7 +2,6 @@ import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { connect } from '../../preact-smitty'
 import { pathOr, pathEq } from 'ramda'
-import transparentize from 'polished/lib/color/transparentize'
 
 import { toRem, tablet, phone } from '../../helpers/styleHelpers'
 import MailingListForm from './MailingListForm'
@@ -38,7 +37,10 @@ const TopSection = styled.div`
 
 const Title = styled.h2`
   font-size: 2.5rem;
-  color: #f7b733;
+  ${({ theme }) =>
+    css`
+      color: ${theme.primaryOrange};
+    `};
   font-weight: 700;
 `
 

@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components'
 import opacify from 'polished/lib/color/opacify'
 import transparentize from 'polished/lib/color/transparentize'
 import lighten from 'polished/lib/color/lighten'
-import format from 'date-fns/format'
 
 import { theme } from '../style/theme'
 import { toRem, tablet, phone } from '../helpers/styleHelpers'

@@ -3,9 +3,6 @@ import { route } from 'preact-router'
 import styled, { css } from 'styled-components'
 import { pathOr, contains, compose, values } from 'ramda'
 import { connect } from '../../preact-smitty'
-import opacify from 'polished/lib/color/opacify'
-import transparentize from 'polished/lib/color/transparentize'
-import lighten from 'polished/lib/color/lighten'
 import format from 'date-fns/format'
 
 import { theme } from '../../style/theme'
@@ -17,34 +14,27 @@ import Footer from '../../components/Footer'
 import Separator from '../../components/Separator'
 import { Tabs, Tab } from '../../components/Tabs'
 import Panel from '../../components/Panel'
+import PageTitle from '../../components/PageTitle'
 
 import RegistrationForm from './RegistrationForm'
 import CancellationForm from './CancellationForm'
 import VerificationForm from './VerificationForm'
 
 const TopSection = styled.div`
-  padding: ${toRem(theme.navHeight)} 0 50vh;
+  padding: ${toRem(theme.navHeight)} 0 30vh;
   background: linear-gradient(15deg, ${theme.primaryOrange}, ${'#52bdf6'});
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
   width: 100%;
-`
-
-const PageTitle = styled.h1`
-  margin-top: 100px;
-  font-size: 2rem;
-  text-transform: uppercase;
-  color: #fff;
-  z-index: 1;
-  ${tablet(
-    css`
-      font-size: 1.8rem;
-    `
-  )};
-  ${phone(
-    css`
-      font-size: 1.2rem;
-    `
-  )};
+  ${({ isExpandedMobileNav, theme }) =>
+    isExpandedMobileNav &&
+    tablet(css`
+      padding-top: ${toRem(theme.navHeight * 1.8)};
+    `)};
+  ${({ isExpandedMobileNav, theme }) =>
+    isExpandedMobileNav &&
+    phone(css`
+      padding-top: ${toRem(theme.navHeight * 2.5)};
+    `)};
 `
 
 const Event = styled.h3`
@@ -72,12 +62,6 @@ const TabsContainer = styled.section`
   box-shadow: inset 0 2px 20px rgba(0, 0, 0, 0.17);
 `
 
-const FormSection = styled.section`
-  background: #fff;
-  width: 100%;
-  padding: 2rem 0 0;
-`
-
 const tabs = {
   REGISTRATION: 'register',
   CANCELLATION: 'cancel',
@@ -87,6 +71,16 @@ const tabs = {
 const maybeTab = tab => (contains(tab, values(tabs)) ? tab : null)
 
 class Registration extends Component {
+  setTab = tab => {
+    route(`/registration?tab=${encodeURIComponent(tab)}`)
+  }
+
+  handleTabChange = tab => e => {
+    e.preventDefault()
+    this.setTab(tab)
+    store.actions.changeTab(tab)
+  }
+
   componentDidMount() {
     const tabQuery = compose(maybeTab, pathOr(null, ['matches', 'tab']))(
       this.props
@@ -96,16 +90,6 @@ class Registration extends Component {
     } else {
       this.setTab(tabs.REGISTRATION)
     }
-  }
-
-  setTab = tab => {
-    route(`/registration?tab=${encodeURIComponent(tab)}`)
-  }
-
-  handleTabChange = tab => e => {
-    e.preventDefault()
-    this.setTab(tab)
-    store.actions.changeTab(tab)
   }
 
   render({
@@ -118,7 +102,7 @@ class Registration extends Component {
   }) {
     return (
       <PageWrapper>
-        <TopSection>
+        <TopSection isExpandedMobileNav={isExpandedMobileNav}>
           <PageTitle>Registration</PageTitle>
           <Separator />
           <Event>
@@ -181,5 +165,6 @@ class Registration extends Component {
 }
 
 export default connect(state => ({
-  currentTab: pathOr('registration', ['ui', 'currentTab'], state)
+  currentTab: pathOr('registration', ['ui', 'currentTab'], state),
+  isExpandedMobileNav: pathOr(false, ['ui', 'showMobileNav'], state)
 }))(Registration)
