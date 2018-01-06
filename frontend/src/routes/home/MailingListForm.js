@@ -113,7 +113,7 @@ class MailingListForm extends Component {
                         type="submit"
                         loading={loading}
                         primary
-                        disabled={!valid}
+                        disabled={!meta.valid}
                         valid={meta.valid}
                         whiteSpinner
                       >

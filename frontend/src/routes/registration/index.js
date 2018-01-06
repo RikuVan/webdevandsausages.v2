@@ -7,7 +7,6 @@ import format from 'date-fns/format'
 
 import { theme } from '../../style/theme'
 import { toRem, tablet, phone } from '../../helpers/styleHelpers'
-import store from '../../store'
 
 import PageWrapper from '../../components/PageWrapper'
 import Footer from '../../components/Footer'

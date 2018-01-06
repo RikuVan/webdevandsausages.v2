@@ -26,7 +26,7 @@ store.createActions(actions)
 const togglePath = (slicePath, state) =>
   R.assocPath(slicePath, R.compose(R.not, R.path(slicePath))(state))(state)
 
-/* eslint no-console: 0, no-unused-vars: 0 */
+/* eslint no-console: 0, no-unused-vars: 0, arrow-body-style: 0 */
 const log = (type, e, state) => {
   console.group('%c action type', 'color: gray; font-weight: lighter;', type)
   console.log('%c data', 'color: #9E9E9E; font-weight: bold;', e)

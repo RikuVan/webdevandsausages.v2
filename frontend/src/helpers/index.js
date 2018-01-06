@@ -30,7 +30,6 @@ export default {
   has,
   merge,
   complement,
-  has,
   isEmpty,
   assocPath,
   dissocPath,

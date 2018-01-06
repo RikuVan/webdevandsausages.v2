@@ -8,14 +8,19 @@ import storage from '../../helpers/storage'
 import Button from '../../components/Button'
 import PageWrapper from '../../components/PageWrapper'
 import Spinner from '../../components/Spinner'
+import Notification from '../../components/Notification'
+import { Input, FieldWrapper } from '../../components/forms/LabeledField'
 
 import AdminPanel from './AdminPanel'
 
 import store from '../../store'
 
-const TextInput = styled.input`
-  padding: 5px;
-  width: 80%;
+const Field = styled(FieldWrapper)`
+  padding-bottom: 10px;
+`
+
+const Label = styled.label`
+  font-weight: bold;
 `
 
 const Checkbox = styled.input`
@@ -23,7 +28,7 @@ const Checkbox = styled.input`
 `
 
 const LoginWrapper = styled.div`
-  padding-top: 50px;
+  padding-top: 200px;
   color: black;
 `
 
@@ -51,7 +56,7 @@ class Admin extends Component {
     }
   }
 
-  sendTokenRequestWithPass = () => {
+  loginWithPass = () => {
     const { pass, name } = this.props
     if (pass && name) {
       store.actions.post({
@@ -81,14 +86,15 @@ class Admin extends Component {
               <Cell>
                 <section>
                   <div>
-                    <p>
-                      Name:{' '}
-                      <TextInput
+                    <Field>
+                      <Label>Username:</Label>
+                      <Input
                         value={name}
                         onInput={this.setInputValue('name')}
                       />
-                    </p>
+                    </Field>
                     <Button
+                      primary
                       onClick={this.sendPassRequest}
                       loading={passSending}
                       disabled={hasPass}
@@ -97,26 +103,33 @@ class Admin extends Component {
                     </Button>
                   </div>
                   <div>
-                    <label>
+                    <Label>
                       <Checkbox type="checkbox" value={bySms} />
                       Receive by SMS instead
-                    </label>
+                    </Label>
                   </div>
                 </section>
               </Cell>
               <Cell>
-                <p>
-                  Pass:{' '}
-                  <TextInput
-                    value={pass}
-                    onInput={this.setInputValue('pass')}
-                  />
-                </p>
-                <Button onClick={this.sendTokenRequestWithPass}>
+                <Field>
+                  <Label>Password:</Label>
+                  <Input value={pass} onInput={this.setInputValue('pass')} />
+                </Field>
+                <Button primary onClick={this.loginWithPass}>
                   Login with temporary password
                 </Button>
               </Cell>
             </Grid>
+            <Notification
+              type="success"
+              id="passSuccess"
+              defaultMessage="A password has been dispatched to your email or phone"
+            />
+            <Notification
+              type="error"
+              id="passError"
+              defaultMessage="There was an error sending the password"
+            />
           </LoginWrapper>
         ) : (
           <AdminPanel />
