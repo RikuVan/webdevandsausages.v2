@@ -1,6 +1,5 @@
 import { h } from 'preact'
 import styled from 'styled-components'
-import YouTube from 'react-youtube'
 import darken from 'polished/lib/color/darken'
 
 import events from '../../../../events.json'
@@ -8,38 +7,40 @@ import { theme } from '../../style/theme'
 import { Grid, Cell } from '../../components/layout'
 
 const Wrapper = styled.div`
-  padding-top: 30px;
-  minheight: 20vh;
+  min-height: 20vh;
   width: 100%;
+  background: #fff;
 `
 
 const EventTitle = styled.h1`
   font-size: 2.5rem;
   color: #f7b733;
   font-weight: 700;
+  padding: 2rem 0;
 `
 
 const EventPanelTitle = styled.div`
   margin: 0;
-  padding: 0;
+  padding: 5px 0 0;
   color: ${darken(0.1, theme.primaryOrange)};
   line-height: 120%;
+  text-align: center;
 `
 
 const MeetupDetails = styled.small`
   padding: 0;
   line-height: 100%;
   color: ${theme.subduedTexTColor};
+  padding: 0 0 3px;
 `
 
 const Panel = styled(Cell)`
-  text-align: left;
   padding-left: 10px;
   padding-bottom: 0;
   margin-bottom: 0;
-  & > span > iframe {
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.20);
-  };
+  & > a > img {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  }
   line-height: 110%;
 `
 
@@ -49,31 +50,27 @@ const StyledLink = styled.a`
   &:hover {
     background: lightgrey;
   }
+  padding: 3px 0 0;
 `
-
-const VideoInfo = styled.div`
-  width: 320px;
-  padding: 2px;
-`
-
-const YOUTUBE_OPTS = { height: '180', width: '320' }
 
 const EventPanel = ({ youtubeId, title, titleLink, details, startsFrom }) => {
   const speakersAndMeetup = details.split('-')
   const start = startsFrom ? `#t=${startsFrom}` : ''
   return (
-    <Panel>
-      {youtubeId && <YouTube videoId={youtubeId} opts={YOUTUBE_OPTS} />}
-      <VideoInfo>
+    <Panel middle>
+      <a
+        href={`https://youtu.be/${youtubeId}?list=PLzTZiC7Lgr5PXKGvz8Y9xPTrLRYI5dVhx`}
+      >
+        <img src={`https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`} />
+      </a>{' '}
       {title && !titleLink && <EventPanelTitle>{title}</EventPanelTitle>}
       {title &&
-      titleLink && (
-        <StyledLink href={`${titleLink}${start}`}>
-          <EventPanelTitle>{title}</EventPanelTitle>
-        </StyledLink>
-      )}
+        titleLink && (
+          <StyledLink href={`${titleLink}${start}`}>
+            <EventPanelTitle>{title}</EventPanelTitle>
+          </StyledLink>
+        )}
       <MeetupDetails>{speakersAndMeetup[1]}</MeetupDetails>
-      </VideoInfo>
     </Panel>
   )
 }

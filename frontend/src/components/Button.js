@@ -2,9 +2,8 @@ import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { Link } from 'preact-router/match'
 
+import { toRem } from '../helpers/styleHelpers'
 import Spinner from './Spinner'
-import { theme } from '../style/theme'
-import darken from 'polished/lib/color/darken'
 import opacify from 'polished/lib/color/opacify'
 import lighten from 'polished/lib/color/lighten'
 import transparentize from 'polished/lib/color/transparentize'
@@ -31,64 +30,63 @@ const StyledButton = styled.button`
   padding: 2px 17px 4px 17px;
   margin: 0 4px;
   box-shadow: none;
-  &:hover,
-  &:disabled {
-    background: ${transparentize(0.5, theme.primaryBlue)};
-  }
-  &:disabled {
-    background: ${opacify(0.1, theme.subduedTexTColor)};
-    cursor: not-allowed;
-  }
-
-  ${props =>
-    props.primary &&
+  ${p =>
+    p.primary &&
     css`
-      border: 2px solid ${theme.secondaryBlue};
-      background: ${transparentize(0.8, theme.secondaryBlue)};
-      color: ${theme.secondaryBlue};
-      &:hover {
-        background: ${transparentize(0.7, theme.secondaryBlue)};
-        color: ${theme.secondaryBlue};
+      &:hover,
+      &:disabled {
+        background: ${transparentize(0.5, p.theme.primaryBlue)};
       }
       &:disabled {
-        background: ${transparentize(0.6, theme.secondaryBlue)};
-        color: ${transparentize(0.3, theme.secondaryBlue)};
+        background: ${opacify(0.1, p.theme.subduedTexTColor)};
+        cursor: not-allowed;
+      }
+      border: 2px solid ${p.theme.secondaryBlue};
+      background: transparent;
+      color: ${p.theme.secondaryBlue};
+      &:hover {
+        background: ${transparentize(0.8, p.theme.secondaryBlue)};
+        color: ${p.theme.secondaryBlue};
+      }
+      &:disabled {
+        background: ${transparentize(0.6, p.theme.secondaryBlue)};
+        color: ${transparentize(0.3, p.theme.secondaryBlue)};
         cursor: not-allowed;
       }
     `};
-  ${props =>
-    props.valid &&
+  ${p =>
+    p.valid &&
     css`
-      background: ${theme.secondaryBlue};
+      background: ${p.theme.secondaryBlue};
       color: #fff;
       &:hover {
-        background: ${opacify(0.1, theme.secondaryBlue)};
+        background: ${opacify(0.1, p.theme.secondaryBlue)};
         color: #fff;
       }
     `};
-  ${props =>
-    props.transparent &&
+  ${p =>
+    p.transparent &&
     css`
       background: transparent;
-      border-color: ${theme.secondaryBlue};
-      color: ${theme.secondaryBlue};
+      border-color: ${p.theme.secondaryBlue};
+      color: ${p.theme.secondaryBlue};
       &:disabled,
       &:hover {
-        border-color: ${lighten(0.1, theme.secondaryBlue)};
-        color: ${lighten(0.1, theme.secondaryBlue)};
+        border-color: ${lighten(0.1, p.theme.secondaryBlue)};
+        color: ${lighten(0.1, p.theme.secondaryBlue)};
         background: transparent;
       }
     `};
-  ${props =>
-    props.light &&
+  ${p =>
+    p.light &&
     css`
       background: transparent;
-      border-color: ${theme.iconsColor};
-      color: ${theme.iconsColor};
+      border-color: ${p.theme.primaryOrange};
+      color: ${p.theme.primaryOrange};
       &:disabled,
       &:hover {
-        border-color: ${lighten(0.1, theme.iconsColor)};
-        color: ${lighten(0.1, theme.iconsColor)};
+        border-color: ${lighten(0.1, p.theme.primaryOrange)};
+        color: ${lighten(0.1, p.theme.primaryOrange)};
         background: transparent;
       }
     `};
@@ -104,6 +102,15 @@ const StyledButton = styled.button`
     props.minWidth &&
     css`
       min-width: ${props.minWidth}px;
+    `};
+  ${p =>
+    p.big &&
+    css`
+      padding: ${toRem(24)} ${toRem(30)};
+      height: 92px;
+      font-size: 2em;
+      font-weight: bold;
+      border-width: 5px;
     `};
 `
 

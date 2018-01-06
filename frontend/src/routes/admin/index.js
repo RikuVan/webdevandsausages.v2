@@ -28,14 +28,6 @@ const LoginWrapper = styled.div`
 `
 
 class Admin extends Component {
-  componentDidMount() {
-    const name = storage.get('wds_name', null)
-    if (name) {
-      store.actions.setAuth({ name })
-    }
-    store.actions.get({ key: 'auth', resource: 'auth' })
-  }
-
   setInputValue = name => e =>
     store.actions.setAuth({ [name]: e.target.value.toLowerCase() })
 
@@ -68,6 +60,14 @@ class Admin extends Component {
         values: { pass, name }
       })
     }
+  }
+
+  componentDidMount() {
+    const name = storage.get('wds_name', null)
+    if (name) {
+      store.actions.setAuth({ name })
+    }
+    store.actions.get({ key: 'auth', resource: 'auth' })
   }
 
   render({ loading, pass, name, bySms, passSending, hasPass, loggedIn }) {

@@ -11,6 +11,7 @@ import Spinner from '../../components/Spinner'
 import { ButtonLink } from '../../components/Button'
 import PageWrapper from '../../components/PageWrapper'
 import Footer from '../../components/Footer'
+import Separator from '../../components/Separator'
 
 import FireyTitle from './FireyTitle'
 import PreviousEvents from './PreviousEvents'
@@ -24,24 +25,21 @@ const TopSection = styled.div`
     p.isExpandedMobileNav &&
     tablet(css`
       padding-top: ${toRem(theme.navHeight * 1.8)};
-    `)} ${p =>
-      p.isExpandedMobileNav &&
-      phone(css`
-        padding-top: ${toRem(theme.navHeight * 2.2)};
-      `)};
+    `)};
+  ${p =>
+    p.isExpandedMobileNav &&
+    phone(css`
+      padding-top: ${toRem(theme.navHeight * 2.2)};
+    `)};
   background: linear-gradient(15deg, ${'#52bdf6'}, ${'#f7b733'});
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
   width: 100%;
 `
 
 const Title = styled.h2`
-  font-size: 2rem;
-  color: ${transparentize(0.3, '#fff')};
-  ${p =>
-    p.isActive &&
-    css`
-      color: #fff;
-    `};
+  font-size: 2.5rem;
+  color: #f7b733;
+  font-weight: 700;
 `
 
 const PreviousEventsWrapper = styled.section`
@@ -51,14 +49,9 @@ const PreviousEventsWrapper = styled.section`
   padding-bottom: 5rem;
 `
 
-const Seperator = styled.hr`
-  width: 50%;
-  border: 0;
-  height: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(8, 94, 140, 0.3);
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+const CurrentEventWrapper = styled.section`
+  width: 100%;
+  padding: 2rem 0 3rem;
 `
 
 const InnerWrapper = styled.div`
@@ -118,18 +111,22 @@ const Home = ({
         isExpandedMobileNav={isExpandedMobileNav}
         hideIcon={hideIcon}
       />
-      <Seperator />
+      <Separator />
+      <MailingListForm />
+    </TopSection>
+    <CurrentEventWrapper>
       <Title isActive={isEventOpen}>Our Next Meetup</Title>
       {getEventUi(loadingEvent, isEventOpen, event)}
       {!loadingEvent &&
         isEventOpen && (
           <InnerWrapper marginTop={60}>
-            <ButtonLink href="/registration">Register</ButtonLink>
+            <ButtonLink big light href="/registration">
+              Register
+            </ButtonLink>
           </InnerWrapper>
         )}
-      <Seperator />
-      <MailingListForm />
-    </TopSection>
+    </CurrentEventWrapper>
+    <Separator orange />
     <PreviousEventsWrapper>
       <PreviousEvents />
     </PreviousEventsWrapper>

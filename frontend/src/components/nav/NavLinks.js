@@ -2,6 +2,7 @@ import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { Link } from 'preact-router/match'
 import { toRem } from '../../helpers/styleHelpers'
+import darken from 'polished/lib/color/darken'
 
 const Wrapper = styled.nav`
   display: flex;
@@ -30,7 +31,7 @@ const NavLink = styled(Link)`
     transform: scale(0.95);
     opacity: 0.6;
   }
-  color: ${props => (props.showMobileNav ? '#5b5b5b' : '#fff')};
+  color: ${p => darken(0.1, p.theme.iconsColor)};
 `
 
 export const NavSeparator = styled.span`

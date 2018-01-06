@@ -36,9 +36,9 @@ const CheckboxLabel = styled.label`
 `
 
 export const Info = styled.p`
-  color: ${darken(0.2, theme.iconsColor)};
+  color: ${theme.secondaryBlue};
   font-weight: 400;
-  font-size: ${toRem(24)};
+  font-size: ${toRem(20)};
   margin: 0;
   padding: 20px 0;
   line-height: 150%;
@@ -138,8 +138,8 @@ class RegistrationForm extends Component {
               <Info>
                 The following registration is for the event on{' '}
                 {this.props.eventDate}. After registering, you should receive a
-                unique token by email. Please save this in case you need to
-                cancel or verify your registration later.
+                unique verification token by email. Please save this in case you
+                need to cancel or check your registration later.
               </Info>
               <FormGrid columns="repeat(auto-fit,minmax(300px,1fr))">
                 <LabeledField

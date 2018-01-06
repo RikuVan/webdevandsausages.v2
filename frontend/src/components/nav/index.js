@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { connect } from '../../preact-smitty'
+import darken from 'polished/lib/color/darken'
 
 import { Link } from 'preact-router/match'
 import MobileNavbar from './MobileNavbar'
@@ -17,13 +18,14 @@ const Wrapper = styled.nav`
   z-index: 3;
   width: 100%;
   font-weight: 500;
-  ${({ theme, transparent }) =>
+  ${({ theme, transparent, reverse }) =>
     css`
-      background: ${transparent ? 'transparent' : `${theme.primaryBlue}`};
+      background: ${transparent
+        ? 'transparent'
+        : `${reverse ? theme.primaryOrange : theme.primaryBlue}`};
+      box-shadow: ${!transparent ? '0 0 5px rgba(0, 0, 0, 0.5)' : 'none'};
     `};
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   transition: background 300ms ease-out;
-  color: white;
 `
 
 const NormalNavbar = styled.div`
@@ -60,7 +62,7 @@ const NavTitleLink = styled(Link)`
   font-weight: 400;
   ${({ theme }) =>
     css`
-      color: ${theme.subduedTexTColor};
+      color: ${darken(0.1, theme.iconsColor)};
     `};
   text-decoration: none;
   transition: opacity 0.2s, transform 0.2s;
@@ -75,8 +77,8 @@ const NavTitleLink = styled(Link)`
   }
 `
 
-const Navbar = ({ transparent }) => (
-  <Wrapper transparent={transparent}>
+const Navbar = ({ transparent, reverseTheme }) => (
+  <Wrapper transparent={transparent} reverse={reverseTheme}>
     <NormalNavbar>
       <StartWrapper>
         <Logo />
@@ -93,5 +95,6 @@ const Navbar = ({ transparent }) => (
 )
 
 export default connect(state => ({
-  transparent: pathEq(['ui', 'isScrolled'], false, state)
+  transparent: pathEq(['ui', 'isScrolled'], false, state),
+  reverseTheme: pathEq(['ui', 'theme'], 'reverse', state)
 }))(Navbar)

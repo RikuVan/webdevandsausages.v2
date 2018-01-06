@@ -1,5 +1,4 @@
 import { h, Component } from 'preact'
-import styled from 'styled-components'
 import { connect } from '../../preact-smitty'
 import { pathOr, pathEq } from 'ramda'
 

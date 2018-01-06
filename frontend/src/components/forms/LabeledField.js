@@ -7,7 +7,6 @@ import lighten from 'polished/lib/color/lighten'
 
 import { toRem } from '../../helpers/styleHelpers'
 import { Cell } from '../layout'
-import SausageIcon from '../SausageIcon'
 
 export const Input = styled.input`
   ${({ theme }) =>
@@ -42,7 +41,7 @@ export const Input = styled.input`
   ${p =>
     p.active &&
     css`
-      background-color: ${transparentize(0.2, p.theme.secondaryBlue)};
+      background-color: ${transparentize(0.3, p.theme.secondaryBlue)};
       color: #fff;
     `};
   ${p =>
@@ -54,7 +53,7 @@ export const Input = styled.input`
     p.active &&
     p.valid &&
     css`
-      background-color: ${p.theme.secondaryBlue};
+      background-color: ${transparentize(0.1, p.theme.secondaryBlue)};
       border: 2px solid ${p.theme.secondaryBlue};
       color: #fff;
     `};
@@ -79,7 +78,7 @@ export const LabelWrapper = styled.label`
   font-weight: bold;
   ${({ theme }) =>
     css`
-      color: ${darken(0.2, theme.iconsColor)};
+      color: ${darken(0.1, theme.primaryOrange)};
     `};
 `
 
@@ -87,11 +86,7 @@ const InputCell = styled(Cell)`
   padding-bottom: 15px;
 `
 
-export const Label = ({ text }) => (
-  <LabelWrapper>
-    <SausageIcon /> {text}
-  </LabelWrapper>
-)
+export const Label = ({ text }) => <LabelWrapper>{text}</LabelWrapper>
 
 const Error = styled.div`
   text-align: left;

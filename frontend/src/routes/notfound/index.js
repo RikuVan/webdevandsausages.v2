@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import styled, { css } from 'styled-components'
 
+import { tablet, phone } from '../../helpers/styleHelpers'
 import PageWrapper from '../../components/PageWrapper'
 import { toRem } from '../../helpers/styleHelpers'
 import Footer from '../../components/Footer'

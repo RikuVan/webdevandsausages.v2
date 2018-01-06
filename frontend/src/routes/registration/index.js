@@ -5,6 +5,7 @@ import { pathOr, contains, compose, values } from 'ramda'
 import { connect } from '../../preact-smitty'
 import opacify from 'polished/lib/color/opacify'
 import transparentize from 'polished/lib/color/transparentize'
+import lighten from 'polished/lib/color/lighten'
 import format from 'date-fns/format'
 
 import { theme } from '../../style/theme'
@@ -13,83 +14,68 @@ import store from '../../store'
 
 import PageWrapper from '../../components/PageWrapper'
 import Footer from '../../components/Footer'
+import Separator from '../../components/Separator'
+import { Tabs, Tab } from '../../components/Tabs'
+import Panel from '../../components/Panel'
+
 import RegistrationForm from './RegistrationForm'
 import CancellationForm from './CancellationForm'
 import VerificationForm from './VerificationForm'
 
 const TopSection = styled.div`
-  padding: ${toRem(theme.navHeight)} ${toRem(theme.pagePadding)} 50vh;
+  padding: ${toRem(theme.navHeight)} 0 50vh;
   background: linear-gradient(15deg, ${theme.primaryOrange}, ${'#52bdf6'});
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
   width: 100%;
 `
 
-const TabsContainer = styled.section`
-  width: 70%;
+const PageTitle = styled.h1`
+  margin-top: 100px;
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: #fff;
+  z-index: 1;
+  ${tablet(
+    css`
+      font-size: 1.8rem;
+    `
+  )};
+  ${phone(
+    css`
+      font-size: 1.2rem;
+    `
+  )};
+`
+
+const Event = styled.h3`
   margin: auto;
+  max-width: 50%;
+  color: #fff;
+  ${tablet(
+    css`
+      max-width: 70%;
+    `
+  )};
+  ${phone(
+    css`
+      max-width: 90%;
+    `
+  )};
+`
+
+const TabsContainer = styled.section`
+  width: 100%;
+  background: white;
+  margin: 0;
+  padding: 3rem 0;
   margin-top: ${toRem(100)};
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
-  ${tablet(css`
-    width: 80%;
-    margin-top: ${toRem(150)};
-  `)};
-  ${phone(css`
-    width: 100%;
-    margin-top: ${toRem(150)};
-  `)};
+  box-shadow: inset 0 2px 20px rgba(0, 0, 0, 0.17);
 `
 
-const Tabs = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`
-
-const Tab = styled.div`
-  flex-grow: 1;
-  max-height: ${toRem(100)};
-  min-width: ${toRem(250)};
-  display: inline-block;
-  padding: 10px;
-  vertical-align: top;
-  background: transparent;
-  cursor: hand;
-  cursor: pointer;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  border: 1px solid ${opacify(0.3, theme.secondaryBlue)};
-  font-size: ${toRem(24)};
-  color: ${transparentize(0.1, '#fff')};
-  &:hover {
-    background: ${transparentize(0.4, '#fff')};
-    border-top: 5px solid ${theme.secondaryBlue};
-    color: ${theme.secondaryBlue};
-  }
-  ${p =>
-    p.active &&
-    css`
-      background: #fff;
-      color: ${theme.secondaryBlue};
-      border-top: 5px solid ${theme.secondaryBlue};
-      border-bottom: none;
-      &:hover {
-        background: ${transparentize(0.4, '#fff')};
-        border-top: 5px solid ${theme.secondayBlue};
-    `};
-`
-
-const Panel = styled.div`
-  min-height: 200px;
+const FormSection = styled.section`
   background: #fff;
-  display: none;
-  align-items: start;
-  padding: ${toRem(20)};
-  ${p =>
-    p.active &&
-    css`
-      display: flex;
-      flex-direction: column;
-    `};
+  width: 100%;
+  padding: 2rem 0 0;
 `
 
 const tabs = {
@@ -133,6 +119,14 @@ class Registration extends Component {
     return (
       <PageWrapper>
         <TopSection>
+          <PageTitle>Registration</PageTitle>
+          <Separator />
+          <Event>
+            Sign up here for the event on{' '}
+            {format(event.datetime, 'MMMM Do, YYYY')}. Using the verification
+            token you receive by email, you can also check or cancel your
+            registration below.
+          </Event>
           <TabsContainer>
             <Tabs>
               <Tab

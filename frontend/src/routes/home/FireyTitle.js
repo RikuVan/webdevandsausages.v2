@@ -4,34 +4,6 @@ import transparentize from 'polished/lib/color/transparentize'
 
 import { tablet, phone } from '../../helpers/styleHelpers'
 
-const GrillImg = styled.img`
-  position: absolute;
-  width: 200px;
-  height: 120px;
-  margin: auto;
-  top: 130px;
-  right: 10px;
-  left: 0;
-  opacity: 1;
-  ${p =>
-    p.hide &&
-    css`
-      display: none;
-    `} ${tablet(
-      p =>
-        p.isExpandedMobileNav &&
-        css`
-          top: 175px;
-        `
-    )};
-  ${phone(
-    p =>
-      p.isExpandedMobileNav &&
-      css`
-        top: 195px;
-      `
-  )};
-`
 const fireAnimation = keyframes`
     0% {
       text-shadow: none;
@@ -95,11 +67,6 @@ const TagLine = styled.h3`
 const FireyTitle = ({ isExpandedMobileNav, hideIcon }) => (
   <firey-title->
     <WDSTitle>WEB DEV & SAUSAGES</WDSTitle>
-    {/*<GrillImg
-      src="../../assets/grill.svg"
-      isExpandedMobileNav={isExpandedMobileNav}
-      hide={hideIcon}
-    />*/}
     <TagLine>Feeding hungry devs with ideas and sausages since 2016</TagLine>
   </firey-title->
 )
