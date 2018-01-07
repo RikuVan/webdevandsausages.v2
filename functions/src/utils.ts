@@ -19,7 +19,11 @@ import {
   flip,
   length
 } from 'ramda'
-import * as moment from 'moment'
+import * as moment from 'moment-timezone'
+
+moment()
+  .tz('Europe/Helsinki')
+  .format()
 
 const checkTypes = process.env.NODE_ENV !== 'production'
 export const S = create({ checkTypes, env: env.concat(flutureEnv) })
@@ -37,7 +41,9 @@ export const addInsertionDate = assoc(
 )
 
 export const formatDate = date =>
-  `${moment(date).format('MMMM Do, YYYY')} at ${moment(date).format('HH:mm')}`
+  `${moment(date)
+    .add(2, 'hours')
+    .format('dddd, MMMM Do YYYY, HH:mm')}`
 
 // mail utils
 export const createMailMsg = evolve({

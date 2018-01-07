@@ -7,7 +7,8 @@ import {
   areValidResults,
   docDataOrNull,
   findByEmailAndPassword,
-  findIndexOfRegistration
+  findIndexOfRegistration,
+  formatDate
 } from '../utils'
 import { sendMail } from '../services/mail'
 import { participantSchema } from './schemas'
@@ -45,9 +46,9 @@ const isOpen = compose(
 const isEventOpen = allPass([isOpen, isNotClosed])
 
 const getSuccessMessage = (details, action, verificationToken) =>
-  `You have been ${action} for the event at ${details.location} on ${
+  `You have been ${action} for the event at ${details.location} on ${formatDate(
     details.datetime
-  }. To cancel your registration, use the following personal verification token at the Web Dev & Sausages website: ${verificationToken}`
+  )}. To cancel your registration, use the following personal verification token at the Web Dev & Sausages website: ${verificationToken}`
 
 const hasSpace = details => details.registered.length < details.maxParticipants
 
