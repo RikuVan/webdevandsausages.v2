@@ -10,7 +10,7 @@ import { getAllEvents, getCurrentEvent } from './events'
 const router = Router()
 
 /* EVENTS */
-router.get('/events', getAllEvents) //TODO: add validation
+router.get('/events', authorizeAdmin, getAllEvents) //TODO: add validation
 router.get('/events/current', getCurrentEvent)
 router.get('/events/id')
 //router.post('/events', validateFirebaseIdToken)

@@ -12,11 +12,20 @@ import {
   createMailMsg
 } from '../utils'
 import { participantsRef } from '../services/db'
-import { filter, traverse, mergeAll, isNil, isEmpty, either } from 'ramda'
+import {
+  filter,
+  traverse,
+  mergeAll,
+  isNil,
+  isEmpty,
+  either,
+  complement
+} from 'ramda'
 import { IParticipant } from '../models'
 import { sendMail } from '../services/mail'
 
 export const safeData = (schema, withErrors, withId) => doc => {
+  console.log(doc)
   const data = docDataOrNull(doc)
   const id = docIdOrNull(doc)
 
@@ -24,14 +33,15 @@ export const safeData = (schema, withErrors, withId) => doc => {
   const { error } = validate(data, schema)
   const dataWithExtras = [data]
 
-  if (withErrors) {
-    dataWithExtras.push({ validationError: error.message })
+  if (withErrors && error) {
+    dataWithExtras.push({
+      validationError: error.message ? error.message : error
+    })
   }
 
   if (withId && id) {
     dataWithExtras.push({ id })
   }
-
   const result = mergeAll(dataWithExtras)
   return of(result)
 }
@@ -46,7 +56,7 @@ export const getCollection = (
       docsSnapshots.forEach(d => docs.push(d))
       return traverse(of, safeData(schema, true, true), docs)
     })
-    .map(filter(isNil))
+    .map(filter(complement(isNil)))
     .fork(error => next(createError(500, error)), data => res.json({ data }))
 }
 

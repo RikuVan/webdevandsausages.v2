@@ -15,12 +15,14 @@ const registrationSchema = Joi.object().keys({
   email: Joi.string()
     .email()
     .required(),
-  verificationCode: Joi.string().required()
+  verificationToken: Joi.string().required()
 })
 
 export const eventSchema = Joi.object().keys({
   id: Joi.string(),
+  contact: Joi.string(),
   datetime: Joi.date().required(),
+  details: Joi.string(),
   location: Joi.string()
     .min(3)
     .required(),
@@ -32,6 +34,8 @@ export const eventSchema = Joi.object().keys({
     .items(registrationSchema),
   registrationOpens: Joi.date(),
   registrationCloses: Joi.date(),
+  sponsor: Joi.string(),
+  sponsorWWWLink: Joi.string(),
   waitListed: Joi.array()
     .unique()
     .items(registrationSchema)

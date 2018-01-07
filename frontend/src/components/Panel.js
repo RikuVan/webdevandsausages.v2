@@ -23,6 +23,11 @@ const Panel = styled.div`
   ${phone(css`
     width: 100%;
   `)};
+  ${({ width }) =>
+    width &&
+    css`
+      width: ${width};
+    `};
 `
 
 export default Panel

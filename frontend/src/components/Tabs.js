@@ -23,6 +23,11 @@ export const Tabs = styled.div`
     width: 100%;
     margin-top: ${toRem(150)};
   `)};
+  ${({ width }) =>
+    width &&
+    css`
+      width: ${width};
+    `};
 `
 
 export const Tab = styled.div`

@@ -10,7 +10,7 @@ const headers = {
   'Content-Type': 'application/json'
 }
 
-const NOTIFICATION_FLASH_TIME = 4000
+const NOTIFICATION_FLASH_TIME = 5000
 
 const actions = {
   changeTheme: 'ui/CHANGE_THEME',
@@ -22,11 +22,15 @@ const actions = {
   notify: 'notifications/NOTIFY',
   closeNotification: 'notifications/CLOSE',
   setAuth: 'auth/SET_AUTH',
-  flashNotification: ({ key, message }) => store => {
+  flashNotification: ({
+    key,
+    message,
+    notificationTime = NOTIFICATION_FLASH_TIME
+  }) => store => {
     store.actions.notify({ key, message })
     setTimeout(() => {
       store.actions.closeNotification({ key })
-    }, NOTIFICATION_FLASH_TIME)
+    }, notificationTime)
   },
   post: ({ key, resource, values, id }) => store => {
     of(store.actions.apiStart({ key }))
@@ -58,12 +62,21 @@ const actions = {
           store.actions.flashNotification({ key: `${key}Success` })
           store.actions.apiFinish({ key, status: 201, data })
           if (key === 'auth') {
-            store.actions.setAuth(data)
+            store.actions.setAuth({
+              user: R.pathOr(null, ['data', 'name'], data)
+            })
           }
         }
       )
   },
-  get: ({ key, resource, id, params, transform = v => v.data }) => store => {
+  get: ({
+    key,
+    resource,
+    id,
+    params,
+    transform = v => v.data,
+    notificationTime
+  }) => store => {
     of(store.actions.apiStart({ key: key || resource }))
       .chain(() =>
         fetchf(endpoints[resource]({ id, params }), {
@@ -79,9 +92,18 @@ const actions = {
       })
       .map(transform)
       .fork(
-        error =>
-          store.actions.apiFinish({ key: key || resource, status, error }),
+        error => {
+          store.actions.flashNotification({
+            key: `${key}Error`,
+            notificationTime
+          })
+          store.actions.apiFinish({ key: key || resource, status, error })
+        },
         data => {
+          store.actions.flashNotification({
+            key: `${key}Success`,
+            notificationTime
+          })
           store.actions.apiFinish({ key: key || resource, status: 200, data })
           if (key === 'auth') {
             store.actions.setAuth({

@@ -9,6 +9,7 @@ import Button from '../../components/Button'
 import PageWrapper from '../../components/PageWrapper'
 import Spinner from '../../components/Spinner'
 import Notification from '../../components/Notification'
+
 import { Input, FieldWrapper } from '../../components/forms/LabeledField'
 
 import AdminPanel from './AdminPanel'
@@ -50,7 +51,13 @@ class Admin extends Component {
     this.saveInStorage(name)
     if (this.props.name) {
       const params = bySms ? { method: 'sms' } : null
-      actions.get({ key: 'pass', resource: 'pass', id: name, params })
+      actions.get({
+        key: 'pass',
+        resource: 'pass',
+        id: name,
+        params,
+        notificationTime: 10000
+      })
     }
   }
 
@@ -74,8 +81,25 @@ class Admin extends Component {
     actions.get({ key: 'auth', resource: 'auth' })
   }
 
-  render({ loading, pass, name, bySms, passSending, hasPass, loggedIn }) {
-    if (loading) return <Spinner />
+  render({
+    loading,
+    pass,
+    name,
+    bySms,
+    passSending,
+    hasPass,
+    loggedIn,
+    matches
+  }) {
+    if (loading) {
+      return (
+        <PageWrapper>
+          <LoginWrapper>
+            <Spinner />
+          </LoginWrapper>
+        </PageWrapper>
+      )
+    }
     return (
       <PageWrapper>
         {!loggedIn ? (
@@ -107,6 +131,16 @@ class Admin extends Component {
                       Receive by SMS instead
                     </Label>
                   </div>
+                  <Notification
+                    type="success"
+                    id="passSuccess"
+                    defaultMessage="A password was dispatched"
+                  />
+                  <Notification
+                    type="error"
+                    id="passError"
+                    defaultMessage="There was an error sending the password"
+                  />
                 </section>
               </Cell>
               <Cell>
@@ -117,21 +151,16 @@ class Admin extends Component {
                 <Button primary onClick={this.loginWithPass}>
                   Login with temporary password
                 </Button>
+                <Notification
+                  type="info"
+                  id="authError"
+                  defaultMessage="Login with a new pass"
+                />
               </Cell>
             </Grid>
-            <Notification
-              type="success"
-              id="passSuccess"
-              defaultMessage="A password has been dispatched to your email or phone"
-            />
-            <Notification
-              type="error"
-              id="passError"
-              defaultMessage="There was an error sending the password"
-            />
           </LoginWrapper>
         ) : (
-          <AdminPanel />
+          <AdminPanel matches={matches} />
         )}
       </PageWrapper>
     )
@@ -140,9 +169,9 @@ class Admin extends Component {
 
 const mapStateToProps = state => ({
   ...R.propOr({}, 'auth', state),
-  loading: R.pathEq(['auth', 'status'], 'started', state),
-  hasPass: R.pathEq(['pass', 'status'], 200, state),
-  passSending: R.pathEq(['pass', 'status'], 'started', state),
+  loading: R.pathEq(['api', 'auth', 'status'], 'started', state),
+  hasPass: R.pathEq(['api', 'pass', 'status'], 200, state),
+  passSending: R.pathEq(['api', 'pass', 'status'], 'started', state),
   loggedIn: R.compose(R.not, R.isNil, R.pathOr(null, ['auth', 'user']))(state)
 })
 

@@ -78,11 +78,17 @@ class Registration extends Component {
     this.setTab(tab)
   }
 
-  getTab = () =>
-    R.compose(maybeTab, R.pathOr(null, ['matches', 'tab']))(this.props)
+  getTab = (props = this.props) =>
+    R.compose(maybeTab, R.pathOr(null, ['matches', 'tab']))(props)
 
   componentDidMount() {
     if (!this.getTab()) {
+      this.setTab(tabs.REGISTRATION)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.getTab(nextProps)) {
       this.setTab(tabs.REGISTRATION)
     }
   }
