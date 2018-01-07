@@ -10,7 +10,6 @@ import Button from '../../components/Button'
 import { Grid } from '../../components/layout'
 import LabeledField, { FieldWrapper } from '../../components/forms/LabeledField'
 
-import store from '../../store'
 import { toRem } from '../../helpers/styleHelpers'
 import { isEmail } from '../../helpers/validation'
 
@@ -109,10 +108,10 @@ const validate = values => {
 class RegistrationForm extends Component {
   handleReset = reset => () => {
     reset()
-    store.actions.resetApi({ key: 'registration' })
+    this.props.actions.resetApi({ key: 'registration' })
   }
   onSubmit = values =>
-    store.actions.post({
+    this.props.actions.post({
       key: 'registration',
       resource: 'registration',
       id: this.props.eventId,

@@ -1,5 +1,4 @@
 import { h, Component } from 'preact'
-import store from '../store'
 import { connect } from '../preact-smitty'
 import R from '../helpers'
 
@@ -7,7 +6,7 @@ class ScrollWatcher extends Component {
   onScroll = () => {
     const isScrolled = (window.pageYOffset || document.body.scrollTop) > 0
     if (isScrolled !== this.props.isScrolled) {
-      store.actions.setIsScrolled(isScrolled)
+      this.props.actions.setIsScrolled(isScrolled)
     }
   }
 

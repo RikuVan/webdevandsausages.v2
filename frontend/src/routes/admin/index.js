@@ -13,8 +13,6 @@ import { Input, FieldWrapper } from '../../components/forms/LabeledField'
 
 import AdminPanel from './AdminPanel'
 
-import store from '../../store'
-
 const Field = styled(FieldWrapper)`
   padding-bottom: 10px;
 `
@@ -34,7 +32,7 @@ const LoginWrapper = styled.div`
 
 class Admin extends Component {
   setInputValue = name => e =>
-    store.actions.setAuth({ [name]: e.target.value.toLowerCase() })
+    this.props.actions.setAuth({ [name]: e.target.value.toLowerCase() })
 
   saveInStorage = name => {
     if (!storage.get('wds_name', null)) {
@@ -48,18 +46,18 @@ class Admin extends Component {
   }
 
   sendPassRequest = () => {
-    const { name, bySms } = this.props
+    const { name, bySms, actions } = this.props
     this.saveInStorage(name)
     if (this.props.name) {
       const params = bySms ? { method: 'sms' } : null
-      store.actions.get({ key: 'pass', resource: 'pass', id: name, params })
+      actions.get({ key: 'pass', resource: 'pass', id: name, params })
     }
   }
 
   loginWithPass = () => {
-    const { pass, name } = this.props
+    const { pass, name, actions } = this.props
     if (pass && name) {
-      store.actions.post({
+      actions.post({
         key: 'auth',
         resource: 'auth',
         values: { pass, name }
@@ -69,10 +67,11 @@ class Admin extends Component {
 
   componentDidMount() {
     const name = storage.get('wds_name', null)
+    const { actions } = this.props
     if (name) {
-      store.actions.setAuth({ name })
+      actions.setAuth({ name })
     }
-    store.actions.get({ key: 'auth', resource: 'auth' })
+    actions.get({ key: 'auth', resource: 'auth' })
   }
 
   render({ loading, pass, name, bySms, passSending, hasPass, loggedIn }) {

@@ -13,7 +13,6 @@ import {
   ButtonWrapper,
   FormGrid
 } from './RegistrationForm'
-import store from '../../store'
 
 import { isEmail } from '../../helpers/validation'
 
@@ -38,10 +37,10 @@ const validate = values => {
 class CancellationForm extends Component {
   handleReset = reset => () => {
     reset()
-    store.actions.resetApi({ key: 'cancellation' })
+    this.props.actions.resetApi({ key: 'cancellation' })
   }
   onSubmit = values =>
-    store.actions.delete({
+    this.props.actions.delete({
       key: 'cancellation',
       resource: 'registration',
       id: this.props.eventId,

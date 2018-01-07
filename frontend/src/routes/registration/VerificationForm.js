@@ -13,7 +13,6 @@ import {
   ButtonWrapper,
   FormGrid
 } from './RegistrationForm'
-import store from '../../store'
 import { toOrdinal } from '../../helpers/ordinal'
 
 import { isEmail } from '../../helpers/validation'
@@ -39,10 +38,10 @@ const validate = values => {
 class CancellationForm extends Component {
   handleReset = reset => () => {
     reset()
-    store.actions.resetApi({ key: 'verification' })
+    this.props.actions.resetApi({ key: 'verification' })
   }
   onSubmit = values =>
-    store.actions.get({
+    this.props.actions.get({
       key: 'verification',
       resource: 'registration',
       id: this.props.eventId,

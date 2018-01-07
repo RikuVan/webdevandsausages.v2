@@ -7,7 +7,6 @@ import transparentize from 'polished/lib/color/transparentize'
 
 import Button from '../../components/Button'
 import Notification from '../../components/Notification'
-import store from '../../store'
 import { toRem, phone, tablet } from '../../helpers/styleHelpers'
 import { isEmail } from '../../helpers/validation'
 
@@ -81,7 +80,11 @@ const FormWrapper = styled.div`
 
 class MailingListForm extends Component {
   onSubmit = values =>
-    store.actions.post({ key: 'mailingList', resource: 'participants', values })
+    this.props.actions.post({
+      key: 'mailingList',
+      resource: 'participants',
+      values
+    })
   render({ loading }) {
     return (
       <FormWrapper>

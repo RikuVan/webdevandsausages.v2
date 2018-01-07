@@ -12,7 +12,6 @@ import NotFound from '../routes/notfound'
 import Registration from 'async!../routes/registration'
 import Admin from 'async!../routes/admin'
 import ScrollWatcher from './ScrollWatcher'
-import store from '../store'
 
 import { theme } from '../style/theme'
 
@@ -33,8 +32,7 @@ class App extends Component {
     }
 
     this.currentUrl = e.url
-    const { reverseTheme } = this.props
-    const { actions: { changeTheme } } = store
+    const { reverseTheme, actions: { changeTheme } } = this.props
 
     if (this.currentUrl.includes('registration')) {
       changeTheme('reverse')
@@ -46,7 +44,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    store.actions.get({
+    this.props.actions.get({
       key: 'latestEvent',
       resource: 'latestEvent'
     })

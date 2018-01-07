@@ -4,11 +4,9 @@ import R from '../../helpers'
 
 import PageWrapper from '../../components/PageWrapper'
 
-import store from '../../store'
-
 class AdminPanel extends Component {
   componentDidMount() {
-    store.actions.get({ key: 'allParticipants', resource: 'participants' })
+    this.props.actions.get({ key: 'allParticipants', resource: 'participants' })
   }
 
   render({ participants, loading }) {

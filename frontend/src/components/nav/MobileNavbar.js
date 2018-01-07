@@ -8,7 +8,6 @@ import { toRem, tablet, phone } from '../../helpers/styleHelpers'
 import NavLinks, { NavSeparator } from './NavLinks'
 import SocialLinks from './SocialLinks'
 import Logo from './Logo'
-import store from '../../store'
 import Svg from '../Svg'
 
 import { theme } from '../../style/theme'
@@ -139,7 +138,7 @@ export const NavButton = styled.button`
 
 class MobileNavbar extends Component {
   toggleNav = () => {
-    store.actions.toggleMobileNav()
+    this.props.actions.toggleMobileNav()
   }
   render({ showMobileNav, isScrolled, reverseTheme }) {
     return (
