@@ -170,13 +170,15 @@ class CurrentEvent extends Component {
             <FakeZoom />
           </Menu>
           <Screen>
-            <EventDetailLabel>$ date</EventDetailLabel>
+            <EventDetailLabel>$ which</EventDetailLabel>
+            <EventDetail>Volume: {event.volume}</EventDetail>
+            <EventDetailLabel>$ when</EventDetailLabel>
             <EventDetail>{eventDate}</EventDetail>
             <EventDetailLabel>$ what</EventDetailLabel>
             <EventDetail>{event.details}</EventDetail>
             <EventDetailLabel>$ where</EventDetailLabel>
             <EventDetail>{event.location}</EventDetail>
-            <EventDetailLabel>$ who</EventDetailLabel>
+            <EventDetailLabel>$contact who</EventDetailLabel>
             <EventDetail>{event.contact}</EventDetail>
             <EventDetailLabel>[?] so...coming?</EventDetailLabel>
             <EventDetailLabel onKeyPress={this.handleKeyPress}>

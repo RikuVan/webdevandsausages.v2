@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import {toRem} from '../../helpers/styleHelpers'
 
 const TitleWrapper = styled.div`
-  margin: ${toRem(100)} 0 ${toRem(20)}
-  z-index: 1
+  margin: ${toRem(100)} 0 ${toRem(20)};
+  z-index: 1;
 `
 
 const Title = ({color = '#0b7ebc', width = 446, height = 219}) => (
