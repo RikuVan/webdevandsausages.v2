@@ -1,36 +1,31 @@
-# Web Dev & Sausages HompageWebsite and Registration Tool
+# `webdevandsausages.org`
+The Web Dev and Sausages Tampere-based meetup website and registration service.
+
+## Old versions
+
+- [First version of the website](https://github.com/webDevAndSausages/webDevAndSausages.github.io)
+- [Archived meetup stuff](https://github.com/webDevAndSausages/archivedMeetupStuff)
 
 ## [Development version](https://wds-event-tool.firebaseapp.com/)
+
+## Contributing
+Thanks so much for lending a hand to improve our website by spotting bugs, fixing bugs, or adding new features. Please make an issue.
 
 ## Frontend
 
 The frontend was created with the [Preact-cli](https://github.com/developit/preact-cli/blob/master/README.md).
 
-### To get started
-
-Add a secrets.json file at the root of the project that includes the Firebase client config.
-
-```json
-{
-  "firebase_client_config": {
-    "apiKey": "<API_KEY>",
-    "authDomain": "wds-event-tool.firebaseapp.com",
-    "databaseURL": "https://wds-event-tool.firebaseio.com",
-    "projectId": "wds-event-tool",
-    "messagingSenderId": "<MESSAGE_SENDER_ID>"
-  }
-}
-```
+### Running the frontend locally
 
 ```bash
-# install dependencies
-yarn install
+git clone https://github.com/RikuVan/webdevandsausages.v2
+# enter the frontend
+cd webdevandsausages.v2/frontend
 
+# install yarn globally if you do not have it already
+yarn install
 # serve with hot reload at localhost:8080
 yarn run dev
-
-# build for production with minification
-yarn run build
 
 # test the production build locally
 yarn run serve
@@ -38,11 +33,11 @@ yarn run serve
 
 ## Backend
 
-The backend was created using the Firebase cli. Notice that unlike the frontend, the backend does not currently use Yarn.
+The backend was created using the Firebase cli. Notice the backend is coded in Typescript.
 
 ### To get started
 
-To deploy to Firebase, you must have a project with a Firestore database enabled. a number of config variables need to be set with the cli using `firebase functions:config:set`.
+To deploy to Firebase, you must have a project with a Firestore database enabled. A number of config variables need to be set with the cli using `firebase functions:config:set`.
 
 ```js
 {
@@ -66,7 +61,7 @@ To deploy to Firebase, you must have a project with a Firestore database enabled
 
 ## To deploy
 
-You must have the Firebase CLI installed.
+Commits to master should trigger and automatic update to Firebase. To update the front or backend locally, You must have the Firebase CLI installed.
 
 ### Backend
 

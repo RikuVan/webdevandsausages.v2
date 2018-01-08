@@ -11,8 +11,9 @@ import { ButtonLink } from '../../components/Button'
 import PageWrapper from '../../components/PageWrapper'
 import Footer from '../../components/Footer'
 import Separator from '../../components/Separator'
+import SausageIcon from '../../components/SausageIcon'
 
-import FireyTitle from './FireyTitle'
+import MainTitle from './MainTitle'
 import PreviousEvents from './PreviousEvents'
 import CurrentEvent from './CurrentEvent'
 
@@ -30,7 +31,7 @@ const TopSection = styled.div`
     phone(css`
       padding-top: ${toRem(theme.navHeight * 2.2)};
     `)};
-  background: linear-gradient(15deg, ${'#52bdf6'}, ${'#f7b733'});
+  background: linear-gradient(15deg, ${theme.primaryOrange}, ${'#52bdf6'});
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
   width: 100%;
 `
@@ -109,10 +110,11 @@ const Home = ({
 }) => (
   <PageWrapper>
     <TopSection isExpandedMobileNav={isExpandedMobileNav}>
-      <FireyTitle
+      <MainTitle
         isExpandedMobileNav={isExpandedMobileNav}
         hideIcon={hideIcon}
       />
+      <SausageIcon />
       <Separator />
       <MailingListForm />
     </TopSection>

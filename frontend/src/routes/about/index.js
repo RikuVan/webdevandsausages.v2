@@ -124,7 +124,7 @@ const About = ({ isExpandedMobileNav }) => (
   <PageWrapper>
     <Section isExpandedMobileNav={isExpandedMobileNav}>
       <PageTitle>About Us</PageTitle>
-      <TagLine>The best meetup in Finland (with sausages)</TagLine>
+      <TagLine>Feeding hungry devs with ideas and sausages since 2016</TagLine>
       <Separator />
       <MissionStatement>
         Web Dev &amp; Sausages is based in <Hashtag>#Tampere, Finland</Hashtag>{' '}

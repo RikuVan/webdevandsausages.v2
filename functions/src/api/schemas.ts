@@ -38,5 +38,6 @@ export const eventSchema = Joi.object().keys({
   sponsorWWWLink: Joi.string(),
   waitListed: Joi.array()
     .unique()
-    .items(registrationSchema)
+    .items(registrationSchema),
+  volume: Joi.number().integer()
 })
