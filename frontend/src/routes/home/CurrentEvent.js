@@ -171,16 +171,16 @@ class CurrentEvent extends Component {
           </Menu>
           <Screen>
             <EventDetailLabel>$ which</EventDetailLabel>
-            <EventDetail>Volume: {event.volume}</EventDetail>
+            <EventDetail>Volume {event.volume}</EventDetail>
             <EventDetailLabel>$ when</EventDetailLabel>
             <EventDetail>{eventDate}</EventDetail>
             <EventDetailLabel>$ what</EventDetailLabel>
             <EventDetail>{event.details}</EventDetail>
             <EventDetailLabel>$ where</EventDetailLabel>
             <EventDetail>{event.location}</EventDetail>
-            <EventDetailLabel>$contact who</EventDetailLabel>
+            <EventDetailLabel>$ who</EventDetailLabel>
             <EventDetail>{event.contact}</EventDetail>
-            <EventDetailLabel>[?] so...coming?</EventDetailLabel>
+            <EventDetailLabel>[?] coming</EventDetailLabel>
             <EventDetailLabel onKeyPress={this.handleKeyPress}>
               $ <Cursor placeholder="_" />
             </EventDetailLabel>

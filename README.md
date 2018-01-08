@@ -1,14 +1,15 @@
 # `webdevandsausages.org`
+
 The Web Dev and Sausages Tampere-based meetup website and registration service.
 
 ## Old versions
 
-- [First version of the website](https://github.com/webDevAndSausages/webDevAndSausages.github.io)
-- [Archived meetup stuff](https://github.com/webDevAndSausages/archivedMeetupStuff)
-
-## [Development version](https://wds-event-tool.firebaseapp.com/)
+* [First version of the website](https://github.com/webDevAndSausages/webDevAndSausages.github.io)
+* [Archived meetup stuff](https://github.com/webDevAndSausages/archivedMeetupStuff)
+* [Development version](https://tasteless-drug.surge.sh/)
 
 ## Contributing
+
 Thanks so much for lending a hand to improve our website by spotting bugs, fixing bugs, or adding new features. Please make an issue.
 
 ## Frontend
