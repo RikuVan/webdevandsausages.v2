@@ -6,28 +6,6 @@ import darken from 'polished/lib/color/darken'
 import { toRem, phone, tablet } from '../../helpers/styleHelpers'
 import { theme } from '../../style/theme'
 
-/*
-const SponsorWrapper = styled.article`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  padding: 0 1rem;
-  margin-bottom: 2rem;
-`
-const SponsorLogo = styled.img`
-  position: relative;
-  height: ${p => p.height || '4rem'};
-  width: 7rem;
-  margin: 1rem;
-  bottom: ${p => p.bottom || 0};
-  opacity: 0.8;
-  transition: opacity 125ms ease-in-out;
-  &:hover {
-    opacity: 1;
-  }
-`
-*/
-
 const EventWrapper = styled.article`
   font-size: ${toRem(20)};
   text-align: left;
@@ -155,6 +133,16 @@ const Cursor = styled.input`
   }
 `
 
+const SponsorLogo = styled.img`
+  width: ${toRem(400)};
+  padding-bottom: 20px;
+  opacity: 0.9;
+  transition: opacity 125ms ease-in-out;
+  &:hover {
+    opacity: 1;
+  }
+`
+
 class CurrentEvent extends Component {
   handleKeyPress = e => {
     if (e.key === 'Enter') route('/registration')
@@ -162,7 +150,14 @@ class CurrentEvent extends Component {
   render({ event, eventDate }) {
     return (
       <div>
-        <SponsorAnnouncement>Sponsored by {event.sponsor}</SponsorAnnouncement>
+        <SponsorAnnouncement>Sponsored by</SponsorAnnouncement>
+        {event.sponsor && (
+          <a href={event.sponsorWWWLink || null}>
+            <SponsorLogo
+              src={`../../../assets/${event.sponsor.toLowerCase()}-logo.svg`}
+            />
+          </a>
+        )}
         <EventWrapper>
           <Menu>
             <FakeButton />
