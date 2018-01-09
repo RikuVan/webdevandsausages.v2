@@ -40,6 +40,7 @@ class CancellationForm extends Component {
     reset()
     this.props.actions.resetApi({ key: 'verification' })
   }
+
   onSubmit = (values, form) => {
     this.props.actions.get({
       key: 'verification',
@@ -49,6 +50,11 @@ class CancellationForm extends Component {
     })
     form.reset()
   }
+
+  componentWillUnmount() {
+    this.props.actions.resetApi({ key: 'verification' })
+  }
+
   render({
     hasStatus,
     loading,

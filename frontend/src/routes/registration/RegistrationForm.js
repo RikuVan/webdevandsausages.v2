@@ -128,6 +128,7 @@ class RegistrationForm extends Component {
     reset()
     this.props.actions.resetApi({ key: 'registration' })
   }
+
   onSubmit = (values, form) => {
     this.props.actions.post({
       key: 'registration',
@@ -137,6 +138,11 @@ class RegistrationForm extends Component {
     })
     form.reset()
   }
+
+  componentWillUnmount() {
+    this.props.actions.resetApi({ key: 'registration' })
+  }
+
   render({
     hasStatus,
     loading,

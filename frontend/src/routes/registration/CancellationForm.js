@@ -39,6 +39,7 @@ class CancellationForm extends Component {
     reset()
     this.props.actions.resetApi({ key: 'cancellation' })
   }
+
   onSubmit = (values, form) => {
     this.props.actions.delete({
       key: 'cancellation',
@@ -48,6 +49,11 @@ class CancellationForm extends Component {
     })
     form.reset()
   }
+
+  componentWillUnmount() {
+    this.props.actions.resetApi({ key: 'cancellation' })
+  }
+
   render({ hasStatus, loading, showErrorMsg, showSuccessMsg, valid }) {
     return (
       <FormWrapper>
