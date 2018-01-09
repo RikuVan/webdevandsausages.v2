@@ -40,13 +40,15 @@ class CancellationForm extends Component {
     reset()
     this.props.actions.resetApi({ key: 'verification' })
   }
-  onSubmit = values =>
+  onSubmit = (values, form) => {
     this.props.actions.get({
       key: 'verification',
       resource: 'registration',
       id: this.props.eventId,
       params: { e: values.email, t: values.verificationToken }
     })
+    form.reset()
+  }
   render({
     hasStatus,
     loading,
@@ -69,6 +71,24 @@ class CancellationForm extends Component {
                 by email. It should consist of two silly words joined by a
                 hyphen.
               </Info>
+              {showSuccessMsg && (
+                <ResultMessage
+                  type="success"
+                  message={
+                    waitListPosition
+                      ? `You are ${toOrdinal(
+                          waitListPosition
+                        )} in the waiting list for this event.`
+                      : 'Yes, you are registered for this event.'
+                  }
+                />
+              )}
+              {showErrorMsg && (
+                <ResultMessage
+                  type="info"
+                  message="Oops, an error occurred. Are you sure you entered the correct token?"
+                />
+              )}
               <GridContainer>
                 <FormGrid
                   columns="500px"
@@ -114,24 +134,6 @@ class CancellationForm extends Component {
             </form>
           )}
         />
-        {showSuccessMsg && (
-          <ResultMessage
-            type="success"
-            message={
-              waitListPosition
-                ? `You are ${toOrdinal(
-                    waitListPosition
-                  )} in the waiting list for this event.`
-                : 'Yep, you are registered for this event.'
-            }
-          />
-        )}
-        {showErrorMsg && (
-          <ResultMessage
-            type="info"
-            message="Oops, that didn't work. Are you sure you entered the correct token?"
-          />
-        )}
       </FormWrapper>
     )
   }

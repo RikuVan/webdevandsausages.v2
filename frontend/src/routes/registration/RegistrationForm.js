@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-import styled, { css } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import { Form, Field } from 'react-final-form'
 import { connect } from '../../preact-smitty'
 import R from '../../helpers'
@@ -59,12 +59,29 @@ export const ButtonWrapper = styled.div`
   }
 `
 
+const pulse = keyframes`
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+`
+
 const Message = styled.div`
   color: ${darken(0.2, theme.iconsColor)};
+  border-radius: 3px;
   font-weight: 400;
   font-size: ${toRem(24)};
   width: 100%;
   margin: 30px 0;
+  line-height: 175%;
+  padding: 10px;
   ${({ type }) => {
     switch (type) {
       case 'error': {
@@ -89,6 +106,7 @@ const Message = styled.div`
       }
     }
   }};
+  animation: ${pulse} 1s 0s 2;
 `
 
 export const ResultMessage = ({ type, message }) => (
@@ -110,13 +128,15 @@ class RegistrationForm extends Component {
     reset()
     this.props.actions.resetApi({ key: 'registration' })
   }
-  onSubmit = values =>
+  onSubmit = (values, form) => {
     this.props.actions.post({
       key: 'registration',
       resource: 'registration',
       id: this.props.eventId,
       values
     })
+    form.reset()
+  }
   render({
     hasStatus,
     loading,
@@ -140,6 +160,24 @@ class RegistrationForm extends Component {
                 unique verification token by email. Please save this in case you
                 need to cancel or check your registration later.
               </Info>
+              {showSuccessMsg && (
+                <ResultMessage
+                  type="success"
+                  message="You are registered. Please check your email for confirmation. It may go to your SPAM folder."
+                />
+              )}
+              {showErrorMsg && (
+                <ResultMessage
+                  type="info"
+                  message="Oops, an error occurred. Please try again a bit later."
+                />
+              )}
+              {showAlreadyRegisteredMsg && (
+                <ResultMessage
+                  type="error"
+                  message="Your email is already among the registrations and you cannot register twice."
+                />
+              )}
               <FormGrid columns="repeat(auto-fit,minmax(300px,1fr))">
                 <LabeledField
                   name="email"
@@ -199,24 +237,6 @@ class RegistrationForm extends Component {
             </form>
           )}
         />
-        {showSuccessMsg && (
-          <ResultMessage
-            type="success"
-            message="Done. Please check your email for confirmation of your registration."
-          />
-        )}
-        {showErrorMsg && (
-          <ResultMessage
-            type="info"
-            message="Oops, something went wrong. Please try again a bit later."
-          />
-        )}
-        {showAlreadyRegisteredMsg && (
-          <ResultMessage
-            type="error"
-            message="Your email is already among the registrations."
-          />
-        )}
       </FormWrapper>
     )
   }

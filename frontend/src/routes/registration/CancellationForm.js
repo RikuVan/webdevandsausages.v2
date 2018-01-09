@@ -39,13 +39,15 @@ class CancellationForm extends Component {
     reset()
     this.props.actions.resetApi({ key: 'cancellation' })
   }
-  onSubmit = values =>
+  onSubmit = (values, form) => {
     this.props.actions.delete({
       key: 'cancellation',
       resource: 'registration',
       id: this.props.eventId,
       values
     })
+    form.reset()
+  }
   render({ hasStatus, loading, showErrorMsg, showSuccessMsg, valid }) {
     return (
       <FormWrapper>
@@ -60,6 +62,18 @@ class CancellationForm extends Component {
                 {this.props.eventDate}, submit the token sent you by email. It
                 should consist of two silly words joined by a hyphen.
               </Info>
+              {showSuccessMsg && (
+                <ResultMessage
+                  type="success"
+                  message="Your registration is cancelled. Please check your email (SPAM folder?) for confirmation."
+                />
+              )}
+              {showErrorMsg && (
+                <ResultMessage
+                  type="info"
+                  message="Oops, an error occurred. Are you sure you entered the correct token?"
+                />
+              )}
               <GridContainer>
                 <FormGrid
                   columns="500px"
@@ -105,18 +119,6 @@ class CancellationForm extends Component {
             </form>
           )}
         />
-        {showSuccessMsg && (
-          <ResultMessage
-            type="success"
-            message="Done. Please check your email for confirmation of your cancellation."
-          />
-        )}
-        {showErrorMsg && (
-          <ResultMessage
-            type="info"
-            message="Oops, that didn't work. Are you sure you entered the correct token?"
-          />
-        )}
       </FormWrapper>
     )
   }
