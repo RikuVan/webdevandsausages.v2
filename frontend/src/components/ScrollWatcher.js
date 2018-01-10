@@ -1,5 +1,5 @@
 import { h, Component } from 'preact'
-import { connect } from '../preact-smitty'
+import { track } from '../preact-smitty'
 import R from '../helpers'
 
 class ScrollWatcher extends Component {
@@ -25,11 +25,15 @@ class ScrollWatcher extends Component {
     })
   }
 
-  render({ children }) {
+  render({ children, isScrolled }) {
     return <scroll-watch->{children}</scroll-watch->
   }
 }
 
-export default connect(state => ({
-  isScrolled: R.path(['ui', 'isScrolled'], state)
-}))(ScrollWatcher)
+export default track(
+  'ui/IS_SCROLLED',
+  'isScrolled',
+  (state, payload, props, type) => R.pathOr(false, ['ui', 'isScrolled'], state),
+  (state, props, type, payload) =>
+    R.pathOr(null, ['ui', 'isScrolled'], state) !== payload
+)(ScrollWatcher)

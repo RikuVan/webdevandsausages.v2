@@ -79,12 +79,15 @@ const FormWrapper = styled.div`
 `
 
 class MailingListForm extends Component {
-  onSubmit = values =>
+  onSubmit = (values, { reset }) => {
     this.props.actions.post({
       key: 'mailingList',
       resource: 'participants',
       values
     })
+    reset()
+  }
+
   render({ loading }) {
     return (
       <FormWrapper>
