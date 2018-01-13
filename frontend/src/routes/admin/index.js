@@ -11,6 +11,7 @@ import Spinner from '../../components/Spinner'
 import Notification from '../../components/Notification'
 
 import { Input, FieldWrapper } from '../../components/forms/LabeledField'
+import { theme } from '../../style/theme'
 
 import AdminPanel from './AdminPanel'
 
@@ -34,6 +35,10 @@ const LoginWrapper = styled.div`
 class Admin extends Component {
   setInputValue = name => e =>
     this.props.actions.setAuth({ [name]: e.target.value.toLowerCase() })
+
+  toggleCheckbox = e => {
+    this.props.actions.setAuth({ bySms: !this.props.bySms })
+  }
 
   saveInStorage = name => {
     if (!storage.get('wds_name', null)) {
@@ -89,11 +94,13 @@ class Admin extends Component {
     passSending,
     hasPass,
     loggedIn,
-    matches
+    matches,
+    event,
+    loadingEvent
   }) {
     if (loading) {
       return (
-        <PageWrapper>
+        <PageWrapper background={theme.paleGrey}>
           <LoginWrapper>
             <Spinner />
           </LoginWrapper>
@@ -101,7 +108,7 @@ class Admin extends Component {
       )
     }
     return (
-      <PageWrapper>
+      <PageWrapper background="#fff">
         {!loggedIn ? (
           <LoginWrapper>
             <h1>Login</h1>
@@ -126,8 +133,8 @@ class Admin extends Component {
                     </Button>
                   </div>
                   <div>
-                    <Label>
-                      <Checkbox type="checkbox" value={bySms} />
+                    <Label onClick={this.toggleCheckbox}>
+                      <Checkbox type="checkbox" value="true" checked={bySms} />
                       Receive by SMS instead
                     </Label>
                   </div>
@@ -160,7 +167,11 @@ class Admin extends Component {
             </Grid>
           </LoginWrapper>
         ) : (
-          <AdminPanel matches={matches} />
+          <AdminPanel
+            matches={matches}
+            event={event}
+            loadingEvent={loadingEvent}
+          />
         )}
       </PageWrapper>
     )
@@ -172,7 +183,8 @@ const mapStateToProps = state => ({
   loading: R.pathEq(['api', 'auth', 'status'], 'started', state),
   hasPass: R.pathEq(['api', 'pass', 'status'], 200, state),
   passSending: R.pathEq(['api', 'pass', 'status'], 'started', state),
-  loggedIn: R.compose(R.not, R.isNil, R.pathOr(null, ['auth', 'user']))(state)
+  loggedIn: R.compose(R.not, R.isNil, R.pathOr(null, ['auth', 'user']))(state),
+  bySms: R.pathOr(false, ['auth', 'bySms'], state)
 })
 
 export default connect(mapStateToProps)(Admin)

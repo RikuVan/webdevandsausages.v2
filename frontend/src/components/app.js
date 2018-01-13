@@ -72,7 +72,7 @@ class App extends Component {
               loadingEvent={loadingEvent}
               isEventOpen={isEventOpen}
             />
-            <Admin path="/__admin__" />
+            <Admin path="/__admin__/:section?" />
             <NotFound default />
           </Router>
         </Main>

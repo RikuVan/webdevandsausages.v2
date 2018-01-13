@@ -6,7 +6,9 @@ const initialState = {
   ui: {
     theme: 'reverse',
     showMobileNav: false,
-    isScrolled: false
+    isScrolled: false,
+    showSidebar: false,
+    isSideClosed: true
   },
   api: {},
   notifications: {},
@@ -37,6 +39,8 @@ const log = (type, e, state) => {
 store.handleActions({
   [store.actions.toggleMobileNav]: state =>
     togglePath(['ui', 'showMobileNav'], state),
+  [store.actions.toggleSidebar]: state =>
+    togglePath(['ui', 'showSidebar'], state),
   [store.actions.setIsScrolled]: (state, isScrolled) =>
     R.assocPath(['ui', 'isScrolled'], isScrolled, state),
   [store.actions.apiStart]: (state, { key }) =>

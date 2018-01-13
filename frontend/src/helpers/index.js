@@ -16,6 +16,17 @@ import dissocPath from 'ramda/src/dissocPath'
 import values from 'ramda/src/values'
 import contains from 'ramda/src/contains'
 import propOr from 'ramda/src/propOr'
+import filter from 'ramda/src/filter'
+import toLower from 'ramda/src/toLower'
+import split from 'ramda/src/split'
+import join from 'ramda/src/join'
+import replace from 'ramda/src/replace'
+import toUpper from 'ramda/src/toUpper'
+import map from 'ramda/src/map'
+
+const dashify = compose(join('-'), split(' '), toLower)
+const firstUpper = replace(/^./, toUpper)
+const dedashify = compose(join(''), map(firstUpper), split('-'))
 
 export default {
   pathOr,
@@ -35,5 +46,8 @@ export default {
   dissocPath,
   values,
   contains,
-  propOr
+  propOr,
+  filter,
+  dashify,
+  dedashify
 }

@@ -33,7 +33,7 @@ class ScrollWatcher extends Component {
 export default track(
   'ui/IS_SCROLLED',
   'isScrolled',
-  (state, payload, props, type) => R.pathOr(false, ['ui', 'isScrolled'], state),
+  state => R.pathOr(false, ['ui', 'isScrolled'], state),
   (state, props, type, payload) =>
     R.pathOr(null, ['ui', 'isScrolled'], state) !== payload
 )(ScrollWatcher)

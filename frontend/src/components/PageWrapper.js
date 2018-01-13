@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const PageWrapper = styled.div`
   display: flex;
@@ -10,6 +10,10 @@ const PageWrapper = styled.div`
   color: white;
   box-sizing: border-box;
   height: 100%;
+  ${({ background }) =>
+    css`
+      background: ${background};
+    `};
 `
 
 export default PageWrapper

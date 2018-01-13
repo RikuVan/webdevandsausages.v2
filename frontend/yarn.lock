@@ -1533,6 +1533,10 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
+classnames@^2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
+
 clean-css@4.1.x:
   version "4.1.9"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.9.tgz#35cee8ae7687a49b98034f70de00c4edd3826301"
@@ -5777,6 +5781,12 @@ rc@^1.0.1, rc@^1.1.2, rc@^1.1.6, rc@^1.1.7:
 react-final-form@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-2.1.1.tgz#44b79005ffc6e7abfba36c1c04a2bb3b93424223"
+
+reactabular-table@^8.12.0:
+  version "8.12.0"
+  resolved "https://registry.yarnpkg.com/reactabular-table/-/reactabular-table-8.12.0.tgz#92e6e7f1d8b41b10d11c9dd4f65d22e4f62786f7"
+  dependencies:
+    classnames "^2.2.5"
 
 read-all-stream@^3.0.0:
   version "3.1.0"

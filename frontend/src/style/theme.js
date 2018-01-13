@@ -15,5 +15,6 @@ export const theme = {
   notificationDefault: '#f5b53f',
   normalFont: 'museo_sans500, sans-serif',
   navHeight: 66,
+  sidebarWidth: 300,
   pagePadding: 20
 }

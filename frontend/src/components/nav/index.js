@@ -9,6 +9,8 @@ import { toRem, tablet } from '../../helpers/styleHelpers'
 import NavLinks from './NavLinks'
 import SocialLinks from './SocialLinks'
 import Logo from './Logo'
+import Sidebar from './Sidebar'
+import SidebarMenu from './SidebarMenu'
 import R from '../../helpers'
 
 const Wrapper = styled.nav`
@@ -77,24 +79,32 @@ const NavTitleLink = styled(Link)`
   }
 `
 
-const Navbar = ({ transparent, reverseTheme }) => (
-  <Wrapper transparent={transparent} reverse={reverseTheme}>
-    <NormalNavbar>
-      <StartWrapper>
-        <Logo />
-        <NavTitleLink href="/">Web Dev &amp; Sausages</NavTitleLink>
-        <NavLinks />
-      </StartWrapper>
+const Navbar = ({ transparent, reverseTheme, showSidebar }) => (
+  <div>
+    <Wrapper transparent={transparent} reverse={reverseTheme}>
+      <NormalNavbar>
+        <StartWrapper>
+          <Logo />
+          <NavTitleLink href="/">Web Dev &amp; Sausages</NavTitleLink>
+          <NavLinks />
+        </StartWrapper>
 
-      <EndWrapper>
-        <SocialLinks />
-      </EndWrapper>
-    </NormalNavbar>
-    <MobileNavbar isScrolled={transparent} />
-  </Wrapper>
+        <EndWrapper>
+          <SocialLinks />
+        </EndWrapper>
+      </NormalNavbar>
+      <MobileNavbar isScrolled={transparent} />
+    </Wrapper>
+    {showSidebar && (
+      <Sidebar>
+        <SidebarMenu />
+      </Sidebar>
+    )}
+  </div>
 )
 
 export default connect(state => ({
   transparent: R.pathEq(['ui', 'isScrolled'], false, state),
-  reverseTheme: R.pathEq(['ui', 'theme'], 'reverse', state)
+  reverseTheme: R.pathEq(['ui', 'theme'], 'reverse', state),
+  showSidebar: R.path(['ui', 'showSidebar'], state)
 }))(Navbar)

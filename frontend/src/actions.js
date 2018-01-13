@@ -15,6 +15,7 @@ const NOTIFICATION_FLASH_TIME = 5000
 const actions = {
   changeTheme: 'ui/CHANGE_THEME',
   toggleMobileNav: 'ui/MOBILE_TOGGLE',
+  toggleSidebar: 'ui/SIDE_TOGGLE',
   setIsScrolled: 'ui/IS_SCROLLED',
   apiStart: 'api/START',
   apiFinish: 'api/FINNISH',
