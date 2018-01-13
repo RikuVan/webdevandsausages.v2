@@ -1,6 +1,8 @@
 import { h } from 'preact'
 import styled, { css } from 'styled-components'
-import * as RTable from 'reactabular-table'
+import Provider from 'reactabular-table/dist/provider'
+import Header from 'reactabular-table/dist/header'
+import Body from 'reactabular-table/dist/body'
 import darken from 'polished/lib/color/darken'
 import lighten from 'polished/lib/color/lighten'
 
@@ -18,7 +20,7 @@ export const TableWrapper = styled.div`
   color: ${p => darken(0.1, p.theme.iconsColor)};
 `
 
-export const Table = styled(RTable.Provider)`
+export const Table = styled(Provider)`
   flex: auto 1;
   display: flex;
   flex-direction: column;
@@ -28,7 +30,7 @@ export const Table = styled(RTable.Provider)`
   overflow: auto;
 `
 
-export const TableHead = styled(RTable.Header)`
+export const TableHead = styled(Header)`
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
@@ -69,7 +71,7 @@ export const TableHead = styled(RTable.Header)`
     `};
 `
 
-export const TableBody = styled(RTable.Body)`
+export const TableBody = styled(Body)`
   flex: 99999 1 auto;
   display: flex;
   flex-direction: column;
@@ -89,7 +91,6 @@ export const TableBody = styled(RTable.Body)`
     flex: 1 0 0px;
     white-space: nowrap;
     text-overflow: ellipsis;
-    text-align: left;
     padding: 7px 5px;
     overflow: hidden;
     transition: 0.3s ease;
@@ -104,4 +105,21 @@ export const TableBody = styled(RTable.Body)`
       border-right: 0;
     }
   }
+`
+
+export const Cell = styled.td`
+  text-align: ${p => (p.center ? 'center' : 'left')};
+  ${p =>
+    p.width &&
+    css`
+      max-width: ${p.width};
+    `};
+`
+
+export const ColHead = styled.th`
+  ${p =>
+    p.width &&
+    css`
+      max-width: ${p.width};
+    `};
 `

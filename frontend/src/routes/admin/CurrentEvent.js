@@ -3,41 +3,43 @@ import {
   TableWrapper,
   Table,
   TableHead,
-  TableBody
+  TableBody,
+  Cell,
+  ColHead
 } from '../../components/Table'
 
 const columns = [
   {
-    property: 'datetime',
+    property: 'name',
     header: {
-      label: 'When'
+      label: 'Property'
+    },
+    props: {
+      width: '200px'
     }
   },
   {
-    property: 'registrationOpens',
+    property: 'value',
     header: {
-      label: 'Registration Opens'
-    }
-  },
-  {
-    property: 'registrationCloses',
-    header: {
-      label: 'Registration Closes'
-    }
-  },
-  {
-    property: 'maxParticipants',
-    header: {
-      label: 'Max Participants'
+      label: 'Value'
     }
   }
 ]
 
-const CurrentEvent = ({ events }) => (
+const StyledCells = {
+  body: {
+    cell: Cell
+  },
+  header: {
+    cell: ColHead
+  }
+}
+
+const CurrentEvent = ({ currentEvent }) => (
   <TableWrapper>
-    <Table columns={columns}>
+    <Table columns={columns} components={StyledCells}>
       <TableHead />
-      <TableBody rows={events} rowKey="datetime" />
+      <TableBody rows={currentEvent} rowKey="name" />
     </Table>
   </TableWrapper>
 )

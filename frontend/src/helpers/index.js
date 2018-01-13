@@ -23,6 +23,8 @@ import join from 'ramda/src/join'
 import replace from 'ramda/src/replace'
 import toUpper from 'ramda/src/toUpper'
 import map from 'ramda/src/map'
+import toPairs from 'ramda/src/toPairs'
+import omit from 'ramda/src/omit'
 
 const dashify = compose(join('-'), split(' '), toLower)
 const firstUpper = replace(/^./, toUpper)
@@ -49,5 +51,8 @@ export default {
   propOr,
   filter,
   dashify,
-  dedashify
+  dedashify,
+  toPairs,
+  map,
+  omit
 }

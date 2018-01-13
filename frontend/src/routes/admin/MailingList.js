@@ -1,9 +1,12 @@
 import { h } from 'preact'
+
 import {
   TableWrapper,
   Table,
   TableHead,
-  TableBody
+  TableBody,
+  Cell,
+  ColHead
 } from '../../components/Table'
 
 const columns = [
@@ -32,22 +35,38 @@ const columns = [
     }
   },
   {
-    property: 'joined',
+    property: 'insertedOn',
     header: {
       label: 'Joined on'
     }
   },
   {
-    property: 'active',
+    property: 'receivesMail',
     header: {
       label: 'Active'
+    },
+    cell: {
+      formatters: [receivesMail => receivesMail && <span>&#10003;</span>]
+    },
+    props: {
+      center: true,
+      width: '80px'
     }
   }
 ]
 
+const StyledCells = {
+  body: {
+    cell: Cell
+  },
+  header: {
+    cell: ColHead
+  }
+}
+
 const MailingList = ({ participants }) => (
   <TableWrapper>
-    <Table columns={columns}>
+    <Table columns={columns} components={StyledCells}>
       <TableHead />
       <TableBody rows={participants} rowKey="email" />
     </Table>

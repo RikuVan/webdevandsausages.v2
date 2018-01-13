@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 
 import { toRem, phone } from '../../helpers/styleHelpers'
 
+// TODO: handle toggling and addition of hamburger on small screen
 const Sidebar = styled.nav`
   position: fixed;
   transform: translateZ(0);

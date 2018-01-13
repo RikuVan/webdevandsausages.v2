@@ -13,13 +13,13 @@ import subDays from 'date-fns/sub_days'
 
 import CurrentEvent from './CurrentEvent'
 import Registered from './Registered'
-import WaitListed from './WaitListed'
+import WaitingList from './WaitingList'
 import MailingList from './MailingList'
 
 const views = {
   CurrentEvent,
   Registered,
-  WaitListed,
+  WaitingList,
   MailingList
 }
 
@@ -106,8 +106,13 @@ const isFutureOrPresentEvent = R.compose(
   date => isAfter(new Date(date), subDays(new Date(), 1)),
   R.prop('datetime')
 )
-
 const addIndex = data => data.map((d, i) => ({ ...d, id: i + 1 }))
+const safeHead = ev => (ev.length ? ev[0] : {})
+const getArrayPropWithId = prop =>
+  R.compose(addIndex, R.propOr([], prop), safeHead)
+const toRow = pair => ({ name: pair[0], value: pair[1] })
+const arrayLengths = pair =>
+  R.is(Array, pair[1]) ? [pair[0], pair[1].length] : pair
 const mapStateToProps = state => {
   const loadingParts = R.pathEq(
     ['api', 'allParticipants', 'status'],
@@ -121,19 +126,25 @@ const mapStateToProps = state => {
   )
   const participants = R.pathOr([], ['api', 'allParticipants', 'data'], state)
   const events = R.pathOr([], ['api', 'allEvents', 'data'], state)
-  const currentEvent = R.filter(isFutureOrPresentEvent)(events)
-  const registered = R.compose(
-    addIndex,
-    R.propOr([], 'registered'),
-    ev => (ev.length ? ev[0] : {})
-  )(currentEvent)
+  const event = R.filter(isFutureOrPresentEvent)(events)
+  const registered = getArrayPropWithId('registered')(event)
+  const waitListed = getArrayPropWithId('waitListed')(event)
+  const currentEvent = R.compose(
+    R.map(toRow),
+    R.map(arrayLengths),
+    R.toPairs,
+    safeHead
+  )(event)
+  const eventId = R.pathOr(null, [0, 'id'], event)
   return {
     loadingParts,
     loadingEvents,
     participants,
     events,
     currentEvent,
-    registered
+    registered,
+    waitListed,
+    eventId
   }
 }
 

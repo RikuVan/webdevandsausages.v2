@@ -99,6 +99,7 @@ const actions = {
             notificationTime
           })
           store.actions.apiFinish({ key: key || resource, status, error })
+          store.actions.flashNotification({ key: `${key}Error` })
         },
         data => {
           store.actions.flashNotification({
@@ -116,7 +117,7 @@ const actions = {
         }
       )
   },
-  delete: ({ key, resource, id, values = {} }) => store => {
+  delete: ({ key, resource, id, values = {}, cb }) => store => {
     of(store.actions.apiStart({ key: key || resource }))
       .chain(() => encase(JSON.stringify)(values))
       .chain(data =>
@@ -138,9 +139,11 @@ const actions = {
           store.actions.apiFinish({ key: key || resource, status, error }),
         status => {
           store.actions.apiFinish({ key: key || resource, status })
+          store.actions.flashNotification({ key: `${key}Success` })
           if (key === 'auth') {
             store.actions.setAuth({ user: null, admin: null })
           }
+          cb && cb()
         }
       )
   }
