@@ -135,8 +135,10 @@ const actions = {
         return of(response.status)
       })
       .fork(
-        error =>
-          store.actions.apiFinish({ key: key || resource, status, error }),
+        error => {
+          store.actions.apiFinish({ key: key || resource, status, error })
+          store.actions.flashNotification({ key: `${key}Error` })
+        },
         status => {
           store.actions.apiFinish({ key: key || resource, status })
           store.actions.flashNotification({ key: `${key}Success` })

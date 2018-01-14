@@ -23,6 +23,13 @@ const views = {
   MailingList
 }
 
+export const sections = [
+  'Registered',
+  'Waiting List',
+  'Mailing List',
+  'Current Event'
+]
+
 const PageWrapper = styled.div`
   height: 100%;
   width: 100%;
@@ -51,13 +58,6 @@ const AdminPanelWrapper = styled.div`
   height: 100%;
   width: 100%;
 `
-
-export const sections = [
-  'Registered',
-  'Mailing List',
-  'Current Event',
-  'Waiting List'
-]
 
 class AdminPanel extends Component {
   componentDidMount() {
