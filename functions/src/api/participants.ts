@@ -4,13 +4,7 @@ import { participantSchema } from './schemas'
 import { CollectionReference } from '@google-cloud/firestore'
 import Future, { tryP, of } from 'fluture'
 import * as createError from 'http-errors'
-import {
-  notNil,
-  docDataOrNull,
-  docIdOrNull,
-  addInsertionDate,
-  createMailMsg
-} from '../utils'
+import { notNil, docDataOrNull, docIdOrNull, addInsertionDate } from '../utils'
 import { participantsRef } from '../services/db'
 import {
   filter,
@@ -25,7 +19,6 @@ import { IParticipant } from '../models'
 import { sendMail } from '../services/mail'
 
 export const safeData = (schema, withErrors, withId) => doc => {
-  console.log(doc)
   const data = docDataOrNull(doc)
   const id = docIdOrNull(doc)
 
@@ -86,13 +79,12 @@ export const addParticipant = (
       .chain(() => tryP(() => participantsRef.doc(request.body.email).get()))
       .map(docDataOrNull)
       .chain(result => {
-        const msg = createMailMsg({
+        const msg = {
           to: result.email,
-          from: null,
-          subject: 'maiting list',
-          text:
-            'You have been added to the Web Dev & Sausages mailing list. To unsubscribe please respond to this email with the subject "Unsubscribe".'
-        })
+          from: 'richard.vancamp@gmail.com',
+          subject: "Wed dev & sausage's mailing list confirmation",
+          template_id: '487d4c85-5cd0-4602-80e2-5120d2483f76'
+        }
         return sendMail(msg)
       })
       .fork(

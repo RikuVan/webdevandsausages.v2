@@ -9,18 +9,18 @@ import {
   propHasLength,
   formatDate
 } from '../utils'
-import { evolve, identity, merge, pick, compose } from 'ramda'
+import { evolve, identity, merge, pick, compose, assoc } from 'ramda'
 import { sendMail } from '../services/mail'
 
-const getSuccessMessage = details =>
-  `Your registration is cancelled for the event at ${
-    details.location
-  } on ${formatDate(details.datetime)}.`
+const getSuccessEmailSubstitutions = compose(
+  evolve({ datetime: formatDate }),
+  pick(['location', 'datetime', 'sponsor'])
+)
 
-const getUpdateMessage = details =>
-  `A space has opened up and you have been moved from the waiting list to the registered participants for the event at ${
-    details.location
-  } on ${formatDate(details.datetime)}`
+const getUpdateEmailSubstitutions = (details, token) => ({
+  ...getSuccessEmailSubstitutions(details),
+  token
+})
 
 const removeFromRegistrationQueue = (
   eventId: string,
@@ -51,7 +51,7 @@ const removeFromRegistrationQueue = (
 
     return tryP(() => eventsRef.doc(eventId).update(updatedEvent)).bimap(
       identity,
-      merge({ message: getSuccessMessage(details) })
+      merge({ email: getSuccessEmailSubstitutions(details) })
     )
   }
 
@@ -76,7 +76,13 @@ const shiftFromWaitingList = eventId =>
               to: shiftedParticipant.email,
               from: 'richard.vancamp@gmail.com',
               subject: 'Web dev & sausages registration update',
-              text: getUpdateMessage(details)
+              template_id: '7caff2cb-e29c-4a21-8717-32683bc5c1df',
+              substitutions: {
+                ...getUpdateEmailSubstitutions(
+                  details,
+                  shiftedParticipant.verificationToken
+                )
+              }
             }
             return sendMail(msg)
           }
@@ -112,8 +118,9 @@ export const cancelRegistration = (request, response, next) => {
         const msg = {
           to: email,
           from: 'richard.vancamp@gmail.com',
-          subject: 'Web dev & sausages event registration cancellation',
-          text: result.message
+          subject: 'Web dev & sausages registration cancellation',
+          template_id: '5dd324f9-eb32-459a-b3ab-2177b0e6a6a5',
+          substitutions: { ...result.email }
         }
         return sendMail(msg)
       })

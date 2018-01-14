@@ -45,10 +45,13 @@ const isOpen = compose(
 )
 const isEventOpen = allPass([isOpen, isNotClosed])
 
-const getSuccessMessage = (details, action, verificationToken) =>
-  `You have been ${action} for the event at ${details.location} on ${formatDate(
-    details.datetime
-  )}. To cancel your registration, use the following personal verification token at the Web Dev & Sausages website: ${verificationToken}`
+const getSuccessEmailSubstitutions = (details, action, verificationToken) => ({
+  action,
+  datetime: formatDate(details.datetime),
+  location: details.location,
+  token: verificationToken,
+  sponsor: details.sponsor
+})
 
 const hasSpace = details => details.registered.length < details.maxParticipants
 
@@ -73,7 +76,11 @@ const pushToEventQueue = (
   ).bimap(
     identity,
     merge({
-      message: getSuccessMessage(details, type.toLowerCase(), verificationToken)
+      email: getSuccessEmailSubstitutions(
+        details,
+        type.toLowerCase(),
+        verificationToken
+      )
     })
   )
 }
@@ -127,7 +134,8 @@ export const register = (
           to: email,
           from: 'richard.vancamp@gmail.com',
           subject: 'Web dev & sausages event registration',
-          text: result.message
+          template_id: '1c9f75f0-babb-40d5-b953-d7373e2ffa23',
+          substitutions: { ...result.email }
         }
         return sendMail(msg)
       })
