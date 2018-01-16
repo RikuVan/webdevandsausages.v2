@@ -54,10 +54,16 @@ const actions = {
         error => {
           if (R.is(Number, error)) {
             store.actions.flashNotification({ key: `${key}Error` })
+            if (key === 'auth') {
+              store.actions.setAuth({ pass: null, admin: null })
+            }
             return store.actions.apiFinish({ key, status: error })
           }
+          if (key === 'auth') {
+            store.actions.setAuth({ pass: null, admin: null })
+          }
           store.actions.flashNotification({ key: `${key}Error` })
-          return store.actions.apiFinish({ key, status: 500, error })
+          store.actions.apiFinish({ key, status: 500, error })
         },
         data => {
           store.actions.flashNotification({ key: `${key}Success` })

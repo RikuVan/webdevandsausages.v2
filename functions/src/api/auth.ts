@@ -1,4 +1,3 @@
-import admin from 'firebase-admin'
 const randomWord = require('random-word')
 import { sendSms } from '../services/sms'
 import { sendMail } from '../services/mail'
@@ -9,12 +8,16 @@ import { Unauthorized, InternalServerError } from 'http-errors'
 import { compose, toLower, pathOr } from 'ramda'
 import * as moment from 'moment'
 
-const sendCodeByEmail = (data, pass) => {
+const sendCodeByEmail = (data, pass, name) => {
   const msg = {
     to: data.email,
     from: 'richard.vancamp@gmail.com',
     subject: 'Web dev & sausages admin',
-    text: pass
+    template_id: 'f382f085-52eb-49ba-b7c6-ba58b9b61e97',
+    substitutions: {
+      token: pass,
+      user: name
+    }
   }
   return sendMail(msg)
 }
@@ -36,7 +39,7 @@ export const getCodeByEmailOrSms = (req, res, next) => {
       if (data && data.phoneNumber) {
         return both(
           tryP(() => adminsRef.doc(name).update({ pass, expires })),
-          sender(data, pass)
+          sender(data, pass, name)
         )
       }
       return reject(new Unauthorized())

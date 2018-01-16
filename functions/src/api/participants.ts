@@ -4,7 +4,7 @@ import { participantSchema } from './schemas'
 import { CollectionReference } from '@google-cloud/firestore'
 import Future, { tryP, of } from 'fluture'
 import * as createError from 'http-errors'
-import { notNil, docDataOrNull, docIdOrNull, addInsertionDate } from '../utils'
+import { docDataOrNull, docIdOrNull, addInsertionDate } from '../utils'
 import { participantsRef } from '../services/db'
 import {
   filter,

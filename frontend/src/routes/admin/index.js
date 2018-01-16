@@ -66,10 +66,9 @@ class Admin extends Component {
     }
   }
 
-  loginWithPass = () => {
-    const { pass, name, actions } = this.props
+  loginWithPass = (name = this.props.name, pass = this.props.pass) => {
     if (pass && name) {
-      actions.post({
+      this.props.actions.post({
         key: 'auth',
         resource: 'auth',
         values: { pass, name }
@@ -78,12 +77,27 @@ class Admin extends Component {
   }
 
   componentDidMount() {
-    const name = storage.get('wds_name', null)
+    let name
+    const { user, token } = this.props.matches
     const { actions } = this.props
-    if (name) {
-      actions.setAuth({ name })
+
+    if (user) {
+      name = user
+    } else {
+      name = storage.get('wds_name', null)
     }
-    actions.get({ key: 'auth', resource: 'auth' })
+    if (name && token) {
+      actions.setAuth({
+        name,
+        pass: token
+      })
+      this.loginWithPass(name, token)
+    } else if (name) {
+      actions.setAuth({ name })
+      actions.get({ key: 'auth', resource: 'auth' })
+    } else {
+      actions.get({ key: 'auth', resource: 'auth' })
+    }
   }
 
   render({
