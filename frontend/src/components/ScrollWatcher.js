@@ -3,7 +3,7 @@ import { track } from '../preact-smitty'
 import R from '../helpers'
 
 class ScrollWatcher extends Component {
-  onScroll = () => {
+  onScroll = e => {
     const isScrolled = (window.pageYOffset || document.body.scrollTop) > 0
     if (isScrolled !== this.props.isScrolled) {
       this.props.actions.setIsScrolled(isScrolled)
@@ -21,11 +21,11 @@ class ScrollWatcher extends Component {
   componentWillUnmount() {
     window.removeEventListener('scroll', this.onScroll, {
       capture: true,
-      passsive: true
+      passive: true
     })
   }
 
-  render({ children, isScrolled }) {
+  render({ children }) {
     return <scroll-watch->{children}</scroll-watch->
   }
 }

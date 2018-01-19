@@ -9,7 +9,7 @@ const StyledFooter = styled.footer`
     css`
       background: ${theme[color]};
     `};
-  min-height: 10vh;
+  min-height: 20vh;
   width: 100%;
 `
 

@@ -198,7 +198,6 @@ export const verifyRegistration = (
   const eventId = request.params.eventId
   const email = request.query.e
   const token = request.query.t
-  console.log('request', eventId, email, token)
 
   return Future((rej, res) => {
     const { error } = Joi.validate(
