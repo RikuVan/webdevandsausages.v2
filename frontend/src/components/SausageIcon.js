@@ -14,12 +14,12 @@ const SausageIcon = () => (
     </defs>
     <g fill="none" fill-rule="evenodd">
       <mask id="b" fill="#fff">
-        <use href="#a" />
+        <use xlinkHref="#a" />
       </mask>
       <g mask="url(#b)">
         <g transform="translate(0 .742)">
           <mask id="d" fill="#fff">
-            <use href="#c" />
+            <use xlinkHref="#c" />
           </mask>
           <path
             fill="#4B4B4B"
@@ -32,12 +32,12 @@ const SausageIcon = () => (
       <g>
         <g transform="translate(66.43 43.794)">
           <mask id="f" fill="#fff">
-            <use href="#e" />
+            <use xlinkHref="#e" />
           </mask>
           <g mask="url(#f)">
             <g transform="translate(-66.43 -43.052)">
               <mask id="h" fill="#fff">
-                <use href="#g" />
+                <use xlinkHref="#g" />
               </mask>
               <path
                 fill="#4B4B4B"

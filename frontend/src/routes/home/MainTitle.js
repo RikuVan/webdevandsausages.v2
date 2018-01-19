@@ -79,28 +79,28 @@ const Title = ({color = '#0b7ebc', width = 446, height = 219}) => (
         <g id="logo-text">
           <g id="Clipped">
             <mask id="mask-2" fill="white">
-              <use href="#path-1" />
+              <use xlinkHref="#path-1" />
             </mask>
             <g id="SVGID_1_">
-              <use fill="#52BDF6" fill-rule="evenodd" href="#path-1" />
+              <use fill="#52BDF6" fill-rule="evenodd" xlinkHref="#path-1" />
               <use
                 fill="black"
                 fill-opacity="1"
                 filter="url(#filter-3)"
-                href="#path-1"
+                xlinkHref="#path-1"
               />
             </g>
             <g mask="url(#mask-2)">
               <g transform="translate(0.000000, -1.000000)">
                 <mask id="mask-5" fill="white">
-                  <use href="#path-4" />
+                  <use xlinkHref="#path-4" />
                 </mask>
                 <use
                   id="SVGID_3_"
                   stroke="none"
                   fill="#911717"
                   fill-rule="evenodd"
-                  href="#path-4"
+                  xlinkHref="#path-4"
                 />
                 <rect
                   id="Rectangle-path"
@@ -118,13 +118,13 @@ const Title = ({color = '#0b7ebc', width = 446, height = 219}) => (
           </g>
           <g id="Clipped" transform="translate(44.000000, 162.000000)">
             <mask id="mask-7" fill="white">
-              <use href="#path-6" />
+              <use xlinkHref="#path-6" />
             </mask>
             <g id="SVGID_5_" />
             <g mask="url(#mask-7)">
               <g transform="translate(-44.000000, -163.000000)">
                 <mask id="mask-9" fill="white">
-                  <use href="#path-8" />
+                  <use xlinkHref="#path-8" />
                 </mask>
                 <g id="SVGID_7_" stroke="none" fill="none" />
                 <rect
@@ -143,13 +143,13 @@ const Title = ({color = '#0b7ebc', width = 446, height = 219}) => (
           </g>
           <g id="Clipped" transform="translate(215.000000, 87.000000)">
             <mask id="mask-11" fill="white">
-              <use href="#path-10" />
+              <use xlinkHref="#path-10" />
             </mask>
             <g id="SVGID_9_" />
             <g mask="url(#mask-11)">
               <g transform="translate(-215.000000, -88.000000)">
                 <mask id="mask-13" fill="white">
-                  <use href="#path-12" />
+                  <use xlinkHref="#path-12" />
                 </mask>
                 <g id="SVGID_11_" stroke="none" fill="none" />
                 <rect
