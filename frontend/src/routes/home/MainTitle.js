@@ -10,8 +10,8 @@ const TitleWrapper = styled.div`
 
 const Title = ({color = '#0b7ebc', width = 446, height = 219}) => (
   <svg
-    width={toRem(width)}
-    height={toRem(height)}
+    width={`${width}px`}
+    height={`${height}px`}
     viewBox="0 0 446 219"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
