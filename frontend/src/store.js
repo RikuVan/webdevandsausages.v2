@@ -1,4 +1,4 @@
-import { createStore } from 'smitty'
+import {createStore} from 'smitty'
 import R from './helpers'
 import actions from './actions'
 
@@ -12,6 +12,7 @@ const initialState = {
   },
   api: {},
   notifications: {},
+  popup: null,
   auth: {
     name: null,
     user: null,
@@ -43,15 +44,20 @@ store.handleActions({
     togglePath(['ui', 'showSidebar'], state),
   [store.actions.setIsScrolled]: (state, isScrolled) =>
     R.assocPath(['ui', 'isScrolled'], isScrolled, state),
-  [store.actions.apiStart]: (state, { key }) =>
-    R.assocPath(['api', key], { status: 'started' }, state),
-  [store.actions.apiFinish]: (state, { key, status, data, error }) =>
-    R.assocPath(['api', key], { status, data, error }, state),
-  [store.actions.resetApi]: (state, { key }) =>
+  [store.actions.apiStart]: (state, {key}) =>
+    R.assocPath(['api', key], {status: 'started'}, state),
+  [store.actions.apiFinish]: (state, {key, status, data, error}) =>
+    R.assocPath(['api', key], {status, data, error}, state),
+  [store.actions.resetApi]: (state, {key}) =>
     R.dissocPath(['api', key, 'status'], state),
-  [store.actions.notify]: (state, { key }) =>
-    R.assocPath(['notifications', key], true, state),
-  [store.actions.closeNotification]: (state, { key }) =>
+  [store.actions.notify]: (state, {key}) =>
+    R.compose(
+      R.assocPath(['popup'], key),
+      R.assocPath(['notifications', key], true)
+    )(state),
+  [store.actions.closePopupNotification]: (state, {key}) =>
+    R.assoc('popup', null, state),
+  [store.actions.closeNotification]: (state, {key}) =>
     R.dissocPath(['notifications', key], state),
   [store.actions.changeTheme]: (state, theme) =>
     R.assocPath(['ui', 'theme'], theme, state),

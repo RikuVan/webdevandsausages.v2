@@ -8,6 +8,7 @@ import transparentize from 'polished/lib/color/transparentize'
 
 import Button from '../../components/Button'
 import { Grid } from '../../components/layout'
+import PopupNotification from '../../components/PopupNotification'
 import LabeledField, { FieldWrapper } from '../../components/forms/LabeledField'
 
 import { toRem } from '../../helpers/styleHelpers'
@@ -240,6 +241,11 @@ class RegistrationForm extends Component {
                   Reset
                 </Button>
               </ButtonWrapper>
+              <PopupNotification
+                key="errorRegistration"
+                type="success"
+                text="You are registered. Please check your email for confirmation. It may go to your SPAM folder."
+              />
             </form>
           )}
         />

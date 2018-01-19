@@ -11,6 +11,7 @@ import merge from 'ramda/src/merge'
 import complement from 'ramda/src/complement'
 import has from 'ramda/src/has'
 import isEmpty from 'ramda/src/isEmpty'
+import assoc from 'ramda/src/assoc'
 import assocPath from 'ramda/src/assocPath'
 import dissocPath from 'ramda/src/dissocPath'
 import values from 'ramda/src/values'
@@ -54,5 +55,6 @@ export default {
   dedashify,
   toPairs,
   map,
-  omit
+  omit,
+  assoc
 }

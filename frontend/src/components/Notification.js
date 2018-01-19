@@ -1,7 +1,7 @@
-import { h } from 'preact'
-import styled, { keyframes, css } from 'styled-components'
+import {h} from 'preact'
+import styled, {keyframes, css} from 'styled-components'
 import darken from 'polished/lib/color/darken'
-import { connect } from '../preact-smitty'
+import {connect} from '../preact-smitty'
 import R from '../helpers'
 import Svg from './Svg'
 
@@ -53,7 +53,7 @@ const Wrapper = styled.div`
   font-weight: 500;
   animation: ${scaleIn} 0.3s ease-out forwards,
     ${expand} 0.35s 0.25s ease-out forwards;
-  ${({ theme, type }) => {
+  ${({theme, type}) => {
     switch (type) {
       case 'success': {
         return css`
@@ -173,7 +173,7 @@ const Notification = ({
   )
 }
 
-const mapStateToProps = (state, { id }) => ({
+const mapStateToProps = (state, {id}) => ({
   visible: R.pathOr(false, ['notifications', id], state)
 })
 

@@ -22,8 +22,9 @@ const actions = {
   resetApi: 'api/RESET',
   notify: 'notifications/NOTIFY',
   closeNotification: 'notifications/CLOSE',
+  closePopupNotification: 'popup/CLOSE',
   setAuth: 'auth/SET_AUTH',
-  flashNotification: ({
+  broadcastNotification: ({
     key,
     message,
     notificationTime = NOTIFICATION_FLASH_TIME
@@ -53,7 +54,7 @@ const actions = {
       .fork(
         error => {
           if (R.is(Number, error)) {
-            store.actions.flashNotification({ key: `${key}Error` })
+            store.actions.broadcastNotification({ key: `${key}Error` })
             if (key === 'auth') {
               store.actions.setAuth({ pass: null, admin: null })
             }
@@ -62,11 +63,11 @@ const actions = {
           if (key === 'auth') {
             store.actions.setAuth({ pass: null, admin: null })
           }
-          store.actions.flashNotification({ key: `${key}Error` })
+          store.actions.broadcastNotification({ key: `${key}Error` })
           store.actions.apiFinish({ key, status: 500, error })
         },
         data => {
-          store.actions.flashNotification({ key: `${key}Success` })
+          store.actions.broadcastNotification({ key: `${key}Success` })
           store.actions.apiFinish({ key, status: 201, data })
           if (key === 'auth') {
             store.actions.setAuth({
@@ -100,15 +101,15 @@ const actions = {
       .map(transform)
       .fork(
         error => {
-          store.actions.flashNotification({
+          store.actions.broadcastNotification({
             key: `${key}Error`,
             notificationTime
           })
           store.actions.apiFinish({ key: key || resource, status, error })
-          store.actions.flashNotification({ key: `${key}Error` })
+          store.actions.broadcastNotification({ key: `${key}Error` })
         },
         data => {
-          store.actions.flashNotification({
+          store.actions.broadcastNotification({
             key: `${key}Success`,
             notificationTime
           })
@@ -143,11 +144,11 @@ const actions = {
       .fork(
         error => {
           store.actions.apiFinish({ key: key || resource, status, error })
-          store.actions.flashNotification({ key: `${key}Error` })
+          store.actions.broadcastNotification({ key: `${key}Error` })
         },
         status => {
           store.actions.apiFinish({ key: key || resource, status })
-          store.actions.flashNotification({ key: `${key}Success` })
+          store.actions.broadcastNotification({ key: `${key}Success` })
           if (key === 'auth') {
             store.actions.setAuth({ user: null, admin: null })
           }
