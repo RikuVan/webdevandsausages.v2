@@ -71,7 +71,7 @@ const maybeTab = tab => (R.contains(tab, R.values(tabs)) ? tab : null)
 
 class Registration extends Component {
   setTab = tab => {
-    route(`/registration?tab=${encodeURIComponent(tab)}`)
+    route(`/registration?tab=${encodeURIComponent(tab)}`, true)
   }
 
   handleTabChange = tab => e => {
