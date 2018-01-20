@@ -1,15 +1,16 @@
-import {h} from 'preact'
+import { h } from 'preact'
 import styled from 'styled-components'
 
-import {toRem} from '../../helpers/styleHelpers'
+import { toRem } from '../../helpers/styleHelpers'
 
 const TitleWrapper = styled.div`
   margin: ${toRem(100)} 0 ${toRem(20)};
   z-index: 1;
 `
 
-const Title = ({color = '#0b7ebc', width = 446, height = 219}) => (
+const Title = ({ color = '#0b7ebc', width = 446, height = 219 }) => (
   <svg
+    id="wds-logo"
     width={`${width}px`}
     height={`${height}px`}
     viewBox="0 0 446 219"

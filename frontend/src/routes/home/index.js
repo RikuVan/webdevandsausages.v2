@@ -124,7 +124,12 @@ const Home = ({
       {!loadingEvent &&
         isEventOpen && (
           <InnerWrapper marginTop={60}>
-            <ButtonLink big light href="/registration">
+            <ButtonLink
+              id="register-link-button"
+              big
+              light
+              href="/registration"
+            >
               Register
             </ButtonLink>
           </InnerWrapper>

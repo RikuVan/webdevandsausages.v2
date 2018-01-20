@@ -1,6 +1,12 @@
 import R from './helpers'
 
-const API_ROOT = 'https://us-central1-wds-event-tool.cloudfunctions.net/api'
+let version = 'tool'
+
+if (process.env.NODE_ENV === 'development') {
+  version = 'dev'
+}
+
+const API_ROOT = `https://us-central1-wds-event-${version}.cloudfunctions.net/api`
 
 const toParam = item =>
   item ? encodeURIComponent(decodeURIComponent(item)) : ''

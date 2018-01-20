@@ -116,12 +116,14 @@ class Registration extends Component {
                 Registration
               </Tab>
               <Tab
+                id={tabs.CANCELLATION}
                 active={tab === tabs.CANCELLATION}
                 onClick={this.handleTabChange(tabs.CANCELLATION)}
               >
                 Cancellation
               </Tab>
               <Tab
+                id={tabs.VERIFICATION}
                 active={tab === tabs.VERIFICATION}
                 onClick={this.handleTabChange(tabs.VERIFICATION)}
               >

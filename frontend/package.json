@@ -9,19 +9,19 @@
     "serve": "preact build --no-prerender && preact serve",
     "dev": "preact watch",
     "lint": "eslint src",
-    "clean": "rm -rf build"
+    "clean": "rm -rf build",
+    "test:e2e": "testcafe 'chrome --incognito' all test/e2e/*_spec.js"
   },
   "eslintConfig": {
     "extends": "eslint-config-synacor"
   },
-  "eslintIgnore": [
-    "build/*"
-  ],
+  "eslintIgnore": ["build/*"],
   "devDependencies": {
     "eslint": "^4.9.0",
     "eslint-config-synacor": "^2.0.2",
     "if-env": "^1.0.0",
-    "preact-cli": "^2.0.1"
+    "preact-cli": "^2.0.1",
+    "testcafe": "^0.18.6"
   },
   "dependencies": {
     "date-fns": "^1.29.0",

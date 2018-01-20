@@ -46,15 +46,20 @@ export const NavSeparator = styled.span`
 
 const NavLinks = ({ showMobileNav }) => (
   <Wrapper>
-    <NavLink activeClassName="active" href="/" showMobileNav>
+    <NavLink id="home" activeClassName="active" href="/" showMobileNav>
       HOME
     </NavLink>
     <NavSeparator />
-    <NavLink activeClassName="active" href="/about" showMobileNav>
+    <NavLink id="about" activeClassName="active" href="/about" showMobileNav>
       ABOUT
     </NavLink>
     <NavSeparator />
-    <NavLink activeClassName="active" href="/registration" showMobileNav>
+    <NavLink
+      id="registration"
+      activeClassName="active"
+      href="/registration"
+      showMobileNav
+    >
       REGISTRATION
     </NavLink>
   </Wrapper>

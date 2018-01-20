@@ -32,11 +32,15 @@ yarn run dev
 yarn run serve
 ```
 
+The frontend uses a development firebase instance in when NODE_ENV="development".
+
 ## Backend
 
-The backend was created using the Firebase cli. Notice the backend is coded in Typescript.
+The backend, in Typescript, was created using the Firebase cli. There are two projects in firebase, one for production and one for development and testing.
 
 ### To get started
+
+Each project requires its own account keys to be added: `functions/devServiceAccountKey.json` and `functions/prodServiceAccountKey.json`
 
 To deploy to Firebase, you must have a project with a Firestore database enabled. A number of config variables need to be set with the cli using `firebase functions:config:set`.
 
@@ -56,6 +60,9 @@ To deploy to Firebase, you must have a project with a Firestore database enabled
   },
   "sendgrid": {
     "key": "<API_KEY>"
+  },
+  "app": {
+    "version": "dev/prod"
   }
 }
 ```

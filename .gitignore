@@ -5,4 +5,6 @@ functions/lib
 functions/etc
 functions/node_modules
 functions/serviceAccountKey.json
+functions/devServiceAccountKey.json
+functions/prodServiceAccountKey.json
 .idea/

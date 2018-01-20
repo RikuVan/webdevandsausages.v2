@@ -149,7 +149,7 @@ class CurrentEvent extends Component {
   }
   render({ event, eventDate }) {
     return (
-      <div>
+      <div id="current-event-console">
         <SponsorAnnouncement>Sponsored by</SponsorAnnouncement>
         {event.sponsor && (
           <a href={event.sponsorWWWLink || null}>

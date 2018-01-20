@@ -1,4 +1,5 @@
 export default fns => ({
+  VERSION: fns.config().app.version,
   SLACK_URL: fns.config().slack.url,
   SENDGRID_KEY: fns.config().sendgrid.key,
   GOOGLE: {

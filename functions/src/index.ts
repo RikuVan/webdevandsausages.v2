@@ -1,12 +1,12 @@
 import * as functions from 'firebase-functions'
 import admin from 'firebase-admin'
-const serviceAccount = require('../serviceAccountKey.json')
+import getConfig from './config'
+export const config = getConfig(functions)
+const serviceAccount = require(`../${config.VERSION}ServiceAccountKey.json`)
 admin.initializeApp({
   ...functions.config().firebase,
   credential: admin.credential.cert(serviceAccount)
 })
-import getConfig from './config'
-export const config = getConfig(functions)
 import * as express from 'express'
 import api from './api/apiRoutes'
 import setMiddleware from './middleware/'
