@@ -118,7 +118,7 @@ class MailingListForm extends Component {
                       <Button
                         type="submit"
                         loading={loading}
-                        primary
+                        secondary
                         disabled={!meta.valid}
                         valid={meta.valid}
                         whiteSpinner

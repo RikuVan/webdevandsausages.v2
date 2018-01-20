@@ -1,9 +1,11 @@
-import {h, Component} from 'preact'
-import styled, {css, keyframes} from 'styled-components'
+import { h, Component } from 'preact'
+import styled, { css, keyframes } from 'styled-components'
 import transparentize from 'polished/lib/color/transparentize'
+import darken from 'polished/lib/color/darken'
+import lighten from 'polished/lib/color/lighten'
 
-import { phone, tablet } from '../helpers/styleHelpers'
-import {connect} from '../preact-smitty'
+import { phone, tablet, toRem } from '../helpers/styleHelpers'
+import { connect } from '../preact-smitty'
 import R from '../helpers'
 import Button from './Button'
 
@@ -37,7 +39,7 @@ const Overlay = styled.div`
   text-align: center;
   font-size: 0; /* Remove gap between inline-block elements */
   overflow-y: auto;
-  ${({theme}) =>
+  ${({ theme }) =>
     css`
       background-color: ${transparentize(0.5, theme.primaryBlue)};
     `};
@@ -51,7 +53,7 @@ const Overlay = styled.div`
     vertical-align: middle; /* vertical alignment of the inline element */
     height: 100%;
   }
-  ${({show}) =>
+  ${({ show }) =>
     show &&
     css`
       opacity: 1;
@@ -60,14 +62,16 @@ const Overlay = styled.div`
 `
 
 const Footer = styled.div`
-  text-align: right;
-  padding-top: 13px;
-  margin-top: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 25px;
+  margin: 25px auto 10px;
   padding: 13px 16px;
   border-radius: inherit;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  margin: 5px;
   display: inline-block;
   position: relative;
 `
@@ -75,10 +79,10 @@ const Footer = styled.div`
 const Popup = styled.div`
   opacity: 1;
   width: 600px;
-   ${tablet(css`
-     width: 450px;
+  ${tablet(css`
+    width: 450px;
   `)};
-   ${phone(css`
+  ${phone(css`
     width: 350px;
   `)};
   pointer-events: auto;
@@ -97,43 +101,39 @@ const Popup = styled.div`
   border-radius: 3px;
 `
 
-const Content = styled.div`
-  padding: 0 20px;
-  margin-top: 20px;
-  font-size: initial;
-  &:last-child {
-    margin-bottom: 20px;
-  }
-`
-
 const Text = styled.div`
-  font-size: 1.2rem;
-  position: relative;
-  float: none;
-  line-height: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 175%;
   vertical-align: top;
   text-align: left;
-  display: inline-block;
-  margin: 0;
-  padding: 0 10px;
-  color: #333;
+  margin: 10px;
+  padding: 10px 25px 0;
   max-width: calc(100% - 20px);
   overflow-wrap: break-word;
   box-sizing: border-box;
-  &:first-child {
-    margin-top: 45px;
-  }
-  &:last-child {
-    margin-bottom: 45px;
-  }
+  ${({ theme }) =>
+    css`
+      color: ${darken(0.2, theme.iconsColor)};
+    `};
+  font-weight: 400;
+  font-size: ${toRem(20)};
 `
 
 const Title = styled.div`
-  font-size: 1.5rem;
-  ${({theme}) =>
-    css`
-      color: ${theme.primaryOrange};
-    `};
+  font-size: 1.8rem;
+  ${({ type, theme }) => {
+    if (type === 'success') {
+      return css`
+        color: ${theme.primaryOrange};
+      `
+    }
+    return css`
+      color: ${theme.primaryBlue};
+    `
+  }};
   font-weight: 600;
   text-transform: none;
   position: relative;
@@ -153,15 +153,89 @@ const Title = styled.div`
   }
 `
 
+const ButtonText = styled.div`
+  float: none;
+  line-height: normal;
+  text-align: center;
+  display: inline-block;
+  margin: 0;
+  padding: 0 20px;
+  ${({ theme }) =>
+    css`
+      color: ${darken(0.2, theme.iconsColor)};
+    `};
+  font-weight: 600;
+  font-size: ${toRem(24)};
+  ${({ type, theme }) => {
+    if (type === 'success') {
+      return css`
+        color: ${theme.primaryOrange};
+      `
+    }
+    return css`
+      color: ${theme.primaryBlue};
+    `
+  }};
+`
+
+const Svg = styled.svg`
+  ${({ theme }) => css`
+    color: ${lighten(0.1, theme.iconsColor)};
+  `};
+  width: 30px;
+  height: 30px;
+  stroke-width: 2;
+  margin: 5px;
+`
+
+const Closer = () => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="feather feather-x"
+  >
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
+  </Svg>
+)
+
+const IconsWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  line-height: 100%;
+`
+
+const ClickableCloser = ({ onClick }) => (
+  <div onClick={onClick}>
+    <Closer />
+  </div>
+)
+
 class PopupNotification extends Component {
   closePopup = () => {
-    const {key, onClose, actions} = this.props
-    actions.closePopupNotification({key})
-    onClose && onClose()
+    const { key, onClose, actions } = this.props
+    actions.closePopupNotification({ key })
+    if (onClose) onClose()
   }
 
-  componentWillReceiveProps({show}) {
-    const {show: wasShowing} = this.props
+  handleOutsideClick = e => {
+    // ignore clicks on the component itself
+    if (this.node && this.node.contains(e.target)) {
+      return
+    }
+
+    this.props.show && this.closePopup()
+  }
+
+  componentWillReceiveProps({ show }) {
+    const { show: wasShowing } = this.props
     if (show) {
       document.addEventListener('click', this.handleOutsideClick, false)
     } else if (wasShowing && !show) {
@@ -169,42 +243,54 @@ class PopupNotification extends Component {
     }
   }
 
-  handleOutsideClick = ({target}) => {
-    // ignore clicks on the component itself
-    const clickedId = R.pathOr('', ['classList', 'value'], target)
-    const popupId = R.pathOr('', ['base', 'className'], this.node)
-
-    if (clickedId === popupId) {
-      return
-    }
-
-    this.closePopup()
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleOutsideClick, false)
   }
 
-  render({type, title, show, text}) {
+  render({ type, title, show, text, textResolver }) {
+    // allow different texts according to the e.g. status code
+    const displayText = R.is(Function, textResolver)
+      ? textResolver(this.props)
+      : text
+    const isSuccess = type === 'success'
+    const isError = type === 'error'
+
     return (
       <Overlay show={show} tabIndex={-1}>
-        {show && (
+        {show ? (
           <Popup
-            ref={node => {
+            innerRef={node => {
               this.node = node
             }}
             type={type}
           >
-            <Title>{title || type}</Title>
-            <Content>
-              <Text>{text}</Text>
-            </Content>
+            <IconsWrapper>
+              <ClickableCloser onClick={this.closePopup} />
+            </IconsWrapper>
+            <Title type={type}>{title || type.toUpperCase()}</Title>
+            <Text>{displayText}</Text>
             <Footer>
-              <Button onClick={this.closePopup} />
+              <Button
+                light={isSuccess}
+                primary={isError}
+                onClick={this.closePopup}
+              >
+                <ButtonText type={type}>
+                  {isSuccess ? 'Ok' : 'Close'}
+                </ButtonText>
+              </Button>
             </Footer>
           </Popup>
-        )}
+        ) : null}
       </Overlay>
     )
   }
 }
 
-const mapStateToProps = (state, key) => ({show: !R.path(['popup', key], state)})
+const mapStateToProps = (state, { id }) => ({
+  show: R.pathEq(['popup', 'key'], id, state),
+  status: R.pathOr(null, ['popup', 'status'], state),
+  api: R.prop('api', state)
+})
 
 export default connect(mapStateToProps)(PopupNotification)

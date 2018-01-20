@@ -26,7 +26,6 @@ const StyledButton = styled.button`
   font-size: 1.7em;
   font-weight: 470;
   color: #fff;
-  outline: none;
   padding: 2px 17px 4px 17px;
   margin: 0 4px;
   box-shadow: none;
@@ -36,6 +35,30 @@ const StyledButton = styled.button`
       &:hover,
       &:disabled {
         background: ${transparentize(0.5, p.theme.primaryBlue)};
+      }
+      &:disabled {
+        background: ${opacify(0.1, p.theme.subduedTexTColor)};
+        cursor: not-allowed;
+      }
+      border: 2px solid ${p.theme.primaryBlue};
+      background: transparent;
+      color: ${p.theme.primaryBlue};
+      &:hover {
+        background: ${transparentize(0.8, p.theme.primaryBlue)};
+        color: ${p.theme.primaryBlue};
+      }
+      &:disabled {
+        background: ${transparentize(0.6, p.theme.primaryBlue)};
+        color: ${transparentize(0.3, p.theme.primaryBlue)};
+        cursor: not-allowed;
+      }
+    `};
+  ${p =>
+    p.secondary &&
+    css`
+      &:hover,
+      &:disabled {
+        background: ${transparentize(0.5, p.theme.secondaryBlue)};
       }
       &:disabled {
         background: ${opacify(0.1, p.theme.subduedTexTColor)};
@@ -112,6 +135,10 @@ const StyledButton = styled.button`
       font-weight: bold;
       border-width: 5px;
     `};
+  &:focus: {
+    outline: none;
+    box-shadow: 0px 0px 0px 1px white, 0px 0px 0px 3px rgba(43, 114, 165, 0.29);
+  }
 `
 
 const Button = ({

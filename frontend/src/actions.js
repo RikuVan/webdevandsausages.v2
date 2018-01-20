@@ -26,10 +26,10 @@ const actions = {
   setAuth: 'auth/SET_AUTH',
   broadcastNotification: ({
     key,
-    message,
+    status,
     notificationTime = NOTIFICATION_FLASH_TIME
   }) => store => {
-    store.actions.notify({ key, message })
+    store.actions.notify({ key, status })
     setTimeout(() => {
       store.actions.closeNotification({ key })
     }, notificationTime)
@@ -54,7 +54,10 @@ const actions = {
       .fork(
         error => {
           if (R.is(Number, error)) {
-            store.actions.broadcastNotification({ key: `${key}Error` })
+            store.actions.broadcastNotification({
+              key: `${key}Error`,
+              status: error
+            })
             if (key === 'auth') {
               store.actions.setAuth({ pass: null, admin: null })
             }
@@ -63,8 +66,11 @@ const actions = {
           if (key === 'auth') {
             store.actions.setAuth({ pass: null, admin: null })
           }
-          store.actions.broadcastNotification({ key: `${key}Error` })
           store.actions.apiFinish({ key, status: 500, error })
+          store.actions.broadcastNotification({
+            key: `${key}Error`,
+            status: 500
+          })
         },
         data => {
           store.actions.broadcastNotification({ key: `${key}Success` })

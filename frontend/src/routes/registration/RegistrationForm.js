@@ -1,10 +1,11 @@
 import { h, Component } from 'preact'
-import styled, { css, keyframes } from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Form, Field } from 'react-final-form'
+import { route } from 'preact-router'
+
 import { connect } from '../../preact-smitty'
 import R from '../../helpers'
 import darken from 'polished/lib/color/darken'
-import transparentize from 'polished/lib/color/transparentize'
 
 import Button from '../../components/Button'
 import { Grid } from '../../components/layout'
@@ -60,60 +61,6 @@ export const ButtonWrapper = styled.div`
   }
 `
 
-const pulse = keyframes`
-  from {
-    transform: scale3d(1, 1, 1);
-  }
-
-  50% {
-    transform: scale3d(1.05, 1.05, 1.05);
-  }
-
-  to {
-    transform: scale3d(1, 1, 1);
-  }
-`
-
-const Message = styled.div`
-  color: ${darken(0.2, theme.iconsColor)};
-  border-radius: 3px;
-  font-weight: 400;
-  font-size: ${toRem(24)};
-  width: 100%;
-  margin: 30px 0;
-  line-height: 175%;
-  padding: 10px;
-  ${({ type }) => {
-    switch (type) {
-      case 'error': {
-        return css`
-          background: ${transparentize(0.2, theme.notificationError)};
-        `
-      }
-      case 'success': {
-        return css`
-          background: ${transparentize(0.2, theme.notificationSuccess)};
-        `
-      }
-      case 'info': {
-        return css`
-          background: ${transparentize(0.2, theme.notificationError)};
-        `
-      }
-      default: {
-        return css`
-          background: ${transparentize(0.2, theme.notificationDefault)};
-        `
-      }
-    }
-  }};
-  animation: ${pulse} 1s 0s 2;
-`
-
-export const ResultMessage = ({ type, message }) => (
-  <Message type={type}>{message}</Message>
-)
-
 const validate = values => {
   const errors = {}
   if (!values.email) {
@@ -130,12 +77,19 @@ class RegistrationForm extends Component {
     this.props.actions.resetApi({ key: 'registration' })
   }
 
+  handleModalClose = (reset, success) => () => {
+    this.handleReset(reset)()
+    if (success) {
+      route('/')
+    }
+  }
+
   onSubmit = (values, form) => {
     this.props.actions.post({
       key: 'registration',
       resource: 'registration',
       id: this.props.eventId,
-      values
+      values: R.trimValues(values)
     })
     form.reset()
   }
@@ -144,14 +98,7 @@ class RegistrationForm extends Component {
     this.props.actions.resetApi({ key: 'registration' })
   }
 
-  render({
-    hasStatus,
-    loading,
-    showErrorMsg,
-    showSuccessMsg,
-    showAlreadyRegisteredMsg,
-    ...rest
-  }) {
+  render({ hasStatus, loading, ...rest }) {
     return (
       <FormWrapper>
         <Form
@@ -167,24 +114,22 @@ class RegistrationForm extends Component {
                 unique verification token by email. Please save this in case you
                 need to cancel or check your registration later.
               </Info>
-              {showSuccessMsg && (
-                <ResultMessage
-                  type="success"
-                  message="You are registered. Please check your email for confirmation. It may go to your SPAM folder."
-                />
-              )}
-              {showErrorMsg && (
-                <ResultMessage
-                  type="info"
-                  message="Oops, an error occurred. Please try again a bit later."
-                />
-              )}
-              {showAlreadyRegisteredMsg && (
-                <ResultMessage
-                  type="error"
-                  message="Your email is already among the registrations and you cannot register twice."
-                />
-              )}
+              <PopupNotification
+                id="registrationError"
+                type="error"
+                textResolver={({ status }) => {
+                  if (status === 400)
+                    return 'Your email is already among the registrations and you cannot register twice.'
+                  return 'Oops, an error occurred. Please try again a bit later.'
+                }}
+                onClose={this.handleModalClose(reset, false)}
+              />
+              <PopupNotification
+                id="registrationSuccess"
+                type="success"
+                text="You are registered. Confirmation should arrive by email soon. It may go to your SPAM folder."
+                onClose={this.handleModalClose(reset, true)}
+              />
               <FormGrid columns="repeat(auto-fit,minmax(300px,1fr))">
                 <LabeledField
                   name="email"
@@ -233,7 +178,7 @@ class RegistrationForm extends Component {
                 <Button
                   type="button"
                   light
-                  disabled={pristine || !valid || loading}
+                  disabled={pristine || loading}
                   valid={valid}
                   minWidth={123}
                   onClick={this.handleReset(reset)}
@@ -241,11 +186,6 @@ class RegistrationForm extends Component {
                   Reset
                 </Button>
               </ButtonWrapper>
-              <PopupNotification
-                key="errorRegistration"
-                type="success"
-                text="You are registered. Please check your email for confirmation. It may go to your SPAM folder."
-              />
             </form>
           )}
         />
@@ -262,17 +202,9 @@ const mapStateToProps = state => {
     state
   )
   const loading = R.pathEq(registrationStatusPath, 'started', state)
-  const showSuccessMsg = R.pathEq(registrationStatusPath, 201, state)
-  const showAlreadyRegisteredMsg = R.pathEq(registrationStatusPath, 400, state)
-  const showErrorMsg =
-    hasStatus && !loading && !showSuccessMsg && !showAlreadyRegisteredMsg
-
   return {
     hasStatus,
-    loading,
-    showSuccessMsg,
-    showErrorMsg,
-    showAlreadyRegisteredMsg
+    loading
   }
 }
 

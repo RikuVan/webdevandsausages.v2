@@ -2,17 +2,13 @@ import { h, Component } from 'preact'
 import styled from 'styled-components'
 import { Form } from 'react-final-form'
 import { connect } from '../../preact-smitty'
+import { route } from 'preact-router'
 import R from '../../helpers'
 
 import Button from '../../components/Button'
 import LabeledField from '../../components/forms/LabeledField'
-import {
-  ResultMessage,
-  FormWrapper,
-  Info,
-  ButtonWrapper,
-  FormGrid
-} from './RegistrationForm'
+import PopupNotification from '../../components/PopupNotification'
+import { FormWrapper, Info, ButtonWrapper, FormGrid } from './RegistrationForm'
 import { toOrdinal } from '../../helpers/ordinal'
 
 import { isEmail } from '../../helpers/validation'
@@ -41,12 +37,20 @@ class CancellationForm extends Component {
     this.props.actions.resetApi({ key: 'verification' })
   }
 
+  handleModalClose = (reset, success) => () => {
+    this.handleReset(reset)()
+    if (success) {
+      route('/')
+    }
+  }
+
   onSubmit = (values, form) => {
+    const { email, verificationToken } = R.trimValues(values)
     this.props.actions.get({
       key: 'verification',
       resource: 'registration',
       id: this.props.eventId,
-      params: { e: values.email, t: values.verificationToken }
+      params: { e: email, t: verificationToken }
     })
     form.reset()
   }
@@ -77,24 +81,29 @@ class CancellationForm extends Component {
                 by email. It should consist of two silly words joined by a
                 hyphen.
               </Info>
-              {showSuccessMsg && (
-                <ResultMessage
-                  type="success"
-                  message={
-                    waitListPosition
-                      ? `You are ${toOrdinal(
-                          waitListPosition
-                        )} in the waiting list for this event.`
-                      : 'Yes, you are registered for this event.'
-                  }
-                />
-              )}
-              {showErrorMsg && (
-                <ResultMessage
-                  type="info"
-                  message="Oops, an error occurred. Are you sure you entered the correct token?"
-                />
-              )}
+              <PopupNotification
+                id="verificationError"
+                type="error"
+                text="Oops, an error occurred. Are you sure you entered the correct token?"
+                onClose={this.handleModalClose(reset, false)}
+              />
+              <PopupNotification
+                id="verificationSuccess"
+                type="success"
+                textResolver={({ api }) => {
+                  const waitListPosition = R.compose(
+                    R.propOr(false, 'waitListed'),
+                    R.pathOr({}, ['verification', 'data'])
+                  )(api)
+                  return waitListPosition &&
+                    R.compose(R.is(Number), v => Number(v))(waitListPosition)
+                    ? `You are ${toOrdinal(
+                        waitListPosition
+                      )} in the waiting list for this event.`
+                    : 'Yes, you are registered for this event.'
+                }}
+                onClose={this.handleModalClose(reset, true)}
+              />
               <GridContainer>
                 <FormGrid
                   columns="500px"
@@ -147,32 +156,16 @@ class CancellationForm extends Component {
 
 const verificationPath = ['api', 'verification']
 const verificationStatusPath = verificationPath.concat(['status'])
-const verificationDataPath = verificationPath.concat(['data'])
-const getWaitListPosition = R.compose(
-  R.propOr(false, 'waitListed'),
-  R.pathOr({}, verificationDataPath)
-)
-const maybeHasData = R.compose(
-  R.complement(R.isNil),
-  R.pathOr(null, verificationDataPath)
-)
 
 const mapStateToProps = state => {
   const hasStatus = R.compose(R.has('status'), R.pathOr({}, verificationPath))(
     state
   )
   const loading = R.pathEq(verificationStatusPath, 'started', state)
-  const hasData = maybeHasData(state)
-  const showSuccessMsg = R.pathEq(verificationStatusPath, 200, state) && hasData
-  const waitListPosition = getWaitListPosition(state)
-  const showErrorMsg = hasStatus && !loading && !showSuccessMsg
 
   return {
     hasStatus,
-    loading,
-    showSuccessMsg,
-    showErrorMsg,
-    waitListPosition
+    loading
   }
 }
 

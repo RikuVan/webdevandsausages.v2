@@ -2,17 +2,13 @@ import { h, Component } from 'preact'
 import styled from 'styled-components'
 import { Form } from 'react-final-form'
 import { connect } from '../../preact-smitty'
+import { route } from 'preact-router'
 import R from '../../helpers'
 
 import Button from '../../components/Button'
+import PopupNotification from '../../components/PopupNotification'
 import LabeledField from '../../components/forms/LabeledField'
-import {
-  ResultMessage,
-  FormWrapper,
-  Info,
-  ButtonWrapper,
-  FormGrid
-} from './RegistrationForm'
+import { FormWrapper, Info, ButtonWrapper, FormGrid } from './RegistrationForm'
 
 import { isEmail } from '../../helpers/validation'
 
@@ -40,12 +36,19 @@ class CancellationForm extends Component {
     this.props.actions.resetApi({ key: 'cancellation' })
   }
 
+  handleModalClose = (reset, success) => () => {
+    this.handleReset(reset)()
+    if (success) {
+      route('/')
+    }
+  }
+
   onSubmit = (values, form) => {
     this.props.actions.delete({
       key: 'cancellation',
       resource: 'registration',
       id: this.props.eventId,
-      values
+      values: R.trimValues(values)
     })
     form.reset()
   }
@@ -68,18 +71,18 @@ class CancellationForm extends Component {
                 {this.props.eventDate}, submit the token sent you by email. It
                 should consist of two silly words joined by a hyphen.
               </Info>
-              {showSuccessMsg && (
-                <ResultMessage
-                  type="success"
-                  message="Your registration is cancelled. Please check your email (SPAM folder?) for confirmation."
-                />
-              )}
-              {showErrorMsg && (
-                <ResultMessage
-                  type="info"
-                  message="Oops, an error occurred. Are you sure you entered the correct token?"
-                />
-              )}
+              <PopupNotification
+                id="cancellationError"
+                type="error"
+                text="Oops, an error occurred. Are you sure you entered the correct token?"
+                onClose={this.handleModalClose(reset, false)}
+              />
+              <PopupNotification
+                id="cancellationSuccess"
+                type="success"
+                text="Your registration is cancelled. Please check your email (SPAM folder?) for confirmation."
+                onClose={this.handleModalClose(reset, true)}
+              />
               <GridContainer>
                 <FormGrid
                   columns="500px"
@@ -138,14 +141,10 @@ const mapStateToProps = state => {
     state
   )
   const loading = R.pathEq(cancellationStatusPath, 'started', state)
-  const showSuccessMsg = R.pathEq(cancellationStatusPath, 202, state)
-  const showErrorMsg = hasStatus && !loading && !showSuccessMsg
 
   return {
     hasStatus,
-    loading,
-    showSuccessMsg,
-    showErrorMsg
+    loading
   }
 }
 

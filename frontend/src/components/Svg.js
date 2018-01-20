@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Svg = styled.svg`
   svg {
@@ -8,6 +8,18 @@ const Svg = styled.svg`
       fill: currentColor;
     }
   }
+  ${({ color, width, height }) =>
+    color &&
+    css`
+      color: ${color};
+    `};
+  ${({ width, height }) =>
+    width &&
+    height &&
+    css`
+      width: ${width};
+      height: ${height};
+    `};
 `
 
 export default Svg

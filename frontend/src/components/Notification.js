@@ -1,7 +1,7 @@
-import {h} from 'preact'
-import styled, {keyframes, css} from 'styled-components'
+import { h } from 'preact'
+import styled, { keyframes, css } from 'styled-components'
 import darken from 'polished/lib/color/darken'
-import {connect} from '../preact-smitty'
+import { connect } from '../preact-smitty'
 import R from '../helpers'
 import Svg from './Svg'
 
@@ -53,7 +53,7 @@ const Wrapper = styled.div`
   font-weight: 500;
   animation: ${scaleIn} 0.3s ease-out forwards,
     ${expand} 0.35s 0.25s ease-out forwards;
-  ${({theme, type}) => {
+  ${({ theme, type }) => {
     switch (type) {
       case 'success': {
         return css`
@@ -94,11 +94,11 @@ const IconWrapper = styled.div`
   padding: 0 16px;
 `
 
-const AlertIcon = (
+export const AlertIcon = ({ width = 28, height = 28, color }) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
-    width="28"
-    height="28"
+    width={width}
+    height={height}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -106,6 +106,7 @@ const AlertIcon = (
     stroke-linecap="round"
     stroke-linejoin="round"
     class="feather feather-alert-circle"
+    color={color}
   >
     <circle cx="12" cy="12" r="10" />
     <line x1="12" y1="8" x2="12" y2="12" />
@@ -113,11 +114,11 @@ const AlertIcon = (
   </Svg>
 )
 
-const CheckIcon = (
+export const CheckIcon = ({ width = 28, height = 28, color }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="28"
-    height="28"
+    width={width}
+    height={height}
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
@@ -126,12 +127,13 @@ const CheckIcon = (
     stroke-linejoin="round"
     class="feather feather-check"
     background="white"
+    color={color}
   >
     <polyline points="20 6 9 17 4 12" />
   </svg>
 )
 
-const InfoIcon = (
+const InfoIcon = () => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -165,15 +167,17 @@ const Notification = ({
 }) => {
   if (!visible) return null
   const text = message || defaultMessage
+  const Icon = iconMap[type]
+
   return (
     <Wrapper type={type}>
-      <IconWrapper>{iconMap[type] || ''}</IconWrapper>
+      <IconWrapper>{<Icon /> || ''}</IconWrapper>
       <NotificationText>{text}</NotificationText>
     </Wrapper>
   )
 }
 
-const mapStateToProps = (state, {id}) => ({
+const mapStateToProps = (state, { id }) => ({
   visible: R.pathOr(false, ['notifications', id], state)
 })
 
