@@ -34,6 +34,14 @@ yarn run serve
 
 The frontend uses a development firebase instance in when NODE_ENV="development".
 
+## e2e tests
+
+There are e2e tests under `test/e2e` that should pass before pushing to master:
+
+```
+yarn run test:e2e
+```
+
 ## Backend
 
 The backend, in Typescript, was created using the Firebase cli. There are two projects in firebase, one for production and one for development and testing.
@@ -74,6 +82,7 @@ Commits to master should trigger and automatic update to Firebase. To update the
 ### Backend
 
 ```bash
+firebase use default #firebase use test for dev backend
 firebase deploy --only functions
 ```
 

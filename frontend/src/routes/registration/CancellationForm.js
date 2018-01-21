@@ -61,11 +61,10 @@ class CancellationForm extends Component {
     return (
       <FormWrapper>
         <Form
-          id="cancellation"
           onSubmit={this.onSubmit}
           validate={validate}
           render={({ handleSubmit, valid, pristine, reset }) => (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} id="cancellation">
               <Info>
                 To cancel your registration for the event on{' '}
                 {this.props.eventDate}, submit the token sent you by email. It

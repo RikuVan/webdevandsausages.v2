@@ -102,12 +102,11 @@ class RegistrationForm extends Component {
     return (
       <FormWrapper>
         <Form
-          id="registration"
           onSubmit={this.onSubmit}
           initialValues={{ receivesMail: true }}
           validate={validate}
           render={({ handleSubmit, valid, pristine, reset }) => (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} id="registration">
               <Info>
                 The following registration is for the event on{' '}
                 {this.props.eventDate}. After registering, you should receive a

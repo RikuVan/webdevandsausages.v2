@@ -259,6 +259,8 @@ class PopupNotification extends Component {
       <Overlay show={show} tabIndex={-1}>
         {show ? (
           <Popup
+            id={`popup-${type}`}
+            className={`${show ? 'visible' : 'hidden'}`}
             innerRef={node => {
               this.node = node
             }}
@@ -275,7 +277,7 @@ class PopupNotification extends Component {
                 primary={isError}
                 onClick={this.closePopup}
               >
-                <ButtonText type={type}>
+                <ButtonText id={`popup-btn-${type}`} type={type}>
                   {isSuccess ? 'Ok' : 'Close'}
                 </ButtonText>
               </Button>

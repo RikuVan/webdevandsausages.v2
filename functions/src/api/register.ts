@@ -29,6 +29,9 @@ import {
 } from 'ramda'
 import { upsertParticipant } from './participants'
 const randomWord = require('random-word')
+import { config } from '../'
+const isDev = config.VERSION === 'dev'
+const devPass = config.PASS
 
 moment()
   .tz('Europe/Helsinki')
@@ -64,7 +67,7 @@ const pushToEventQueue = (
   details: object
 ) => {
   // unique token allows cancellation of registration
-  const verificationToken = `${randomWord()}-${randomWord()}`
+  const verificationToken = isDev ? devPass : `${randomWord()}-${randomWord()}`
   const registration = {
     email,
     verificationToken
