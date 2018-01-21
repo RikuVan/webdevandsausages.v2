@@ -14,6 +14,7 @@ import Separator from '../../components/Separator'
 import { Tabs, Tab } from '../../components/Tabs'
 import Panel from '../../components/Panel'
 import PageTitle from '../../components/PageTitle'
+import Spinner from '../../components/Spinner'
 
 import RegistrationForm from './RegistrationForm'
 import CancellationForm from './CancellationForm'
@@ -93,6 +94,18 @@ class Registration extends Component {
     }
   }
 
+  renderForm = (FormComponent, loading, { datetime, id }) => {
+    if (loading) {
+      return <Spinner marginTop="80" />
+    }
+    return (
+      <FormComponent
+        eventDate={datetime ? format(datetime, 'MMMM Do, YYYY') : ''}
+        eventId={id}
+      />
+    )
+  }
+
   render({ isExpandedMobileNav, hideIcon, event, loadingEvent, isEventOpen }) {
     const tab = this.getTab()
     return (
@@ -131,28 +144,13 @@ class Registration extends Component {
               </Tab>
             </Tabs>
             <Panel active={tab === tabs.REGISTRATION}>
-              <RegistrationForm
-                eventDate={
-                  event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
-                }
-                eventId={event.id}
-              />
+              {this.renderForm(RegistrationForm, loadingEvent, event)}
             </Panel>
             <Panel active={tab === tabs.CANCELLATION}>
-              <CancellationForm
-                eventDate={
-                  event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
-                }
-                eventId={event.id}
-              />
+              {this.renderForm(CancellationForm, loadingEvent, event)}
             </Panel>
             <Panel active={tab === tabs.VERIFICATION}>
-              <VerificationForm
-                eventDate={
-                  event.datetime ? format(event.datetime, 'MMMM Do, YYYY') : ''
-                }
-                eventId={event.id}
-              />
+              {this.renderForm(VerificationForm, loadingEvent, event)}
             </Panel>
           </TabsContainer>
         </TopSection>

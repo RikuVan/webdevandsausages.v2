@@ -1,6 +1,8 @@
 import { h } from 'preact'
 import styled, { css, keyframes } from 'styled-components'
 
+import { toRem } from '../helpers/styleHelpers'
+
 const rotate360 = keyframes`
   from {
     transform: rotate(0deg);
@@ -35,13 +37,19 @@ const StyledSpinner = styled.div`
       border-top-color: rgba(0, 0, 0, 0);
       border-left-color: rgba(0, 0, 0, 0);
     `};
+  ${p =>
+    p.marginTop &&
+    css`
+      margin-top: ${toRem(`${p.marginTop}px`)};
+    `};
 `
 
-const Spinner = ({ small, whiteSpinner }) => (
+const Spinner = ({ small, whiteSpinner, marginTop }) => (
   <StyledSpinner
     className="spinner"
     small={small}
     whiteSpinner={whiteSpinner}
+    marginTop={marginTop}
   />
 )
 
