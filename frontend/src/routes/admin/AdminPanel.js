@@ -66,7 +66,7 @@ class AdminPanel extends Component {
       route('/__admin__/registered')
     }
     const { actions: a } = this.props
-    a.flashNotification({ key: 'loginSuccess' })
+    a.broadcastNotification({ key: 'loginSuccess' })
     a.get({ key: 'allParticipants', resource: 'participants' })
     a.get({ key: 'allEvents', resource: 'events' })
   }
