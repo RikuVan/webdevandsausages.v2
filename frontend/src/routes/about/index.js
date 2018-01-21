@@ -130,8 +130,8 @@ const About = ({ isExpandedMobileNav }) => (
         Web Dev &amp; Sausages is based in <Hashtag>#Tampere, Finland</Hashtag>{' '}
         and organized for those interested in{' '}
         <Hashtag>#web-based technologies</Hashtag> and{' '}
-        <Hashtag>#programming in various languages</Hashtag> and or just hungry
-        for sausages. Professionals, students, and hobbyists are welcome. Our
+        <Hashtag>#programming in various languages</Hashtag> or just hungry for
+        sausages. Professionals, students, and hobbyists are welcome. Our
         mission is to create memorable, <Hashtag>#high-quality events</Hashtag>{' '}
         with diverse speakers. Our events include contests,{' '}
         <Hashtag>#hackathons</Hashtag>, games, music and whatever else we can
