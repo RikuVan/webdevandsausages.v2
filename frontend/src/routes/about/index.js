@@ -135,9 +135,9 @@ const About = ({ isExpandedMobileNav }) => (
         mission is to create memorable, <Hashtag>#high-quality events</Hashtag>{' '}
         with diverse speakers. Our events include contests,{' '}
         <Hashtag>#hackathons</Hashtag>, games, music and whatever else we can
-        dream up. The one cosistent element is <Hashtag>#good food</Hashtag> and
-        company. We are a volunteer organization that depends on companies to
-        sponsor our events. Sponsors not only support the rich{' '}
+        dream up. The one consistent element is <Hashtag>#good food</Hashtag>{' '}
+        and company. We are a volunteer organization that depends on companies
+        to sponsor our events. Sponsors not only support the rich{' '}
         <Hashtag>#community</Hashtag> of developers to share their{' '}
         <Hashtag>#innovative ideas</Hashtag> but also gain recognition and a
         chance to recruit top talent.

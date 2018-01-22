@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { h, Component } from 'preact'
 import styled, { css, keyframes } from 'styled-components'
 
 import { toRem } from '../helpers/styleHelpers'
@@ -44,13 +44,28 @@ const StyledSpinner = styled.div`
     `};
 `
 
-const Spinner = ({ small, whiteSpinner, marginTop }) => (
-  <StyledSpinner
-    className="spinner"
-    small={small}
-    whiteSpinner={whiteSpinner}
-    marginTop={marginTop}
-  />
-)
+class Spinner extends Component {
+  state = { show: false }
+
+  componentDidMount() {
+    this.delay = setTimeout(() => this.setState({ show: true }), 800)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.delay)
+  }
+
+  render({ small, whiteSpinner, marginTop }) {
+    if (!this.state.show) return null
+    return (
+      <StyledSpinner
+        className="spinner"
+        small={small}
+        whiteSpinner={whiteSpinner}
+        marginTop={marginTop}
+      />
+    )
+  }
+}
 
 export default Spinner
