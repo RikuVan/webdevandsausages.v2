@@ -1,164 +1,369 @@
 <!DOCTYPE html>
+
+
 <html lang="en">
 
+
 <head>
-  <title>Web Dev & Sausages Registration Confirmation</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <style type="text/css">
-    /* CLIENT-SPECIFIC STYLES */
+    <title>Web Dev & Sausages Registration Confirmation</title>
+    <meta charset="utf-8">
 
-    body,
-    table,
-    td,
-    a {
-      -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
-    }
 
-    table,
-    td {
-      mso-table-lspace: 0pt;
-      mso-table-rspace: 0pt;
-    }
+    <meta name="viewport"
+          content="width=device-width">
 
-    img {
-      -ms-interpolation-mode: bicubic;
-    }
 
-    .apple-links a {
-      color: #999999;
-      text-decoration: none;
-    }
+    <style type="text/css">
+        /* CLIENT-SPECIFIC STYLES */
 
-    u+#body a {
-      color: inherit;
-      text-decoration: none;
-      font-size: inherit;
-      font-family: inherit;
-      font-weight: inherit;
-      line-height: inherit;
-    }
+        #outlook a {
+            padding: 0; /* Force Outlook to provide a "view in browser" message */
+        }
 
-    /* RESET STYLES */
+        .ReadMsgBody {
+            width: 100%; /* Force Hotmail to display emails at full width */
+        }
 
-    img {
-      border: 0;
-      height: auto;
-      line-height: 100%;
-      outline: none;
-      text-decoration: none;
-    }
+        .ExternalClass {
+            width: 100%; /* Force Hotmail to display emails at full width */
+        }
 
-    table {
-      border-collapse: collapse !important;
-    }
+        .ExternalClass,
+        .ExternalClass p,
+        .ExternalClass span,
+        .ExternalClass font,
+        .ExternalClass td,
+        .ExternalClass div {
+            line-height: 100%; /* Force Hotmail to display normal line spacing */
+        }
 
-    body {
-      height: 100% !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      width: 100% !important;
-    }
+        body,
+        table,
+        td,
+        a {
+            /* Prevent WebKit and Windows mobile changing default text sizes */
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
 
-    .address a {
-      color: #fff !important;
-      text-decoration: underline !important;
+        table,
+        td {
+            /* Remove spacing between tables in Outlook 2007 and up */
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
 
-    }
-  </style>
+        img {
+            /* Allow smoother rendering of resized image in Internet Explorer */
+            -ms-interpolation-mode: bicubic;
+        }
+
+        body,
+        table,
+        td,
+        a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table,
+        td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        .apple-links a {
+            color: #999999;
+            text-decoration: none;
+        }
+
+        u + #body a {
+            color: inherit;
+            text-decoration: none;
+            font-size: inherit;
+            font-family: inherit;
+            font-weight: inherit;
+            line-height: inherit;
+        }
+
+        /* RESET STYLES */
+
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+
+        table {
+            border-collapse: collapse !important;
+        }
+
+        body {
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        .address a {
+            color: #fff !important;
+            text-decoration: underline !important;
+        }
+
+        /* MOBILE STYLES */
+
+        @media screen and (max-width: 600px) {
+            td[class='logo'] img {
+                margin: auto !important;
+            }
+
+            table[class='wrapper'] {
+                width: 100% !important;
+            }
+
+            td[class='mobile-image-pad'] {
+                padding: 0 10px 0 10px !important;
+            }
+
+            td[class='mobile-title-pad'] {
+                padding: 30px 10px 0px 10px !important;
+            }
+
+            td[class='mobile-text-pad'] {
+                padding: 10px 10px 10px 10px !important;
+            }
+
+            td[class='mobile-column-right'] {
+                padding-top: 20px !important;
+            }
+
+            img[class='fluid-image'] {
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            td[class='hide'] {
+                display: none !important;
+            }
+
+            td[class='mobile-button'] {
+                padding: 12px 60px 12px 60px !important;
+            }
+
+            td[class='mobile-button'] a {
+                font-size: 24px !important;
+            }
+        }
+    </style>
 </head>
 
-<body style="margin: 0; padding: 0;" id="body">
+<body style="margin: 0; padding: 0;"
+      id="body">
+<!-- CONTAINER TABLE -->
 
-  <!-- CONTAINER TABLE -->
-  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; background-color: #52bdf6">
+<table border="0"
+       cellpadding="0"
+       cellspacing="0"
+       width="100%"
+       style="table-layout: fixed; background-color: #52bdf6">
+
+    <tbody>
+
     <tr>
-      <td align="center" style="padding: 0;">
-        <!-- WRAPPER TABLE -->
-        <table border="0" cellpadding="0" cellspacing="0" width="600">
-          <!-- LOGO/PREHEADER TEXT -->
-          <tr>
-            <td>
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td align="center">
-                    <img src="https://storage.googleapis.com/wds-event-tool.appspot.com/wds_logo.png" alt="Web Dev & Sausages - The meetup with more mustard"
-                      width="200" border="0" style="display: block; color: #fff; font-family:Arial, sans-serif; font-weight: normal; font-size: 24px; line-height: 30px;"
-                    />
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
 
-  <!-- CONTAINER TABLE -->
-  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; background-color: #4b4b4b;">
+        <td align="center"
+            style="padding: 0 0 20px 0;">
+            <!-- WRAPPER TABLE -->
+
+            <table border="0"
+                   cellpadding="0"
+                   cellspacing="0"
+                   width="600"
+                   class="wrapper">
+                <!-- LOGO/PREHEADER TEXT -->
+
+                <tbody>
+
+                <tr>
+
+                    <td>
+
+                        <table border="0"
+                               cellpadding="0"
+                               cellspacing="0"
+                               width="100%">
+
+                            <tbody>
+
+                            <tr>
+
+                                <td align="center">
+
+                                    <img class="logo"
+                                         src="https://storage.googleapis.com/wds-event-tool.appspot.com/wds_logo.png"
+                                         alt="Web Dev & Sausages - The meetup with more mustard"
+                                         width="200"
+                                         border="0"
+                                         style="display: block; color: #fff; font-family:Arial, sans-serif; font-weight: normal; font-size: 24px; line-height: 50px;">
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!-- CONTAINER TABLE -->
+
+<table border="0"
+       cellpadding="0"
+       cellspacing="0"
+       width="100%"
+       style="table-layout: fixed; background-color: #4b4b4b;">
+
+    <tbody>
+
     <tr>
-      <td align="center" style="padding: 40px 0 40px 0;">
-        <!-- WRAPPER TABLE -->
-        <table border="0" cellpadding="0" cellspacing="0" width="600">
-          <tr>
-            <td>
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                  <td align="center" style="color: #fff; font-family:Arial, sans-serif; font-weight: normal; font-size: 24px; line-height: 30px;">
-                    Volume 6 will be on February 22nd, 18:00!
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="padding: 20px 0 20px 0; color: #fff; font-family:Arial, sans-serif; font-weight: normal; font-size: 18px; line-height: 28px;">
-                    Join for a great line up of speakers: Roope Hakulinen on Kotlin, Antti Niemenpää on Futures in Javascript, Aki Haapamäki
-                    on ReasonML and React, and Johannes Feig on D3 v4. This will be followed by some live Rock 'n' Roll.
-                    Naturally, there will be quality food and refreshments a'plenty.
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="padding: 20px 0 20px 0; color: #fff; font-family:Arial, sans-serif; font-weight: normal; font-size: 18px; line-height: 28px;">
-                    The time Solita has reserved us the cool space in
-                    <span style="font-family:Arial, sans-serif; font-weight: normal; color:#52BDF6 !important; text-decoration: underline !important; border-bottom: none;">Tribe Tampere, Pinninkatu 47, 2nd floor, 33100 Tampere</span> 18:00. The talks will get started around
-                    18:30 and the music around 20:30. It is going to be a full house, so register now via the link below.
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="padding: 20px 0 20px 0;">
-                    <a href="https://www.webdevandsausages.org/registration?tab=register" target="_blank" style="font-size: 16px; font-family: Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; background-color:  #52BDF6; border-top: 12px solid  #52BDF6; border-bottom: 12px solid  #52BDF6; border-right: 16px solid  #52BDF6; border-left: 18px solid  #52BDF6; display: inline-block;">REGISTER &rarr;</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td align="center" style="padding: 20px 0 20px 0;">
-                    <a href="https://www.webdevandsausages.org/about" target="_blank" style="font-size: 16px; font-family: Arial, sans-serif; font-weight: normal; color: #333; text-decoration: none; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; background-color: #EEA309; border-top: 12px solid #EEA309; border-bottom: 12px solid #EEA309; border-right: 16px solid #EEA309; border-left: 18px solid #EEA309; display: inline-block;">CHECK US OUT &rarr;</a>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
 
-  <!-- FOOTER -->
-  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; background-color: #52bdf6;">
+        <td align="center"
+            style="padding: 40px 0 40px 0;">
+            <!-- WRAPPER TABLE -->
+
+            <table border="0"
+                   cellpadding="0"
+                   cellspacing="0"
+                   width="600"
+                   class="wrapper">
+
+                <tbody>
+
+                <tr>
+
+                    <td>
+
+                        <table border="0"
+                               cellpadding="0"
+                               cellspacing="0"
+                               width="100%">
+
+                            <tbody>
+
+                            <tr>
+
+                                <td align="center"
+                                    style="color: #fff; font-family:Arial, sans-serif; font-weight: normal; font-size: 24px; line-height: 30px;"
+                                    class="mobile-title-pad">Volume 6 on February 22nd, 18:00!
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td align="center"
+                                    style="padding: 20px 0 20px 0; color: #fff; font-family:Arial, sans-serif; font-weight: normal; font-size: 18px; line-height: 28px;"
+                                    class="mobile-title-pad">Enjoy a great line up of speakers: Roope Hakulinen on
+                                    Kotlin, Antti Niemenpää on Futures in Javascript, Aki Haapamäki on ReasonML and
+                                    React, and Johannes Feig on D3 v4. Then, we will Rock 'n' Roll with a live band.
+                                    Naturally, there will be quality food and refreshments a'plenty.
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td align="center"
+                                    style="padding: 20px 0 20px 0; color: #fff; font-family:Arial, sans-serif; font-weight: normal; font-size: 18px; line-height: 28px;"
+                                    class="mobile-title-pad">The time Solita has reserved us the cool space in
+
+                                    <span style="font-family:Arial, sans-serif; font-weight: normal; color:#52BDF6 !important; text-decoration: underline !important; border-bottom: none;">Tribe Tampere, Pinninkatu 47, 2nd floor, 33100 Tampere
+                          </span>18:00. The talks will get started around 18:30 and the music around 20:30. It is going
+                                    to be a full house, so register now via the link below.
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td align="center"
+                                    style="padding: 20px 0 20px 0;"
+                                    class="mobile-title-pad">
+
+                                    <a href="https://www.webdevandsausages.org/registration?tab=register"
+                                       target="_blank"
+                                       style="font-size: 16px; font-family: Arial, sans-serif; font-weight: normal; color: #ffffff; text-decoration: none; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; background-color:  #52BDF6; border-top: 12px solid  #52BDF6; border-bottom: 12px solid  #52BDF6; border-right: 16px solid  #52BDF6; border-left: 18px solid  #52BDF6; display: inline-block;">REGISTER
+                                        →
+                                    </a>
+                                </td>
+                            </tr>
+
+                            <tr>
+
+                                <td align="center"
+                                    style="padding: 20px 0 20px 0;"
+                                    class="mobile-title-pad">
+
+                                    <a href="https://www.webdevandsausages.org/about"
+                                       target="_blank"
+                                       style="font-size: 16px; font-family: Arial, sans-serif; font-weight: normal; color: #333; text-decoration: none; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; background-color: #EEA309; border-top: 12px solid #EEA309; border-bottom: 12px solid #EEA309; border-right: 16px solid #EEA309; border-left: 18px solid #EEA309; display: inline-block;">CHECK
+                                        US OUT →
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!-- FOOTER -->
+
+<table border="0"
+       cellpadding="0"
+       cellspacing="0"
+       width="100%"
+       style="table-layout: fixed; background-color: #52bdf6;">
+
+    <tbody>
+
     <tr>
-      <td align="center" style="padding: 20px 0 20px 0;">
-        <!-- WRAPPER TABLE -->
-        <table border="0" cellpadding="0" cellspacing="0" width="600" align="center">
-          <tr>
-            <td align="center" style="padding: 20px 0 20px 0; color: #fff; font-family:Arial, sans-serif; font-weight: bold; font-size: 20px; line-height: px;">
-              Sponsored by
-              <a href="https://www.solita.fi/" style="font-size: 20px; font-family: Arial, sans-serif; font-weight: normal; color: #fff; text-decoration: none; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; background-color: #de588c; border-top: 12px solid #de588c; border-bottom: 12px solid #de588c; border-right: 16px solid #de588c; border-left: 18px solid #de588c; display: inline-block;">SOLITA</a>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
 
+        <td align="center"
+            style="padding: 20px 0 20px 0;">
+            <!-- WRAPPER TABLE -->
+
+            <table border="0"
+                   cellpadding="0"
+                   cellspacing="0"
+                   width="600"
+                   align="center"
+                   class="wrapper">
+
+                <tbody>
+
+                <tr>
+
+                    <td align="center"
+                        style="padding: 20px 0 20px 0; color: #fff; font-family:Arial, sans-serif; font-weight: bold; font-size: 20px;"
+                        class="mobile-title-pad">Sponsored by
+
+                        <a href="https://www.solita.fi/"
+                           style="font-size: 20px; font-family: Arial, sans-serif; font-weight: normal; color: #fff; text-decoration: none; border-radius: 3px; -webkit-border-radius: 3px; -moz-border-radius: 3px; background-color: #de588c; border-top: 12px solid #de588c; border-bottom: 12px solid #de588c; border-right: 16px solid #de588c; border-left: 18px solid #de588c; display: inline-block;">SOLITA
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>
-
 </html>
