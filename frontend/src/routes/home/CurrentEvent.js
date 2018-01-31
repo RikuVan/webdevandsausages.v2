@@ -6,14 +6,17 @@ import darken from 'polished/lib/color/darken'
 import { toRem, phone, tablet } from '../../helpers/styleHelpers'
 import { theme } from '../../style/theme'
 
-const EventWrapper = styled.article`
+export const EventWrapper = styled.article`
   font-size: ${toRem(20)};
   text-align: left;
   margin: auto;
   padding-top: 1rem;
-  width: 50%;
-  ${tablet(css`
+  width: 60%;
+  @media (max-width: ${1600 / 18}em) {
     width: 70%;
+  }
+  ${tablet(css`
+    width: 80%;
   `)};
   ${phone(css`
     width: 90%;
@@ -30,14 +33,15 @@ const SponsorAnnouncement = styled.h3`
     `};
 `
 
-const EventDetailLabel = styled.label`
+export const EventDetailLabel = styled.label`
   font-size: 24px;
   color: #fff;
   margin: 0;
-  padding: 0;
+  padding: 15px 0;
+  line-height: 120%;
 `
 
-const EventDetail = styled.p`
+export const EventDetail = styled.p`
   margin: 0;
   padding-left: 1.5rem;
   line-height: 100%;
@@ -48,7 +52,7 @@ const EventDetail = styled.p`
     `};
 `
 
-const Screen = styled.div`
+export const Screen = styled.div`
   display: flex;
   flex-direction: column;
   ${({ theme }) =>
@@ -143,6 +147,17 @@ const SponsorLogo = styled.img`
   }
 `
 
+export const Console = ({ children }) => (
+  <EventWrapper>
+    <Menu>
+      <FakeButton />
+      <FakeMinimize />
+      <FakeZoom />
+    </Menu>
+    {children[0]}
+  </EventWrapper>
+)
+
 class CurrentEvent extends Component {
   handleKeyPress = e => {
     if (e.key === 'Enter') route('/registration')
@@ -158,12 +173,7 @@ class CurrentEvent extends Component {
             />
           </a>
         )}
-        <EventWrapper>
-          <Menu>
-            <FakeButton />
-            <FakeMinimize />
-            <FakeZoom />
-          </Menu>
+        <Console>
           <Screen>
             <EventDetailLabel>$ which</EventDetailLabel>
             <EventDetail>Volume {event.volume}</EventDetail>
@@ -180,7 +190,7 @@ class CurrentEvent extends Component {
               $ <Cursor placeholder="_" />
             </EventDetailLabel>
           </Screen>
-        </EventWrapper>
+        </Console>
       </div>
     )
   }

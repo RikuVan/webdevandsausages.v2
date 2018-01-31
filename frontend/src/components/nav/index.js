@@ -79,21 +79,29 @@ const NavTitleLink = styled(Link)`
   }
 `
 
-const Navbar = ({ transparent, reverseTheme, showSidebar }) => (
+const Navbar = ({
+  transparent,
+  reverseTheme,
+  showSidebar,
+  disableRegistration
+}) => (
   <div>
     <Wrapper transparent={transparent} reverse={reverseTheme}>
       <NormalNavbar>
         <StartWrapper>
           <Logo />
           <NavTitleLink href="/">Web Dev &amp; Sausages</NavTitleLink>
-          <NavLinks />
+          <NavLinks disableRegistration={disableRegistration} />
         </StartWrapper>
 
         <EndWrapper>
           <SocialLinks />
         </EndWrapper>
       </NormalNavbar>
-      <MobileNavbar isScrolled={transparent} />
+      <MobileNavbar
+        isScrolled={transparent}
+        disableRegistration={disableRegistration}
+      />
     </Wrapper>
     {showSidebar && (
       <Sidebar>

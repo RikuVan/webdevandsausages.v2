@@ -15,6 +15,7 @@ import { Tabs, Tab } from '../../components/Tabs'
 import Panel from '../../components/Panel'
 import PageTitle from '../../components/PageTitle'
 import Spinner from '../../components/Spinner'
+import InlineLink from '../../components/InlineLink'
 
 import RegistrationForm from './RegistrationForm'
 import CancellationForm from './CancellationForm'
@@ -35,6 +36,11 @@ const TopSection = styled.div`
     phone(css`
       padding-top: ${toRem(theme.navHeight * 2.5)};
     `)};
+  ${({ fillPage }) =>
+    fillPage &&
+    css`
+      height: 100vh;
+    `};
 `
 
 const Event = styled.h3`
@@ -82,6 +88,29 @@ class Registration extends Component {
   getTab = (props = this.props) =>
     R.compose(maybeTab, R.pathOr(null, ['matches', 'tab']))(props)
 
+  getEventMessage = (date, isOpen, loading) => {
+    if (loading) {
+      return null
+    }
+    if (isOpen) {
+      return (
+        <span>
+          Sign up here for the event on {format(date, 'MMMM Do, YYYY')}. Using
+          the verification token you receive by email, you can also check or
+          cancel your registration below.
+        </span>
+      )
+    }
+    return (
+      <span>
+        <h2>CLOSED</h2>
+        Join our mailing list from the{' '}
+        <InlineLink href="/">homepage</InlineLink> and we will let you know when
+        registration opens for the next event
+      </span>
+    )
+  }
+
   componentDidMount() {
     if (!this.getTab()) {
       this.setTab(tabs.REGISTRATION)
@@ -110,49 +139,51 @@ class Registration extends Component {
     const tab = this.getTab()
     return (
       <PageWrapper>
-        <TopSection isExpandedMobileNav={isExpandedMobileNav}>
+        <TopSection
+          isExpandedMobileNav={isExpandedMobileNav}
+          fillPage={!isEventOpen}
+        >
           <PageTitle>Registration</PageTitle>
           <Separator />
           <Event>
-            Sign up here for the event on{' '}
-            {format(event.datetime, 'MMMM Do, YYYY')}. Using the verification
-            token you receive by email, you can also check or cancel your
-            registration below.
+            {this.getEventMessage(event.datetime, isEventOpen, loadingEvent)}
           </Event>
-          <TabsContainer>
-            <Tabs>
-              <Tab
-                id={tabs.REGISTRATION}
-                active={tab === tabs.REGISTRATION}
-                onClick={this.handleTabChange(tabs.REGISTRATION)}
-              >
-                Registration
-              </Tab>
-              <Tab
-                id={tabs.CANCELLATION}
-                active={tab === tabs.CANCELLATION}
-                onClick={this.handleTabChange(tabs.CANCELLATION)}
-              >
-                Cancellation
-              </Tab>
-              <Tab
-                id={tabs.VERIFICATION}
-                active={tab === tabs.VERIFICATION}
-                onClick={this.handleTabChange(tabs.VERIFICATION)}
-              >
-                Verification
-              </Tab>
-            </Tabs>
-            <Panel active={tab === tabs.REGISTRATION}>
-              {this.renderForm(RegistrationForm, loadingEvent, event)}
-            </Panel>
-            <Panel active={tab === tabs.CANCELLATION}>
-              {this.renderForm(CancellationForm, loadingEvent, event)}
-            </Panel>
-            <Panel active={tab === tabs.VERIFICATION}>
-              {this.renderForm(VerificationForm, loadingEvent, event)}
-            </Panel>
-          </TabsContainer>
+          {isEventOpen && (
+            <TabsContainer>
+              <Tabs>
+                <Tab
+                  id={tabs.REGISTRATION}
+                  active={tab === tabs.REGISTRATION}
+                  onClick={this.handleTabChange(tabs.REGISTRATION)}
+                >
+                  Registration
+                </Tab>
+                <Tab
+                  id={tabs.CANCELLATION}
+                  active={tab === tabs.CANCELLATION}
+                  onClick={this.handleTabChange(tabs.CANCELLATION)}
+                >
+                  Cancellation
+                </Tab>
+                <Tab
+                  id={tabs.VERIFICATION}
+                  active={tab === tabs.VERIFICATION}
+                  onClick={this.handleTabChange(tabs.VERIFICATION)}
+                >
+                  Verification
+                </Tab>
+              </Tabs>
+              <Panel active={tab === tabs.REGISTRATION}>
+                {this.renderForm(RegistrationForm, loadingEvent, event)}
+              </Panel>
+              <Panel active={tab === tabs.CANCELLATION}>
+                {this.renderForm(CancellationForm, loadingEvent, event)}
+              </Panel>
+              <Panel active={tab === tabs.VERIFICATION}>
+                {this.renderForm(VerificationForm, loadingEvent, event)}
+              </Panel>
+            </TabsContainer>
+          )}
         </TopSection>
         <Footer color="primaryOrange" />
       </PageWrapper>

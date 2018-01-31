@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components'
 import { Link } from 'preact-router/match'
 import { toRem } from '../../helpers/styleHelpers'
 import darken from 'polished/lib/color/darken'
+import transparentize from 'polished/lib/color/transparentize'
 
 const Wrapper = styled.nav`
   display: flex;
@@ -32,6 +33,20 @@ const NavLink = styled(Link)`
     opacity: 0.6;
   }
   color: ${p => darken(0.1, p.theme.iconsColor)};
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      color: ${p => transparentize(0.5, p.theme.iconsColor)};
+      cursor: not-allowed;
+      &:hover,
+      &:focus {
+        opacity: 1;
+      }
+      &:active {
+        transform: none;
+        opacity: 1;
+      }
+    `};
 `
 
 export const NavSeparator = styled.span`
@@ -44,7 +59,7 @@ export const NavSeparator = styled.span`
   opacity: 0.35;
 `
 
-const NavLinks = ({ showMobileNav }) => (
+const NavLinks = ({ showMobileNav, disableRegistration }) => (
   <Wrapper>
     <NavLink id="home" activeClassName="active" href="/" showMobileNav>
       HOME
@@ -56,9 +71,10 @@ const NavLinks = ({ showMobileNav }) => (
     <NavSeparator />
     <NavLink
       id="registration"
-      activeClassName="active"
-      href="/registration"
+      activeClassName={!disableRegistration && 'active'}
+      href={`/${disableRegistration ? '' : 'registration'}`}
       showMobileNav
+      disabled={disableRegistration}
     >
       REGISTRATION
     </NavLink>

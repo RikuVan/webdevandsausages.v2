@@ -140,7 +140,7 @@ class MobileNavbar extends Component {
   toggleNav = () => {
     this.props.actions.toggleMobileNav()
   }
-  render({ showMobileNav, isScrolled, reverseTheme }) {
+  render({ showMobileNav, isScrolled, reverseTheme, disableRegistration }) {
     return (
       <Wrapper>
         <Logo />
@@ -156,7 +156,7 @@ class MobileNavbar extends Component {
           isScrolled={isScrolled}
           reverse={reverseTheme}
         >
-          <NavLinks />
+          <NavLinks disableRegistration={disableRegistration} />
           <NavSeparator />
           <SocialLinks />
         </SecondaryMenu>

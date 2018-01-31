@@ -16,6 +16,7 @@ import SausageIcon from '../../components/SausageIcon'
 import MainTitle from './MainTitle'
 import PreviousEvents from './PreviousEvents'
 import CurrentEvent from './CurrentEvent'
+import FutureEvent from './FutureEvent'
 
 import format from 'date-fns/format'
 
@@ -75,12 +76,6 @@ const InnerWrapper = styled.div`
     `};
 `
 
-const NoEventText = styled.div`
-  color: #fff;
-  padding-top: 2rem;
-  font-size: 1.5rem;
-`
-
 const getEventUi = (loadingEvent, isEventOpen, event, eventDate) => {
   if (loadingEvent) {
     return (
@@ -94,11 +89,7 @@ const getEventUi = (loadingEvent, isEventOpen, event, eventDate) => {
       : ''
     return <CurrentEvent event={event} eventDate={eventDate} />
   }
-  return (
-    <NoEventText>
-      The next event is the planning stages. Stay Tuned!
-    </NoEventText>
-  )
+  return <FutureEvent />
 }
 
 const Home = ({

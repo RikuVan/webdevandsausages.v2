@@ -51,12 +51,11 @@ class App extends Component {
   }
 
   render({ latestEvent, loadingEvent, isEventOpen }) {
-    //Todo: refactor to use the theme provider instead of the theme import
     return (
       <ThemeProvider theme={theme}>
         <Main id="app">
           <ScrollWatcher>
-            <Nav />
+            <Nav disableRegistration={!isEventOpen && !loadingEvent} />
           </ScrollWatcher>
           <Router onChange={this.handleRoute}>
             <Home
