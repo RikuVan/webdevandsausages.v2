@@ -67,11 +67,12 @@ const TitleWrapper = styled.div`
 `
 
 const Title = styled.h2`
-  color: #fff;
+  color: #fff2
   font-weight: 400;
   font-size: 20px;
+  line-height: 150%;
   margin: 0;
-  padding: 0;
+  padding-bottom: 10px;
 `
 
 const FormWrapper = styled.div`
