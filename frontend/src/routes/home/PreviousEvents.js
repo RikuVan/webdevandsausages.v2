@@ -48,7 +48,7 @@ const StyledLink = styled.a`
   padding-bottom: 1px;
   text-decoration: none;
   &:hover {
-    background: lightgrey;
+    background: lightgray;
   }
   padding: 3px 0 0;
 `

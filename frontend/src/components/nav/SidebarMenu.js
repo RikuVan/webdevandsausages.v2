@@ -19,7 +19,7 @@ const StyledLink = styled(Link)`
       border-radius: ${toRem(3)};
       &.active,
       &:hover {
-        background: ${theme.lightGrey};
+        background: ${theme.lightGray};
       }
     }
   `};

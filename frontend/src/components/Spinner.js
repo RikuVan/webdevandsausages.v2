@@ -44,6 +44,13 @@ const StyledSpinner = styled.div`
     `};
 `
 
+const AbsoluteSpinner = styled(StyledSpinner)`
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  margin: -20px 0 0 -20px;
+`
+
 class Spinner extends Component {
   state = { show: false }
 
@@ -55,10 +62,11 @@ class Spinner extends Component {
     clearTimeout(this.delay)
   }
 
-  render({ small, whiteSpinner, marginTop }) {
+  render({ small, whiteSpinner, marginTop, absolute }) {
     if (!this.state.show) return null
+    const SpinnerComponent = absolute ? AbsoluteSpinner : Spinner
     return (
-      <StyledSpinner
+      <SpinnerComponent
         className="spinner"
         small={small}
         whiteSpinner={whiteSpinner}

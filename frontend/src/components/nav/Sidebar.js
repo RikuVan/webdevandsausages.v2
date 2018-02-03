@@ -11,7 +11,7 @@ const Sidebar = styled.nav`
   ${({ theme }) => css`
     top: ${toRem(theme.navHeight)};
     width: ${toRem(theme.sidebarWidth)};
-    background: ${theme.lightGrey};
+    background: ${theme.lightGray};
   `};
   left: 0;
   bottom: 0;

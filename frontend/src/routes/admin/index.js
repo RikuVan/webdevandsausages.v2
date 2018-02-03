@@ -1,7 +1,8 @@
 import { h, Component } from 'preact'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { connect } from '../../preact-smitty'
 import R from '../../helpers'
+import darken from 'polished/lib/color/darken'
 
 import { Grid, Cell } from '../../components/layout'
 import storage from '../../helpers/storage'
@@ -11,7 +12,6 @@ import Spinner from '../../components/Spinner'
 import Notification from '../../components/Notification'
 
 import { Input, FieldWrapper } from '../../components/forms/LabeledField'
-import { theme } from '../../style/theme'
 
 import AdminPanel from './AdminPanel'
 
@@ -28,8 +28,30 @@ const Checkbox = styled.input`
 `
 
 const LoginWrapper = styled.div`
-  padding-top: 200px;
+  margin-top: 200px;
+  padding: 30px;
+  background: #fff;
   color: black;
+  ${({ theme }) =>
+    css`
+      color: ${darken(0.1, theme.iconsColor)};
+    `};
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+`
+
+const LoginFormButton = styled(Button)`
+  width: 100%;
+  margin: 0;
+`
+
+const AdminPageWrapper = styled(PageWrapper)`
+  ${({ theme, loggedOut }) =>
+    loggedOut &&
+    css`
+      background: ${theme.paleGrey};
+      min-height: 100vh;
+    `};
 `
 
 class Admin extends Component {
@@ -66,7 +88,10 @@ class Admin extends Component {
     }
   }
 
-  loginWithPass = (name = this.props.name, pass = this.props.pass) => {
+  loginWithPass = (e, name = this.props.name, pass = this.props.pass) => {
+    if (e) {
+      e.preventDefault()
+    }
     if (pass && name) {
       this.props.actions.post({
         key: 'auth',
@@ -91,7 +116,7 @@ class Admin extends Component {
         name,
         pass: token
       })
-      this.loginWithPass(name, token)
+      this.loginWithPass(null, name, token)
     } else if (name) {
       actions.setAuth({ name })
       actions.get({ key: 'auth', resource: 'auth' })
@@ -114,15 +139,13 @@ class Admin extends Component {
   }) {
     if (loading) {
       return (
-        <PageWrapper background={theme.paleGrey}>
-          <LoginWrapper>
-            <Spinner />
-          </LoginWrapper>
-        </PageWrapper>
+        <AdminPageWrapper loggedOut={!loggedIn}>
+          <Spinner absolute />
+        </AdminPageWrapper>
       )
     }
     return (
-      <PageWrapper background="#fff">
+      <AdminPageWrapper loggedOut={!loggedIn}>
         {!loggedIn ? (
           <LoginWrapper>
             <h1>Login</h1>
@@ -137,14 +160,14 @@ class Admin extends Component {
                         onInput={this.setInputValue('name')}
                       />
                     </Field>
-                    <Button
+                    <LoginFormButton
                       primary
                       onClick={this.sendPassRequest}
                       loading={passSending}
                       disabled={hasPass}
                     >
                       Temporary password by Email
-                    </Button>
+                    </LoginFormButton>
                   </div>
                   <div>
                     <Label onClick={this.toggleCheckbox}>
@@ -169,9 +192,9 @@ class Admin extends Component {
                   <Label>Password:</Label>
                   <Input value={pass} onInput={this.setInputValue('pass')} />
                 </Field>
-                <Button primary onClick={this.loginWithPass}>
-                  Login with temporary password
-                </Button>
+                <LoginFormButton primary onClick={this.loginWithPass}>
+                  Login wih temporary password
+                </LoginFormButton>
                 <Notification
                   type="info"
                   id="authError"
@@ -187,7 +210,7 @@ class Admin extends Component {
             loadingEvent={loadingEvent}
           />
         )}
-      </PageWrapper>
+      </AdminPageWrapper>
     )
   }
 }

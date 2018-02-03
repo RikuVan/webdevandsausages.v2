@@ -12,7 +12,7 @@ export const TableWrapper = styled.div`
   flex-direction: column;
   ${({ theme }) =>
     css`
-      border-right: 1px solid ${theme.lightGrey};
+      border-right: 1px solid ${theme.lightGray};
     `};
   * >  {
     box-sizing: border-box;
@@ -40,8 +40,8 @@ export const TableHead = styled(Header)`
     display: inline-flex;
     ${({ theme }) =>
       css`
-        background: ${lighten(0.3, theme.lightGrey)};
-        border-bottom: 3px solid ${theme.lightGrey};
+        background: ${lighten(0.3, theme.lightGray)};
+        border-bottom: 3px solid ${theme.lightGray};
       `};
   th,
   td {
@@ -55,7 +55,7 @@ export const TableHead = styled(Header)`
     transition-property: width, min-width, padding, opacity;
     ${({ theme }) =>
       css`
-        border-right: 1px solid ${theme.lightGrey};
+        border-right: 1px solid ${theme.lightGray};
       `};
     transition: box-shadow 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: inset 0 0 10px 10px transparent;
@@ -66,7 +66,7 @@ export const TableHead = styled(Header)`
   ${({ theme }) =>
     css`
       > th {
-        border-right: 1px solid ${theme.lightGrey};
+        border-right: 1px solid ${theme.lightGray};
       }
     `};
 `
@@ -82,7 +82,7 @@ export const TableBody = styled(Body)`
     &:last-of-kind {
       ${({ theme }) =>
         css`
-          border-bottom: 1px solid ${theme.lightGrey};
+          border-bottom: 1px solid ${theme.lightGray};
         `};
     }
   }
@@ -99,7 +99,7 @@ export const TableBody = styled(Body)`
   td {
     ${({ theme }) =>
       css`
-        border-right: 1px solid ${theme.lightGrey};
+        border-right: 1px solid ${theme.lightGray};
       `};
     &:last-child {
       border-right: 0;
