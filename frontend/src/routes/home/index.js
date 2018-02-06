@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import styled, { css } from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import { connect } from '../../preact-smitty'
 import R from '../../helpers'
 
@@ -22,6 +22,11 @@ import Merchandise from './Merchandise'
 
 import format from 'date-fns/format'
 
+const moveSausages = keyframes`
+from {background-position: bottom right;}
+  to {background-position: top left;}
+`
+
 const TopSection = styled.div`
   padding: ${toRem(theme.navHeight)} ${toRem(theme.pagePadding)};
   ${p =>
@@ -38,6 +43,7 @@ const TopSection = styled.div`
   width: 100%;
   background-image: url(../../assets/sausage-bg.svg),
     linear-gradient(15deg, ${theme.primaryOrange}, ${'#52bdf6'});
+  animation: ${moveSausages} 90s linear infinite;
   background-size: 60px, auto;
   background-repeat: repeat;
   margin-top: -30px;
