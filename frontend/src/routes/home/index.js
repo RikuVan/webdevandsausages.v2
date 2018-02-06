@@ -12,11 +12,13 @@ import PageWrapper from '../../components/PageWrapper'
 import Footer from '../../components/Footer'
 import Separator from '../../components/Separator'
 import SausageIcon from '../../components/SausageIcon'
+import SectionTitle from '../../components/SectionTitle'
 
 import MainTitle from './MainTitle'
 import PreviousEvents from './PreviousEvents'
 import CurrentEvent from './CurrentEvent'
 import FutureEvent from './FutureEvent'
+import Merchandise from './Merchandise'
 
 import format from 'date-fns/format'
 
@@ -32,18 +34,13 @@ const TopSection = styled.div`
     phone(css`
       padding-top: ${toRem(theme.navHeight * 2.2)};
     `)};
-  background: linear-gradient(15deg, ${theme.primaryOrange}, ${'#52bdf6'});
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
   width: 100%;
-`
-
-const Title = styled.h2`
-  font-size: 2.5rem;
-  ${({ theme }) =>
-    css`
-      color: ${theme.primaryOrange};
-    `};
-  font-weight: 700;
+  background-image: url(../../assets/sausage-bg.svg),
+    linear-gradient(15deg, ${theme.primaryOrange}, ${'#52bdf6'});
+  background-size: 60px, auto;
+  background-repeat: repeat;
+  margin-top: -30px;
 `
 
 const PreviousEventsWrapper = styled.section`
@@ -110,7 +107,7 @@ const Home = ({
       <MailingListForm />
     </TopSection>
     <CurrentEventWrapper>
-      <Title isActive={isEventOpen}>Our Next Meetup</Title>
+      <SectionTitle>Our Next Meetup</SectionTitle>
       {getEventUi(loadingEvent, isEventOpen, event)}
       {!loadingEvent &&
         isEventOpen && (
@@ -130,6 +127,8 @@ const Home = ({
     <PreviousEventsWrapper>
       <PreviousEvents />
     </PreviousEventsWrapper>
+    <Separator orange />
+    <Merchandise />
     <Footer color="primaryBlue" />
   </PageWrapper>
 )

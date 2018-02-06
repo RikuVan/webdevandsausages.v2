@@ -5,18 +5,13 @@ import darken from 'polished/lib/color/darken'
 import events from '../../../../events.json'
 import { theme } from '../../style/theme'
 import { Grid, Cell } from '../../components/layout'
+import LazyImg from '../../components/LazyImg'
+import SectionTitle from '../../components/SectionTitle'
 
 const Wrapper = styled.div`
   min-height: 20vh;
   width: 100%;
   background: #fff;
-`
-
-const EventTitle = styled.h1`
-  font-size: 2.5rem;
-  color: #f7b733;
-  font-weight: 700;
-  padding: 2rem 0;
 `
 
 const EventPanelTitle = styled.div`
@@ -61,7 +56,9 @@ const EventPanel = ({ youtubeId, title, titleLink, details, startsFrom }) => {
       <a
         href={`https://youtu.be/${youtubeId}?list=PLzTZiC7Lgr5PXKGvz8Y9xPTrLRYI5dVhx`}
       >
-        <img
+        <LazyImg
+          height="180"
+          width="380"
           src={`https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`}
           alt="Youtube video"
         />
@@ -80,7 +77,9 @@ const EventPanel = ({ youtubeId, title, titleLink, details, startsFrom }) => {
 
 const PreviousEvents = () => (
   <Wrapper>
-    <EventTitle>Previous Events</EventTitle>
+    <SectionTitle paddingTop={20} paddingBottom={40}>
+      Previous Events
+    </SectionTitle>
     <Grid columns="repeat(auto-fit,minmax(330px,1fr))">
       {events.talks.map(t => (
         <EventPanel
