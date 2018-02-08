@@ -23,7 +23,7 @@ import VerificationForm from './VerificationForm'
 
 const TopSection = styled.div`
   padding: ${toRem(theme.navHeight)} 0 30vh;
-  background: linear-gradient(15deg, ${theme.primaryOrange}, ${'#52bdf6'});
+  background: linear-gradient(0deg, ${theme.primaryOrange}, ${'#52bdf6'});
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
   width: 100%;
   ${({ isExpandedMobileNav, theme }) =>

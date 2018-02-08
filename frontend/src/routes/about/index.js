@@ -31,7 +31,7 @@ const Section = styled.div`
   ${({ theme }) =>
     css`
       background: linear-gradient(
-        15deg,
+        0deg,
         ${theme.primaryOrange},
         ${theme.primaryBlue}
       );

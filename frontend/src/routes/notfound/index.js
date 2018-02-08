@@ -22,13 +22,13 @@ const Section = styled.div`
   ${({ theme }) =>
     css`
       background: linear-gradient(
-        15deg,
+        0deg,
         ${theme.primaryOrange},
         ${theme.primaryBlue}
       );
     `};
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
-  height: 100%;
+  height: 100vh;
   width: 100%;
 `
 
@@ -44,7 +44,7 @@ const NotFound = ({ isExpandedMobileNav }) => (
   <PageWrapper>
     <Section isExpandedMobileNav={isExpandedMobileNav}>
       <Title>404</Title>
-      <h2>Sorry no page here</h2>
+      <h2>Not Found</h2>
     </Section>
     <Footer color="primaryOrange" />
   </PageWrapper>
