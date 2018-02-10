@@ -20,9 +20,9 @@ const registrationSchema = Joi.object().keys({
 
 export const eventSchema = Joi.object().keys({
   id: Joi.string(),
-  contact: Joi.string(),
+  contact: Joi.string().default(''),
   datetime: Joi.date().required(),
-  details: Joi.string(),
+  details: Joi.string().default(''),
   location: Joi.string()
     .min(3)
     .required(),
@@ -31,13 +31,17 @@ export const eventSchema = Joi.object().keys({
     .required(),
   registered: Joi.array()
     .unique()
-    .items(registrationSchema),
+    .items(registrationSchema)
+    .default([]),
   registrationOpens: Joi.date(),
   registrationCloses: Joi.date(),
   sponsor: Joi.string(),
   sponsorWWWLink: Joi.string(),
   waitListed: Joi.array()
     .unique()
-    .items(registrationSchema),
-  volume: Joi.number().integer()
+    .items(registrationSchema)
+    .default([]),
+  volume: Joi.number()
+    .integer()
+    .required()
 })

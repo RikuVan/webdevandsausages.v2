@@ -219,5 +219,11 @@ export const verifyRegistration = (
     .chain(() => tryP(() => eventsRef.doc(eventId).get()))
     .map(docDataOrNull)
     .chain(findInRegistrationQueue(eventId, email, token))
-    .fork(error => next(error), data => response.status(200).json({ data }))
+    .fork(
+      error => {
+        console.log(error)
+        next(error)
+      },
+      data => response.status(200).json({ data })
+    )
 }

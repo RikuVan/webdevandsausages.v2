@@ -5,17 +5,22 @@ import { apiErrorHandler } from './apiErrors'
 import { cancelRegistration } from './cancelRegistration'
 import { authorizeAdmin } from '../middleware/auth'
 import { getCodeByEmailOrSms, auth, login, logout } from './auth'
-import { getAllEvents, getCurrentEvent } from './events'
+import {
+  getAllEvents,
+  getCurrentEvent,
+  createEvent,
+  updateEvent,
+  removeEvent
+} from './events'
 
 const router = Router()
 
 /* EVENTS */
-router.get('/events', authorizeAdmin, getAllEvents) //TODO: add validation
+router.get('/events', authorizeAdmin, getAllEvents)
 router.get('/events/current', getCurrentEvent)
-router.get('/events/id')
-//router.post('/events', validateFirebaseIdToken)
-//router.put('/events/:id', validateFirebaseIdToken)
-//router.delete('/events/:id', validateFirebaseIdToken)
+router.post('/events', authorizeAdmin, createEvent)
+router.put('/events/:id', authorizeAdmin, updateEvent)
+router.delete('/events/:id', authorizeAdmin, removeEvent)
 
 /* PARTICIPANTS */
 router.get('/participants', authorizeAdmin, getAllParticipants)
