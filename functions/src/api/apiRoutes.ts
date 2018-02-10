@@ -1,6 +1,10 @@
 import { Router } from 'express'
 import { register, verifyRegistration } from './register'
-import { getAllParticipants, addParticipant } from './participants'
+import {
+  getAllParticipants,
+  addParticipant,
+  removeParticipant
+} from './participants'
 import { apiErrorHandler } from './apiErrors'
 import { cancelRegistration } from './cancelRegistration'
 import { authorizeAdmin } from '../middleware/auth'
@@ -25,13 +29,14 @@ router.delete('/events/:id', authorizeAdmin, removeEvent)
 /* PARTICIPANTS */
 router.get('/participants', authorizeAdmin, getAllParticipants)
 router.post('/participants', addParticipant)
-//TODO: router.delete('/participants, authorizeAdmin, deleteParticipant)
+router.delete('/participants/:email', authorizeAdmin, removeParticipant)
 
 /* REGISTRATION */
 router.post('/register/:eventId', register)
 router.get('/register/:eventId', verifyRegistration)
 router.delete('/register/:eventId', cancelRegistration)
 
+/* AUTH */
 router.get('/temppass/:id', getCodeByEmailOrSms)
 router.get('/auth', authorizeAdmin, auth)
 router.post('/auth', login)

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { JoiObject, validate } from 'joi'
 import { participantSchema } from './schemas'
 import { CollectionReference } from '@google-cloud/firestore'
-import Future, { tryP, of } from 'fluture'
+import Future, { tryP, of, reject } from 'fluture'
 import * as createError from 'http-errors'
 import { docDataOrNull, docIdOrNull, addInsertionDate } from '../utils'
 import { participantsRef } from '../services/db'
@@ -95,4 +95,24 @@ export const addParticipant = (
         () => response.status(201).json({ success: true })
       )
   )
+}
+
+export const removeParticipant = (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const email = request.params.email
+  const participant = participantsRef.doc(email)
+  tryP(() => participant.get())
+    .chain(doc => {
+      if (doc && doc.exists) {
+        return tryP(() => participant.delete())
+      }
+      return reject(new createError.NotFound())
+    })
+    .fork(
+      error => next(error),
+      () => response.status(202).json({ success: true })
+    )
 }
