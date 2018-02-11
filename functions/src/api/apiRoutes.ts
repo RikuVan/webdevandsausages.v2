@@ -16,6 +16,7 @@ import {
   updateEvent,
   removeEvent
 } from './events'
+import { addFeedback } from './feedback'
 
 const router = Router()
 
@@ -25,6 +26,7 @@ router.get('/events/current', getCurrentEvent)
 router.post('/events', authorizeAdmin, createEvent)
 router.put('/events/:id', authorizeAdmin, updateEvent)
 router.delete('/events/:id', authorizeAdmin, removeEvent)
+router.post('/events/:id/feedback', addFeedback)
 
 /* PARTICIPANTS */
 router.get('/participants', authorizeAdmin, getAllParticipants)

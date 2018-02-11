@@ -135,20 +135,30 @@ class Registration extends Component {
     )
   }
 
-  render({ isExpandedMobileNav, hideIcon, event, loadingEvent, isEventOpen }) {
+  render({
+    isExpandedMobileNav,
+    hideIcon,
+    event,
+    loadingEvent,
+    isRegistrationOpen
+  }) {
     const tab = this.getTab()
     return (
       <PageWrapper>
         <TopSection
           isExpandedMobileNav={isExpandedMobileNav}
-          fillPage={!isEventOpen}
+          fillPage={!isRegistrationOpen}
         >
           <PageTitle>Registration</PageTitle>
           <Separator />
           <Event>
-            {this.getEventMessage(event.datetime, isEventOpen, loadingEvent)}
+            {this.getEventMessage(
+              event.datetime,
+              isRegistrationOpen,
+              loadingEvent
+            )}
           </Event>
-          {isEventOpen && (
+          {isRegistrationOpen && (
             <TabsContainer>
               <Tabs>
                 <Tab

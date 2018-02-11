@@ -4,6 +4,8 @@ import styled, { ThemeProvider } from 'styled-components'
 import { connect } from '../preact-smitty'
 import R from '../helpers'
 import isWithinRange from 'date-fns/is_within_range'
+import isBefore from 'date-fns/is_before'
+import addHours from 'date-fns/add_hours'
 
 import Nav from './nav'
 import Home from '../routes/home'
@@ -50,12 +52,12 @@ class App extends Component {
     })
   }
 
-  render({ latestEvent, loadingEvent, isEventOpen }) {
+  render({ latestEvent, loadingEvent, isEventOpen, isRegistrationOpen }) {
     return (
       <ThemeProvider theme={theme}>
         <Main id="app">
           <ScrollWatcher>
-            <Nav disableRegistration={!isEventOpen && !loadingEvent} />
+            <Nav disableRegistration={!isRegistrationOpen || loadingEvent} />
           </ScrollWatcher>
           <Router onChange={this.handleRoute}>
             <Home
@@ -63,13 +65,14 @@ class App extends Component {
               event={latestEvent}
               loadingEvent={loadingEvent}
               isEventOpen={isEventOpen}
+              isRegistrationOpen={isRegistrationOpen}
             />
             <About path="/about/" />
             <Registration
               path="/registration/"
               event={latestEvent}
               loadingEvent={loadingEvent}
-              isEventOpen={isEventOpen}
+              isRegistrationOpen={isRegistrationOpen}
             />
             <Admin path="/__admin__/:section?" />
             <NotFound default />
@@ -80,7 +83,7 @@ class App extends Component {
   }
 }
 
-const isRegistrationOpen = event => {
+const getIsRegistrationOpen = event => {
   if (event.registrationOpens) {
     const endDate = event.registrationCloses
       ? event.registrationCloses
@@ -90,16 +93,30 @@ const isRegistrationOpen = event => {
   return false
 }
 
+const getIsEventOpen = ({ datetime }) =>
+  isBefore(new Date(), addHours(datetime, 24))
+
 const mapStateToProps = state => {
-  const latestEvent = R.pathOr({}, ['api', 'latestEvent', 'data'], state)
+  const latestEvent = R.pathOr(
+    {},
+    ['api', 'latestEvent', 'data', 'currentEvent'],
+    state
+  )
   const loadingEvent = R.pathEq(
     ['api', 'latestEvent', 'status'],
     'started',
     state
   )
-  const isEventOpen = isRegistrationOpen(latestEvent)
+  const isRegistrationOpen = getIsRegistrationOpen(latestEvent)
+  const isEventOpen = getIsEventOpen(latestEvent)
   const reverseTheme = R.pathEq(['ui', 'theme'], 'reverse', state)
-  return { latestEvent, loadingEvent, isEventOpen, reverseTheme }
+  return {
+    latestEvent,
+    loadingEvent,
+    isEventOpen,
+    isRegistrationOpen,
+    reverseTheme
+  }
 }
 
 export default connect(mapStateToProps)(App)

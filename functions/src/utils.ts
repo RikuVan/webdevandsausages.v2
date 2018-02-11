@@ -17,9 +17,12 @@ import {
   gt,
   propOr,
   flip,
-  length
+  length,
+  complement
 } from 'ramda'
 import * as moment from 'moment-timezone'
+
+export const isNot = (a: any) => (b: any) => complement(equals)(a, b)
 
 moment()
   .tz('Europe/Helsinki')
@@ -39,11 +42,15 @@ export const addInsertionDate = assoc(
   'insertedOn',
   moment().format('YYYY-MM-DD HH:mm')
 )
-
 export const formatDate = date =>
   `${moment(date)
     .add(2, 'hours')
     .format('dddd, MMMM Do YYYY, HH:mm')}`
+export const dateIsBetween = datetime => {
+  const start = moment(datetime).add(2, 'hours')
+  const end = moment(datetime).add(26, 'hours')
+  return moment().isBetween(start, end)
+}
 
 // mail utils
 export const createMailMsg = evolve({

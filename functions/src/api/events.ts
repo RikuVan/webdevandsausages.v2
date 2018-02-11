@@ -5,25 +5,46 @@ import { eventSchema } from './schemas'
 import { validate } from 'joi'
 import Future, { tryP, of, reject } from 'fluture'
 import { NotFound, InternalServerError, UnprocessableEntity } from 'http-errors'
-import { filter, traverse, compose, prop, evolve, length } from 'ramda'
+import {
+  filter,
+  traverse,
+  compose,
+  prop,
+  evolve,
+  length,
+  always,
+  ifElse,
+  has
+} from 'ramda'
 import * as moment from 'moment-timezone'
 import { IEvent } from '../models'
-import { docDataOrNull } from '../utils'
+import { docDataOrNull, dateIsBetween } from '../utils'
 
 export const getAllEvents = getCollection(eventsRef, eventSchema)
 
 const isFutureEvent = compose(
-  date => moment().isSameOrBefore(date),
+  date => moment().isSameOrBefore(moment(date).add(26, 'hours')),
   prop('datetime')
 )
 
 const transformations = {
   registered: length,
-  waitListed: length
+  waitListed: length,
+  feedback: null,
+  feedbackPass: null
 }
 const safeHead = array => (array.length > 0 ? array[0] : {})
-const transformForPublicApi = (current: IEvent[]): any =>
-  compose(evolve(transformations), safeHead)(current)
+const transformForPublicApi = (current: IEvent[]): any => {
+  const currentEvent = compose(evolve(transformations), safeHead)(current)
+  const feedbackOpen = compose(
+    ifElse(
+      has('datetime'),
+      compose(dateIsBetween, prop('datetime')),
+      always(false)
+    )
+  )(currentEvent)
+  return { currentEvent, feedbackOpen }
+}
 
 export const getCurrentEvent = (
   req: Request,
@@ -38,10 +59,9 @@ export const getCurrentEvent = (
     })
     .chain(events => {
       const current = filter(isFutureEvent, events)
-      if (current.length === 0) return reject(new NotFound())
       return of(transformForPublicApi(current as IEvent[]))
     })
-    .fork(error => next(new InternalServerError()), data => res.json({ data }))
+    .fork(error => next(error), data => res.json({ data }))
 }
 
 export const createEvent = (

@@ -79,7 +79,7 @@ const InnerWrapper = styled.div`
     `};
 `
 
-const getEventUi = (loadingEvent, isEventOpen, event, eventDate) => {
+const getEventUi = (loadingEvent, isEventOpen, isRegistrationOpen, event) => {
   if (loadingEvent) {
     return (
       <InnerWrapper>
@@ -90,7 +90,13 @@ const getEventUi = (loadingEvent, isEventOpen, event, eventDate) => {
     const eventDate = event.datetime
       ? format(event.datetime, 'MMMM Do, YYYY, HH:mm')
       : ''
-    return <CurrentEvent event={event} eventDate={eventDate} />
+    return (
+      <CurrentEvent
+        event={event}
+        eventDate={eventDate}
+        isRegistrationOpen={isRegistrationOpen}
+      />
+    )
   }
   return <FutureEvent />
 }
@@ -100,7 +106,8 @@ const Home = ({
   hideIcon,
   event,
   loadingEvent,
-  isEventOpen
+  isEventOpen,
+  isRegistrationOpen
 }) => (
   <PageWrapper>
     <TopSection isExpandedMobileNav={isExpandedMobileNav}>
@@ -114,9 +121,9 @@ const Home = ({
     </TopSection>
     <CurrentEventWrapper>
       <SectionTitle>Our Next Meetup</SectionTitle>
-      {getEventUi(loadingEvent, isEventOpen, event)}
+      {getEventUi(loadingEvent, isEventOpen, isRegistrationOpen, event)}
       {!loadingEvent &&
-        isEventOpen && (
+        isRegistrationOpen && (
           <InnerWrapper marginTop={60}>
             <ButtonLink
               id="register-link-button"

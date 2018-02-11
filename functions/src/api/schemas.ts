@@ -45,3 +45,12 @@ export const eventSchema = Joi.object().keys({
     .integer()
     .required()
 })
+
+export const feedbackSchema = Joi.object().keys({
+  feedback: Joi.string()
+    .min(1)
+    .required(),
+  password: Joi.string()
+    .min(1)
+    .required()
+})
