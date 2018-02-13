@@ -52,27 +52,46 @@ const AbsoluteSpinner = styled(StyledSpinner)`
 `
 
 class Spinner extends Component {
-  state = { show: false }
+  state = { waiting: true }
 
   componentDidMount() {
-    this.delay = setTimeout(() => this.setState({ show: true }), 800)
+    this.delay = setTimeout(() => this.setState({ waiting: false }), 800)
   }
 
   componentWillUnmount() {
     clearTimeout(this.delay)
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.waiting !== nextState.waiting) {
+      return true
+    }
+    return false
+  }
+
   render({ small, whiteSpinner, marginTop, absolute }) {
-    if (!this.state.show) return null
-    const SpinnerComponent = absolute ? AbsoluteSpinner : Spinner
-    return (
-      <SpinnerComponent
-        className="spinner"
-        small={small}
-        whiteSpinner={whiteSpinner}
-        marginTop={marginTop}
-      />
-    )
+    if (!this.state.waiting) {
+      if (absolute) {
+        return (
+          <AbsoluteSpinner
+            className="spinner"
+            small={small}
+            whiteSpinner={whiteSpinner}
+            marginTop={marginTop}
+          />
+        )
+      } else {
+        return (
+          <StyledSpinner
+            className="spinner"
+            small={small}
+            whiteSpinner={whiteSpinner}
+            marginTop={marginTop}
+          />
+        )
+      }
+    }
+    return null
   }
 }
 
