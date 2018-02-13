@@ -83,7 +83,8 @@ const Navbar = ({
   transparent,
   reverseTheme,
   showSidebar,
-  disableRegistration
+  disableRegistration,
+  isFeedbackLinkVisible
 }) => (
   <div>
     <Wrapper transparent={transparent} reverse={reverseTheme}>
@@ -91,7 +92,10 @@ const Navbar = ({
         <StartWrapper>
           <Logo />
           <NavTitleLink href="/">Web Dev &amp; Sausages</NavTitleLink>
-          <NavLinks disableRegistration={disableRegistration} />
+          <NavLinks
+            disableRegistration={disableRegistration}
+            isFeedbackLinkVisible={isFeedbackLinkVisible}
+          />
         </StartWrapper>
 
         <EndWrapper>
@@ -101,6 +105,7 @@ const Navbar = ({
       <MobileNavbar
         isScrolled={transparent}
         disableRegistration={disableRegistration}
+        isFeedbackLinkVisible={isFeedbackLinkVisible}
       />
     </Wrapper>
     {showSidebar && (

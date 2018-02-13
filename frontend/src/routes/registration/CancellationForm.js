@@ -8,6 +8,7 @@ import R from '../../helpers'
 import Button from '../../components/Button'
 import PopupNotification from '../../components/PopupNotification'
 import LabeledField from '../../components/forms/LabeledField'
+import FormButtons from '../../components/forms/FormButtons'
 import { FormWrapper, Info, ButtonWrapper, FormGrid } from './RegistrationForm'
 
 import { isEmail } from '../../helpers/validation'
@@ -102,28 +103,13 @@ class CancellationForm extends Component {
                   />
                 </FormGrid>
               </GridContainer>
-              <ButtonWrapper>
-                <Button
-                  type="submit"
-                  loading={loading}
-                  transparent
-                  disabled={pristine || !valid || hasStatus}
-                  valid={valid}
-                  minWidth={123}
-                >
-                  Submit
-                </Button>
-                <Button
-                  type="button"
-                  light
-                  disabled={loading}
-                  valid={valid}
-                  minWidth={123}
-                  onClick={this.handleReset(reset)}
-                >
-                  Reset
-                </Button>
-              </ButtonWrapper>
+              <FormButtons
+                loading={loading}
+                submitDisabled={pristine || !valid || hasStatus}
+                resetDisabled={loading}
+                valid={valid}
+                handleReset={this.handleReset(reset)}
+              />
             </form>
           )}
         />

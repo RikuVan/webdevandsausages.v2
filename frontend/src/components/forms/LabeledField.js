@@ -8,54 +8,63 @@ import lighten from 'polished/lib/color/lighten'
 import { toRem } from '../../helpers/styleHelpers'
 import { Cell } from '../layout'
 
-export const Input = styled.input`
-  ${({ theme }) =>
-    css`
-      border: 2px solid ${transparentize(0.2, theme.secondaryBlue)};
-      background: #fff;
-    `};
+export const baseInput = ({ theme, active, width, valid }) => {
+  return `
   border-radius: 3px;
   color: #111;
   width: 100%;
   font-size: ${toRem(20)};
   font-weight: 400;
-  height: 52px;
   padding: ${toRem(10)} ${toRem(15)};
   vertical-align: middle;
   box-sizing: border-box;
   margin: 0;
   outline: 0;
-  ${({ theme }) =>
-    css`
-      ::placeholder {
-        color: ${lighten(0.3, theme.iconsColor)};
-      }
-    `};
+  border: 2px solid ${transparentize(0.2, theme.secondaryBlue)};
+  background: #fff;
+  ::placeholder {
+    color: ${lighten(0.3, theme.iconsColor)};
+  }
   &:hover,
   &:readonly,
   &:focus {
     outline: 0;
     background: #0b7ebc;
     color: white;
+  };
+  `
+}
+
+export const activeInput = ({ active, theme }) => {
+  if (active) {
+    return `
+        background-color: ${transparentize(0.3, theme.secondaryBlue)};
+        color: #fff;
+      `
   }
-  ${p =>
-    p.active &&
+  return null
+}
+
+export const validInput = ({ active, valid, theme }) => {
+  if (active && valid) {
+    return `
+    background-color: ${transparentize(0.1, theme.secondaryBlue)};
+    border: 2px solid ${theme.secondaryBlue};
+    color: #fff;
+  `
+  }
+  return null
+}
+
+export const Input = styled.input`
+  height: 52px;
+  ${props => baseInput(props)};
+  ${props => activeInput(props)};
+  ${props => validInput(props)};
+  ${({ width }) =>
+    width &&
     css`
-      background-color: ${transparentize(0.3, p.theme.secondaryBlue)};
-      color: #fff;
-    `};
-  ${p =>
-    p.width &&
-    css`
-      width: ${toRem(p.width)};
-    `};
-  ${p =>
-    p.active &&
-    p.valid &&
-    css`
-      background-color: ${transparentize(0.1, p.theme.secondaryBlue)};
-      border: 2px solid ${p.theme.secondaryBlue};
-      color: #fff;
+      width: ${toRem(width)};
     `};
 `
 
@@ -82,13 +91,13 @@ export const LabelWrapper = styled.label`
     `};
 `
 
-const InputCell = styled(Cell)`
+export const InputCell = styled(Cell)`
   padding-bottom: 15px;
 `
 
 export const Label = ({ text }) => <LabelWrapper>{text}</LabelWrapper>
 
-const Error = styled.div`
+export const Error = styled.div`
   text-align: left;
   font-weight: 700;
   color: ${darken(0.2, 'red')};

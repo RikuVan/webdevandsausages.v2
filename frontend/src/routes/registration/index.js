@@ -21,6 +21,7 @@ import RegistrationForm from './RegistrationForm'
 import CancellationForm from './CancellationForm'
 import VerificationForm from './VerificationForm'
 
+// TODO: use Section component
 const TopSection = styled.div`
   padding: ${toRem(theme.navHeight)} 0 30vh;
   background: linear-gradient(0deg, ${theme.primaryOrange}, ${'#52bdf6'});
@@ -58,7 +59,7 @@ const Event = styled.h3`
     `
   )};
 `
-
+// TODO: create component using similar from e.g. about
 const TabsContainer = styled.section`
   width: 100%;
   background: white;

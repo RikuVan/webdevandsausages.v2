@@ -12,33 +12,7 @@ import Footer from '../../components/Footer'
 import PageTitle from '../../components/PageTitle'
 import Separator from '../../components/Separator'
 import { Grid, Cell } from '../../components/layout'
-
-const Section = styled.div`
-  ${({ theme }) =>
-    css`
-      padding: ${toRem(theme.navHeight)} 0 20vh;
-    `};
-  ${({ isExpandedMobileNav, theme }) =>
-    isExpandedMobileNav &&
-    tablet(css`
-      padding-top: ${toRem(theme.navHeight * 1.8)};
-    `)};
-  ${({ isExpandedMobileNav, theme }) =>
-    isExpandedMobileNav &&
-    phone(css`
-      padding-top: ${toRem(theme.navHeight * 2.5)};
-    `)};
-  ${({ theme }) =>
-    css`
-      background: linear-gradient(
-        0deg,
-        ${theme.primaryOrange},
-        ${theme.primaryBlue}
-      );
-    `};
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
-  width: 100%;
-`
+import Section from '../../components/Section'
 
 const Heading = styled.h2`
   color: #fff;
@@ -82,6 +56,7 @@ const Article = styled.article`
   margin: auto;
 `
 
+//TODO: refactor into resuable version - similar ones in other pages
 const PresentersSection = styled.section`
   width: 100%;
   background: white;
