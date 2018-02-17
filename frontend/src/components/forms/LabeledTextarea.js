@@ -1,9 +1,7 @@
 import { h } from 'preact'
 import styled, { css } from 'styled-components'
 import { Field } from 'react-final-form'
-import darken from 'polished/lib/color/darken'
-import transparentize from 'polished/lib/color/transparentize'
-import lighten from 'polished/lib/color/lighten'
+
 import {
   baseInput,
   activeInput,
@@ -13,9 +11,7 @@ import {
   Error,
   InputCell
 } from './LabeledField'
-
 import { toRem } from '../../helpers/styleHelpers'
-import { Cell } from '../layout'
 
 export const Textarea = styled.textarea`
   ${props => baseInput(props)};
@@ -45,7 +41,7 @@ const LabeledTextarea = ({
         {({ input, meta }) => (
           <div>
             <FieldWrapper>
-              <Label text={text} />
+              {text && <Label text={text} />}
               <Textarea
                 {...input}
                 valid={meta.valid}

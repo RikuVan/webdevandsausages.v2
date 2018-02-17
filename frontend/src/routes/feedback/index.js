@@ -1,21 +1,22 @@
 import { h, Component } from 'preact'
 import styled, { css } from 'styled-components'
-import { Form, Field } from 'react-final-form'
+import { Form } from 'react-final-form'
 import { route } from 'preact-router'
 
 import R from '../../helpers'
 import { connect } from '../../preact-smitty'
-import { toRem, tablet, phone } from '../../helpers/styleHelpers'
+import { toRem, tablet } from '../../helpers/styleHelpers'
 
 import PageWrapper from '../../components/PageWrapper'
 import Footer from '../../components/Footer'
-import LabeledField, { FieldWrapper } from '../../components/forms/LabeledField'
 
 import PageTitle from '../../components/PageTitle'
 import Spinner from '../../components/Spinner'
 import Section from '../../components/Section'
 import LabeledTextarea from '../../components/forms/LabeledTextarea'
 import FormButtons from '../../components/forms/FormButtons'
+import SectionTitle from '../../components/SectionTitle'
+import PopupNotification from '../../components/PopupNotification'
 
 const FeedbackFormWrapper = styled.section`
   width: 100%;
@@ -28,23 +29,25 @@ const FeedbackFormWrapper = styled.section`
 `
 
 const FeedbackForm = styled.form`
-  width: 50%;
+  width: 60%;
   margin: auto;
   ${tablet(css`
     width: 95%;
   `)};
+  padding-top: 2rem;
 `
 
-const validate = ({ password, feedback }) => {
+const validate = ({ verification, feedback }) => {
   const errors = {}
-  if (!password || password.length < 1) {
-    errors.password = 'Required'
-  }
   if (!feedback || feedback.length < 1) {
     errors.feedback = 'Required'
   }
   return errors
 }
+
+const ClosedMessage = styled(SectionTitle)`
+  padding-top: 4rem;
+`
 
 class Feedback extends Component {
   handleReset = reset => () => {
@@ -56,13 +59,66 @@ class Feedback extends Component {
     this.props.actions.post({
       key: 'feedback',
       resource: 'feedback',
-      id: this.props.eventId,
+      id: this.props.event.id,
       values: R.trimValues(values)
     })
     form.reset()
   }
 
-  render({ isExpandedMobileNav, eventId, loadingEvent }) {
+  handleModalClose = (reset, success) => () => {
+    this.handleReset(reset)()
+    if (success) {
+      route('/')
+    }
+  }
+
+  renderFormOrClosedMessage = (isOpen, event, loading, hasStatus) =>
+    isOpen ? (
+      <Form
+        onSubmit={this.onSubmit}
+        validate={validate}
+        render={({ handleSubmit, valid, pristine, reset }) => (
+          <FeedbackForm onSubmit={handleSubmit} id="feedback">
+            <PopupNotification
+              id="feedbackError"
+              type="error"
+              textResolver={({ status }) => {
+                if (status === 403) {
+                  return 'Sorry, feedback is currently closed.'
+                }
+                return 'Oops, an error occurred. Please try again a bit later.'
+              }}
+              onClose={this.handleModalClose(reset, false)}
+            />
+            <PopupNotification
+              id="feedbackSuccess"
+              type="success"
+              text="Your feedback was received. Thanks!"
+              onClose={this.handleModalClose(reset, true)}
+            />
+            <LabeledTextarea name="feedback" />
+            <FormButtons
+              loading={loading}
+              submitDisabled={pristine || !valid || hasStatus}
+              resetDisabled={pristine || loading}
+              valid={valid}
+              handleReset={this.handleReset(reset)}
+            />
+          </FeedbackForm>
+        )}
+      />
+    ) : (
+      <ClosedMessage>Closed</ClosedMessage>
+    )
+
+  render({
+    isExpandedMobileNav,
+    event,
+    loadingEvent,
+    isOpen,
+    loading,
+    hasStatus
+  }) {
     return (
       <PageWrapper>
         <Section isExpandedMobileNav={isExpandedMobileNav}>
@@ -71,28 +127,7 @@ class Feedback extends Component {
             {loadingEvent ? (
               <Spinner marginTop={80} />
             ) : (
-              <Form
-                onSubmit={this.onSubmit}
-                validate={validate}
-                render={({ handleSubmit, valid, pristine, reset, loading }) => (
-                  <FeedbackForm onSubmit={handleSubmit} id="feedback">
-                    <LabeledField
-                      name="code"
-                      label="Who invented the internet?"
-                      type="email"
-                      placeholder="bob.smith@codeshop.com"
-                    />
-                    <LabeledTextarea name="feedback" label="Feedback" />
-                    <FormButtons
-                      loading={loading}
-                      submitDisabled={pristine || !valid || hasStatus}
-                      resetDisabled={pristine || loading}
-                      valid={valid}
-                      handleReset={this.handleReset(reset)}
-                    />
-                  </FeedbackForm>
-                )}
-              />
+              this.renderFormOrClosedMessage(isOpen, event, loading, hasStatus)
             )}
           </FeedbackFormWrapper>
         </Section>
@@ -102,7 +137,13 @@ class Feedback extends Component {
   }
 }
 
+const feedbackPath = ['api', 'feedback']
+
 export default connect(state => ({
+  hasStatus: R.compose(
+    R.has('status'),
+    R.pathOr({}, feedbackPath.concat(['status']))
+  )(state),
   isExpandedMobileNav: R.pathOr(false, ['ui', 'showMobileNav'], state),
-  loading: R.pathEq(['api', 'feedback'], 'started', state)
+  loading: R.pathEq(feedbackPath, 'started', state)
 }))(Feedback)

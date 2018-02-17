@@ -8,8 +8,7 @@ import lighten from 'polished/lib/color/lighten'
 import { toRem } from '../../helpers/styleHelpers'
 import { Cell } from '../layout'
 
-export const baseInput = ({ theme, active, width, valid }) => {
-  return `
+export const baseInput = ({ theme, active, width, valid }) => `
   border-radius: 3px;
   color: #111;
   width: 100%;
@@ -33,7 +32,6 @@ export const baseInput = ({ theme, active, width, valid }) => {
     color: white;
   };
   `
-}
 
 export const activeInput = ({ active, theme }) => {
   if (active) {
@@ -85,6 +83,7 @@ export const FieldWrapper = styled.div`
 export const LabelWrapper = styled.label`
   font-size: ${toRem(24)};
   font-weight: bold;
+  line-height: 150%;
   ${({ theme }) =>
     css`
       color: ${darken(0.1, theme.primaryOrange)};

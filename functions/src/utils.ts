@@ -46,9 +46,9 @@ export const formatDate = date =>
   `${moment(date)
     .add(2, 'hours')
     .format('dddd, MMMM Do YYYY, HH:mm')}`
-export const dateIsBetween = datetime => {
-  const start = moment(datetime).add(2, 'hours')
-  const end = moment(datetime).add(26, 'hours')
+export const isWithin24Hours = datetime => {
+  const start = moment(datetime)
+  const end = moment(datetime).add(24, 'hours')
   return moment().isBetween(start, end)
 }
 

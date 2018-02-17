@@ -88,7 +88,7 @@ class App extends Component {
             />
             <Feedback
               path="/feedback/"
-              eventId={latestEvent.id}
+              event={latestEvent}
               loadingEvent={loadingEvent}
               isOpen={isFeedbackOpen}
             />
@@ -126,8 +126,8 @@ const mapStateToProps = state => {
   const isRegistrationOpen = getIsRegistrationOpen(latestEvent)
   const isEventOpen = getIsEventOpen(latestEvent)
   const isFeedbackOpen = R.pathEq(
+    eventPath.concat(['data', 'feedbackOpen']),
     true,
-    eventPath.concat(['feedbackOpen']),
     state
   )
   const reverseTheme = R.pathEq(['ui', 'theme'], 'reverse', state)

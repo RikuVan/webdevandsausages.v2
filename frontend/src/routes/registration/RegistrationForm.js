@@ -7,7 +7,6 @@ import { connect } from '../../preact-smitty'
 import R from '../../helpers'
 import darken from 'polished/lib/color/darken'
 
-import Button from '../../components/Button'
 import { Grid } from '../../components/layout'
 import PopupNotification from '../../components/PopupNotification'
 import LabeledField, { FieldWrapper } from '../../components/forms/LabeledField'
@@ -111,8 +110,9 @@ class RegistrationForm extends Component {
                 id="registrationError"
                 type="error"
                 textResolver={({ status }) => {
-                  if (status === 400)
+                  if (status === 400) {
                     return 'Your email is already among the registrations and you cannot register twice.'
+                  }
                   return 'Oops, an error occurred. Please try again a bit later.'
                 }}
                 onClose={this.handleModalClose(reset, false)}

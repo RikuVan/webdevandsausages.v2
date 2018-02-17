@@ -5,11 +5,10 @@ import { connect } from '../../preact-smitty'
 import { route } from 'preact-router'
 import R from '../../helpers'
 
-import Button from '../../components/Button'
 import PopupNotification from '../../components/PopupNotification'
 import LabeledField from '../../components/forms/LabeledField'
 import FormButtons from '../../components/forms/FormButtons'
-import { FormWrapper, Info, ButtonWrapper, FormGrid } from './RegistrationForm'
+import { FormWrapper, Info, FormGrid } from './RegistrationForm'
 
 import { isEmail } from '../../helpers/validation'
 

@@ -18,7 +18,7 @@ import {
 } from 'ramda'
 import * as moment from 'moment-timezone'
 import { IEvent } from '../models'
-import { docDataOrNull, dateIsBetween } from '../utils'
+import { docDataOrNull, isWithin24Hours } from '../utils'
 
 export const getAllEvents = getCollection(eventsRef, eventSchema)
 
@@ -39,7 +39,7 @@ const transformForPublicApi = (current: IEvent[]): any => {
   const feedbackOpen = compose(
     ifElse(
       has('datetime'),
-      compose(dateIsBetween, prop('datetime')),
+      compose(isWithin24Hours, prop('datetime')),
       always(false)
     )
   )(currentEvent)
