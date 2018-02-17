@@ -7,10 +7,10 @@ import { connect } from '../../preact-smitty'
 import R from '../../helpers'
 import darken from 'polished/lib/color/darken'
 
-import Button from '../../components/Button'
 import { Grid } from '../../components/layout'
 import PopupNotification from '../../components/PopupNotification'
 import LabeledField, { FieldWrapper } from '../../components/forms/LabeledField'
+import FormButtons from '../../components/forms/FormButtons'
 
 import { toRem } from '../../helpers/styleHelpers'
 import { isEmail } from '../../helpers/validation'
@@ -52,13 +52,6 @@ export const FormWrapper = styled.div`
 
 export const FormGrid = styled(Grid)`
   padding-top: 20px;
-`
-
-export const ButtonWrapper = styled.div`
-  padding: 40px 0;
-  & > button:last-of-type {
-    margin-left: 15px;
-  }
 `
 
 const validate = values => {
@@ -117,8 +110,9 @@ class RegistrationForm extends Component {
                 id="registrationError"
                 type="error"
                 textResolver={({ status }) => {
-                  if (status === 400)
+                  if (status === 400) {
                     return 'Your email is already among the registrations and you cannot register twice.'
+                  }
                   return 'Oops, an error occurred. Please try again a bit later.'
                 }}
                 onClose={this.handleModalClose(reset, false)}
@@ -163,28 +157,13 @@ class RegistrationForm extends Component {
                   Please send me emails about future events
                 </CheckboxLabel>
               </FieldWrapper>
-              <ButtonWrapper>
-                <Button
-                  type="submit"
-                  loading={loading}
-                  transparent
-                  disabled={pristine || !valid || hasStatus}
-                  valid={valid}
-                  minWidth={123}
-                >
-                  Submit
-                </Button>
-                <Button
-                  type="button"
-                  light
-                  disabled={pristine || loading}
-                  valid={valid}
-                  minWidth={123}
-                  onClick={this.handleReset(reset)}
-                >
-                  Reset
-                </Button>
-              </ButtonWrapper>
+              <FormButtons
+                loading={loading}
+                submitDisabled={pristine || !valid || hasStatus}
+                resetDisabled={pristine || loading}
+                valid={valid}
+                handleReset={this.handleReset(reset)}
+              />
             </form>
           )}
         />

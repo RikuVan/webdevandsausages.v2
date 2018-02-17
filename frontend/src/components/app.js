@@ -4,12 +4,15 @@ import styled, { ThemeProvider } from 'styled-components'
 import { connect } from '../preact-smitty'
 import R from '../helpers'
 import isWithinRange from 'date-fns/is_within_range'
+import isBefore from 'date-fns/is_before'
+import addHours from 'date-fns/add_hours'
 
 import Nav from './nav'
 import Home from '../routes/home'
 import About from '../routes/about'
 import NotFound from '../routes/notfound'
 import Registration from 'async!../routes/registration'
+import Feedback from '../routes/feedback'
 import Admin from 'async!../routes/admin'
 import ScrollWatcher from './ScrollWatcher'
 
@@ -50,12 +53,23 @@ class App extends Component {
     })
   }
 
-  render({ latestEvent, loadingEvent, isEventOpen }) {
+  //TODO: conditional rendering is broken https://github.com/developit/preact-router/issues/178
+  //when fixed, hide feedback route
+  render({
+    latestEvent,
+    loadingEvent,
+    isEventOpen,
+    isRegistrationOpen,
+    isFeedbackOpen
+  }) {
     return (
       <ThemeProvider theme={theme}>
         <Main id="app">
           <ScrollWatcher>
-            <Nav disableRegistration={!isEventOpen && !loadingEvent} />
+            <Nav
+              disableRegistration={!isRegistrationOpen || loadingEvent}
+              isFeedbackLinkVisible={isFeedbackOpen && !loadingEvent}
+            />
           </ScrollWatcher>
           <Router onChange={this.handleRoute}>
             <Home
@@ -63,13 +77,20 @@ class App extends Component {
               event={latestEvent}
               loadingEvent={loadingEvent}
               isEventOpen={isEventOpen}
+              isRegistrationOpen={isRegistrationOpen}
             />
             <About path="/about/" />
             <Registration
               path="/registration/"
               event={latestEvent}
               loadingEvent={loadingEvent}
-              isEventOpen={isEventOpen}
+              isRegistrationOpen={isRegistrationOpen}
+            />
+            <Feedback
+              path="/feedback/"
+              event={latestEvent}
+              loadingEvent={loadingEvent}
+              isOpen={isFeedbackOpen}
             />
             <Admin path="/__admin__/:section?" />
             <NotFound default />
@@ -80,7 +101,7 @@ class App extends Component {
   }
 }
 
-const isRegistrationOpen = event => {
+const getIsRegistrationOpen = event => {
   if (event.registrationOpens) {
     const endDate = event.registrationCloses
       ? event.registrationCloses
@@ -90,16 +111,34 @@ const isRegistrationOpen = event => {
   return false
 }
 
+const eventPath = ['api', 'latestEvent']
+
+const getIsEventOpen = ({ datetime }) =>
+  isBefore(new Date(), addHours(datetime, 24))
+
 const mapStateToProps = state => {
-  const latestEvent = R.pathOr({}, ['api', 'latestEvent', 'data'], state)
-  const loadingEvent = R.pathEq(
-    ['api', 'latestEvent', 'status'],
-    'started',
+  const latestEvent = R.pathOr(
+    {},
+    eventPath.concat(['data', 'currentEvent']),
     state
   )
-  const isEventOpen = isRegistrationOpen(latestEvent)
+  const loadingEvent = R.pathEq(eventPath.concat(['status']), 'started', state)
+  const isRegistrationOpen = getIsRegistrationOpen(latestEvent)
+  const isEventOpen = getIsEventOpen(latestEvent)
+  const isFeedbackOpen = R.pathEq(
+    eventPath.concat(['data', 'feedbackOpen']),
+    true,
+    state
+  )
   const reverseTheme = R.pathEq(['ui', 'theme'], 'reverse', state)
-  return { latestEvent, loadingEvent, isEventOpen, reverseTheme }
+  return {
+    latestEvent,
+    loadingEvent,
+    isEventOpen,
+    isFeedbackOpen,
+    isRegistrationOpen,
+    reverseTheme
+  }
 }
 
 export default connect(mapStateToProps)(App)

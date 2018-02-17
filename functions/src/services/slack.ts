@@ -1,4 +1,3 @@
-import * as functions from 'firebase-functions'
 import axios from 'axios'
 import { encaseP2 } from 'fluture'
 import { config } from '../'

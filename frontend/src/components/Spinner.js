@@ -58,6 +58,13 @@ class Spinner extends Component {
     this.delay = setTimeout(() => this.setState({ waiting: false }), 800)
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.waiting !== nextState.waiting) {
+      return true
+    }
+    return false
+  }
+
   componentWillUnmount() {
     clearTimeout(this.delay)
   }
@@ -80,16 +87,15 @@ class Spinner extends Component {
             marginTop={marginTop}
           />
         )
-      } else {
-        return (
-          <StyledSpinner
-            className="spinner"
-            small={small}
-            whiteSpinner={whiteSpinner}
-            marginTop={marginTop}
-          />
-        )
       }
+      return (
+        <StyledSpinner
+          className="spinner"
+          small={small}
+          whiteSpinner={whiteSpinner}
+          marginTop={marginTop}
+        />
+      )
     }
     return null
   }

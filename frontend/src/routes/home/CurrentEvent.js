@@ -162,7 +162,7 @@ class CurrentEvent extends Component {
   handleKeyPress = e => {
     if (e.key === 'Enter') route('/registration')
   }
-  render({ event, eventDate }) {
+  render({ event, eventDate, isRegistrationOpen }) {
     return (
       <div id="current-event-console">
         <SponsorAnnouncement>Sponsored by</SponsorAnnouncement>
@@ -185,10 +185,14 @@ class CurrentEvent extends Component {
             <EventDetail>{event.location}</EventDetail>
             <EventDetailLabel>$ who</EventDetailLabel>
             <EventDetail>{event.contact}</EventDetail>
-            <EventDetailLabel>[?] coming</EventDetailLabel>
-            <EventDetailLabel onKeyPress={this.handleKeyPress}>
-              $ <Cursor placeholder="_" />
-            </EventDetailLabel>
+            {isRegistrationOpen && (
+              <EventDetailLabel>[?] coming</EventDetailLabel>
+            )}
+            {isRegistrationOpen && (
+              <EventDetailLabel onKeyPress={this.handleKeyPress}>
+                $ <Cursor placeholder="_" />
+              </EventDetailLabel>
+            )}
           </Screen>
         </Console>
       </div>

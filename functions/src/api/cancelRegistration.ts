@@ -9,7 +9,7 @@ import {
   propHasLength,
   formatDate
 } from '../utils'
-import { evolve, identity, merge, pick, compose, assoc } from 'ramda'
+import { evolve, identity, merge, pick, compose } from 'ramda'
 import { sendMail } from '../services/mail'
 
 const getSuccessEmailSubstitutions = compose(
@@ -128,7 +128,7 @@ export const cancelRegistration = (request, response, next) => {
       .chain(val => shiftFromWaitingList(eventId).chain(() => of(val)))
       .fork(
         error => next(error),
-        val => response.status(202).json({ success: true })
+        () => response.status(202).json({ success: true })
       )
   )
 }
