@@ -1,5 +1,6 @@
 import { h } from 'preact'
 import styled, { css, keyframes } from 'styled-components'
+import 'intersection-observer'
 import Observer from 'react-intersection-observer'
 
 const Loading = keyframes`
