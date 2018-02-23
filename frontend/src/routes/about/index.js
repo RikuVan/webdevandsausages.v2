@@ -129,10 +129,11 @@ const About = ({ isExpandedMobileNav }) => (
       </PresentersSection>
       <Heading small>Former Sponsors</Heading>
       <Article>
-        <SponsorLogo src="../../assets/futurice-logo.svg" />
-        <SponsorLogo src="../../assets/gofore-logo.svg" />
-        <SponsorLogo src="../../assets/wapice-logo.svg" />
-        <SponsorLogo src="../../assets/vincit-logo.svg" />
+        <a href="https://futurice.com"><SponsorLogo src="../../assets/futurice-logo.svg" /></a>
+        <a href="https://gofore.com"><SponsorLogo src="../../assets/gofore-logo.svg" /></a>
+        <a href="https://wapice.com"><SponsorLogo src="../../assets/wapice-logo.svg" /></a>
+        <a href="https://vincit.com"><SponsorLogo src="../../assets/vincit-logo.svg" /></a>
+        <a href="https://www.solita.fi"><SponsorLogo src="../../assets/solita-logo-white.svg" /></a>
       </Article>
     </Section>
     <Footer color="primaryOrange" />
