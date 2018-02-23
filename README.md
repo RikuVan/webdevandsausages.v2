@@ -91,5 +91,5 @@ firebase deploy --only functions
 ```bash
 cd frontend
 yarn run build
-direbase deploy --only hosting
+firebase deploy --only hosting
 ```
