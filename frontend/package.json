@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
-    "build": "npm run clean && preact build --no-prerender",
-    "serve": "preact build --no-prerender && preact serve",
+    "build":
+      "npm run clean && preact build --no-prerender --service-worker false",
     "dev": "preact watch",
     "lint": "eslint src",
     "clean": "rm -rf build",
@@ -20,7 +20,7 @@
     "eslint": "^4.9.0",
     "eslint-config-synacor": "^2.0.2",
     "if-env": "^1.0.0",
-    "preact-cli": "^2.0.1",
+    "preact-cli": "^2.2.1",
     "preact-cli-plugin-async": "^1.0.0",
     "preact-cli-plugin-styled-components": "^1.0.0",
     "testcafe": "^0.18.6"

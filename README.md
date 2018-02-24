@@ -29,7 +29,9 @@ yarn install
 yarn run dev
 
 # test the production build locally
-yarn run serve
+# you must in stall the preact-cli globally on your computer
+yarn run build
+preact serve
 ```
 
 The frontend uses a development firebase instance in when NODE_ENV="development".

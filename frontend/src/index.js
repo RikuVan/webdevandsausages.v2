@@ -1,3 +1,4 @@
+import './unregister'
 import { h } from 'preact'
 import './style'
 import './style/fonts/fonts'
