@@ -38,12 +38,12 @@ const ImgCell = styled(Cell)`
   margin-bottom: 0;
 `
 
-const MERCH = ['hat', 'mugs', 'stickers', 'shirt']
+const MERCH = ['stickers', 'hat', 'mugs', 'shirt', 'pipo']
 
 const Merchandise = () => (
   <Wrapper>
     <SectionTitle paddingBottom={40}>Goodies</SectionTitle>
-    <Grid columns="repeat(auto-fit,minmax(270px,1fr))">
+    <Grid columns="repeat(auto-fit,minmax(350px,1fr))">
       {MERCH.map(item => (
         <ImgCell>
           <LazyImg src={`../../../assets/merchandise/${item}.jpg`} alt={item} />
