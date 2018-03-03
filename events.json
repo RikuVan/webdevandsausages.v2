@@ -1,6 +1,21 @@
 {
   "talks": [
     {
+      "title": "Intro to Kotlin",
+      "details": "Roope Hakulinen - Vol. 6, Solita, 2018-2-22",
+      "youtubeId": "tIhRR8ldf6U"
+    },
+    {
+      "title": "Intro to ReasonML",
+      "details": "Aki Haapamäki - Vol. 6, Solita, 2018-2-22",
+      "youtubeId": "QaI_Ojn_IJI"
+    },
+    {
+      "title": "Intro to D3js v4",
+      "details": "Johannes Feig - Vol. 6, Solita, 2018-2-22",
+      "youtubeId": "lkWnW-DR88g"
+    },
+    {
       "title": "The Micro-Christmas Hackathon",
       "titleLink": "https://battle3.site/",
       "details":
