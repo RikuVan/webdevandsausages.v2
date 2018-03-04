@@ -69,13 +69,6 @@ class Spinner extends Component {
     clearTimeout(this.delay)
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.waiting !== nextState.waiting) {
-      return true
-    }
-    return false
-  }
-
   render({ small, whiteSpinner, marginTop, absolute }) {
     if (!this.state.waiting) {
       if (absolute) {
