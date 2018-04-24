@@ -6,8 +6,8 @@
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
     "build":
-      "npm run clean && preact build --no-prerender --service-worker false",
-    "dev": "preact watch",
+      "npm run clean && preact build --no-prerender --service-worker false --template src/template.html",
+    "dev": "preact watch --template src/template.html",
     "lint": "eslint src",
     "clean": "rm -rf build",
     "test:e2e": "testcafe 'chrome --incognito' all test/e2e/*_spec.js"
