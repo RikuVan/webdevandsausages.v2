@@ -44,7 +44,7 @@ export const addInsertionDate = assoc(
 )
 export const formatDate = date =>
   `${moment(date)
-    .add(2, 'hours')
+    .add(3, 'hours')
     .format('dddd, MMMM Do YYYY, HH:mm')}`
 export const isWithin24Hours = datetime => {
   const start = moment(datetime)

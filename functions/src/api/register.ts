@@ -165,8 +165,6 @@ const findInRegistrationQueue = (
       prop('waitListed')
     )(details)
 
-    console.log('finding...', isRegistered, isWaitListed, valid, details)
-
     if (!isRegistered && !isWaitListed) {
       return reject(
         createError(
