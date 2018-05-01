@@ -21,6 +21,7 @@ import FutureEvent from './FutureEvent'
 import Merchandise from './Merchandise'
 
 import format from 'date-fns/format'
+import LargeLogo from '../../components/LargeLogo';
 
 const moveSausages = keyframes`
 from {background-position: bottom right;}
@@ -111,11 +112,12 @@ const Home = ({
 }) => (
   <PageWrapper>
     <TopSection isExpandedMobileNav={isExpandedMobileNav}>
-      <MainTitle
+      {/* <MainTitle
         isExpandedMobileNav={isExpandedMobileNav}
         hideIcon={hideIcon}
       />
-      <SausageIcon />
+      <SausageIcon /> */}
+      <LargeLogo />
       <Separator />
       <MailingListForm />
     </TopSection>
