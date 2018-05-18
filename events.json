@@ -1,6 +1,24 @@
 {
   "talks": [
     {
+      "title": "Connecting with Music Through AI and Magenta.js",
+      "details": "Tero Parviainen - Vol 7. Vincit, 2018-05-17",
+      "youtubeId": "VIk9Pf2md0c",
+      "startFrom": "12m22s"
+    },
+    {
+      "title": "Interactive Viz of a Neural-network Algorithm in D3js: Case Lehtipiste",
+      "details": "Timo Lehtonen - Vol 7. Vincit, 2018-05-17",
+      "youtubeId": "VIk9Pf2md0c",
+      "startFrom": "1hr1m27s"
+    },
+    {
+      "title": "Deep Learning Lyrics",
+      "details": "Antti Simonen - Vol 7. Vincit, 2018-05-17",
+      "youtubeId": "VIk9Pf2md0c",
+      "startFrom": "1hr33m18s"
+    },
+    {
       "title": "Intro to Kotlin",
       "details": "Roope Hakulinen - Vol. 6, Solita, 2018-2-22",
       "youtubeId": "tIhRR8ldf6U"
