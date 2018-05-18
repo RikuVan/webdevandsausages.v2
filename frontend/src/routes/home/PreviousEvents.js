@@ -48,14 +48,12 @@ const StyledLink = styled.a`
   padding: 3px 0 0;
 `
 
-const EventPanel = ({ youtubeId, title, titleLink, details, startsFrom }) => {
+const EventPanel = ({ youtubeId, title, titleLink, details, startFrom }) => {
   const speakersAndMeetup = details.split('-')
-  const start = startsFrom ? `#t=${startsFrom}` : ''
+  const start = startFrom ? `#t=${startFrom}` : ''
   return (
     <Panel middle>
-      <a
-        href={`https://youtu.be/${youtubeId}?list=PLzTZiC7Lgr5PXKGvz8Y9xPTrLRYI5dVhx`}
-      >
+      <a href={`https://youtu.be/${youtubeId}${start}`}>
         <LazyImg
           height="180"
           width="380"
@@ -87,7 +85,7 @@ const PreviousEvents = () => (
           titleLink={t.titleLink}
           details={t.details}
           youtubeId={t.youtubeId}
-          startsFrom={t.startsFrom}
+          startFrom={t.startFrom}
         />
       ))}
     </Grid>
