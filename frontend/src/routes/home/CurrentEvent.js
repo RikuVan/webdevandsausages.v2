@@ -169,7 +169,7 @@ class CurrentEvent extends Component {
         {event.sponsor && (
           <a href={event.sponsorWWWLink || null}>
             <SponsorLogo
-              src={`../../../assets/${event.sponsor.toLowerCase()}-logo.svg`}
+              src={`../../../assets/${event.sponsor.toLowerCase()}-logo.png`}
             />
           </a>
         )}
