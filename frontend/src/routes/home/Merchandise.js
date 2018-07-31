@@ -38,7 +38,7 @@ const ImgCell = styled(Cell)`
   margin-bottom: 0;
 `
 
-const MERCH = ['stickers', 'hat', 'mugs', 'shirt', 'pipo']
+const MERCH = ['stickers', 'hat', 'cup', 'shirt', 'pipo', 'mugs']
 
 const Merchandise = () => (
   <Wrapper>
