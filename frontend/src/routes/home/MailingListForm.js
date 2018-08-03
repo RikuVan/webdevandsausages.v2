@@ -122,7 +122,7 @@ class MailingListForm extends Component {
                         secondary
                         disabled={!meta.valid}
                         valid={meta.valid}
-                        whiteSpinner
+                        white
                       >
                         {'+'}
                       </Button>

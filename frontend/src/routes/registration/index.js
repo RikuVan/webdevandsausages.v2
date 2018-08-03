@@ -163,6 +163,7 @@ class Registration extends Component {
               loadingEvent
             )}
           </Event>
+          {loadingEvent && <Spinner white marginTop="80" />}
           {isRegistrationOpen && (
             <TabsContainer>
               <Tabs>

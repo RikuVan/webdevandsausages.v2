@@ -31,7 +31,7 @@ const StyledSpinner = styled.div`
       height: 20px;
     `};
   ${p =>
-    p.whiteSpinner &&
+    p.white &&
     css`
       border-color: #fff;
       border-top-color: rgba(0, 0, 0, 0);
@@ -69,14 +69,14 @@ class Spinner extends Component {
     clearTimeout(this.delay)
   }
 
-  render({ small, whiteSpinner, marginTop, absolute }) {
+  render({ small, white, marginTop, absolute }) {
     if (!this.state.waiting) {
       if (absolute) {
         return (
           <AbsoluteSpinner
             className="spinner"
             small={small}
-            whiteSpinner={whiteSpinner}
+            white={white}
             marginTop={marginTop}
           />
         )
@@ -85,7 +85,7 @@ class Spinner extends Component {
         <StyledSpinner
           className="spinner"
           small={small}
-          whiteSpinner={whiteSpinner}
+          white={white}
           marginTop={marginTop}
         />
       )

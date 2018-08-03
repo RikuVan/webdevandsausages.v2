@@ -147,12 +147,12 @@ const Button = ({
   loading,
   primary,
   children,
-  whiteSpinner,
+  white,
   ...rest
 }) => (
   <StyledButton type={type} id={id} primary={primary} {...rest}>
     {!loading && children}
-    {loading && <Spinner small whiteSpinner={whiteSpinner} />}
+    {loading && <Spinner small white={white} />}
   </StyledButton>
 )
 
