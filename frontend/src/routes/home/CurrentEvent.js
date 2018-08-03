@@ -5,6 +5,7 @@ import darken from 'polished/lib/color/darken'
 
 import { toRem, phone, tablet } from '../../helpers/styleHelpers'
 import { theme } from '../../style/theme'
+import Markup from 'preact-markup'
 
 export const EventWrapper = styled.article`
   font-size: ${toRem(20)};
@@ -180,11 +181,17 @@ class CurrentEvent extends Component {
             <EventDetailLabel>$ when</EventDetailLabel>
             <EventDetail>{eventDate}</EventDetail>
             <EventDetailLabel>$ what</EventDetailLabel>
-            <EventDetail>{event.details}</EventDetail>
+            <EventDetail>
+              <Markup type="html" markup={event.details} />
+            </EventDetail>
             <EventDetailLabel>$ where</EventDetailLabel>
-            <EventDetail>{event.location}</EventDetail>
+            <EventDetail>
+              <Markup type="html" markup={event.location} />
+            </EventDetail>
             <EventDetailLabel>$ who</EventDetailLabel>
-            <EventDetail>{event.contact}</EventDetail>
+            <EventDetail>
+              <Markup type="html" markup={event.contact} />
+            </EventDetail>
             {isRegistrationOpen && (
               <EventDetailLabel>[?] coming</EventDetailLabel>
             )}

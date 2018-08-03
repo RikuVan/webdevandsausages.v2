@@ -6182,6 +6182,12 @@ preact-compat@^3.14.3, preact-compat@^3.17.0:
     prop-types "^15.5.8"
     standalone-react-addons-pure-render-mixin "^0.1.1"
 
+preact-markup@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/preact-markup/-/preact-markup-1.6.0.tgz#9f4d285761531dd75af3e1d2cd121505b09986bc"
+  optionalDependencies:
+    preact "^5.6.0"
+
 preact-render-to-string@^3.6.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/preact-render-to-string/-/preact-render-to-string-3.7.0.tgz#7db4177454bc01395e0d01d6ac07bc5e838e31ee"
@@ -6195,6 +6201,10 @@ preact-router@^2.5.2, preact-router@^2.6.0:
 preact-transition-group@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/preact-transition-group/-/preact-transition-group-1.1.1.tgz#f0a49327ea515ece34ea2be864c4a7d29e5d6e10"
+
+preact@^5.6.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-5.7.0.tgz#2f2a1fff07b11cf25fc54887789d1af137722b5a"
 
 preact@^8.1.0, preact@^8.2.6:
   version "8.2.7"

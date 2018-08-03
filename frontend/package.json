@@ -5,8 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
-    "build":
-      "npm run clean && preact build --no-prerender --service-worker false --template src/template.html",
+    "build": "npm run clean && preact build --no-prerender --service-worker false --template src/template.html",
     "dev": "preact watch --template src/template.html",
     "lint": "eslint src",
     "clean": "rm -rf build",
@@ -15,7 +14,9 @@
   "eslintConfig": {
     "extends": "eslint-config-synacor"
   },
-  "eslintIgnore": ["build/*"],
+  "eslintIgnore": [
+    "build/*"
+  ],
   "devDependencies": {
     "eslint": "^4.9.0",
     "eslint-config-synacor": "^2.0.2",
@@ -35,6 +36,7 @@
     "polished": "^1.9.0",
     "preact": "^8.2.6",
     "preact-compat": "^3.17.0",
+    "preact-markup": "^1.6.0",
     "preact-router": "^2.6.0",
     "ramda": "^0.25.0",
     "react-final-form": "^2.1.1",
@@ -43,5 +45,9 @@
     "smitty": "^2.0.3",
     "styled-components": "^3.1.6"
   },
-  "browserslist": ["> 1%", "IE >= 11", "last 2 versions"]
+  "browserslist": [
+    "> 1%",
+    "IE >= 11",
+    "last 2 versions"
+  ]
 }
