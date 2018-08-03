@@ -51,13 +51,25 @@ export const Tab = styled.div`
   ${p =>
     p.active &&
     css`
-    background: #fff;
-    color: ${theme.secondaryBlue};
-    border: 1px solid ${opacify(0.3, theme.primaryOrange)};
-    border-top: 5px solid ${theme.primaryOrange};
-    border-bottom: none;
-    &:hover {
-      color: ${lighten(0.2, theme.secondaryBlue)};
       background: #fff;
-  `};
+      color: ${theme.secondaryBlue};
+      border: 1px solid ${opacify(0.3, theme.primaryOrange)};
+      border-top: 5px solid ${theme.primaryOrange};
+      border-bottom: none;
+      &:hover {
+        color: ${lighten(0.2, theme.secondaryBlue)};
+        background: #fff;
+      }
+      @media (max-width: ${650 / 18}em) {
+        background: ${opacify(0.3, theme.primaryOrange)};
+        color: #fff;
+        border: 1px solid ${opacify(0.3, theme.primaryOrange)};
+        border-top: 1px solid ${theme.primaryOrange};
+        border-bottom: none;
+        &:hover {
+          color: ${lighten(0.2, theme.secondaryBlue)};
+          background: ${opacify(0.3, theme.primaryOrange)};
+        }
+      }
+    `};
 `

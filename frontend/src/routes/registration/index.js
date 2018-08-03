@@ -66,6 +66,7 @@ const TabsContainer = styled.section`
   margin: 0;
   padding: 3rem 0;
   margin-top: ${toRem(100)};
+  ${phone(`padding: 0`)};
   box-shadow: inset 0 2px 20px rgba(0, 0, 0, 0.17);
 `
 
@@ -87,7 +88,10 @@ class Registration extends Component {
   }
 
   getTab = (props = this.props) =>
-    R.compose(maybeTab, R.pathOr(null, ['matches', 'tab']))(props)
+    R.compose(
+      maybeTab,
+      R.pathOr(null, ['matches', 'tab'])
+    )(props)
 
   getEventMessage = (date, isOpen, loading) => {
     if (loading) {
@@ -181,7 +185,7 @@ class Registration extends Component {
                   active={tab === tabs.VERIFICATION}
                   onClick={this.handleTabChange(tabs.VERIFICATION)}
                 >
-                  Verification
+                  Check registration
                 </Tab>
               </Tabs>
               <Panel active={tab === tabs.REGISTRATION}>
