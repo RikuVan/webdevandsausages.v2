@@ -1,18 +1,18 @@
-const googleAuth = require('google-auth-library')
-import * as google from 'googleapis'
+const { OAuth2Client } = require('google-auth-library')
+const { google } = require('googleapis')
 import Future, { tryP, of, reject } from 'fluture'
 import { tokensRef } from './db'
 import { docDataOrNull } from '../utils'
 import { notifySlack } from './slack'
 import { config } from '..'
 
-const GOOGLE_AUTH_REDIRECT =
-  'https://us-central1-wds-event-tool.cloudfunctions.net/OauthCallback'
+const GOOGLE_AUTH_REDIRECT = `https://us-central1-wds-event-${
+  config.VERSION === 'dev' ? 'dev' : 'tool'
+}.cloudfunctions.net/OauthCallback`
 
 const oauthTokens = null
 
-const auth = new googleAuth()
-const functionsOauthClient = new auth.OAuth2(
+const functionsOauthClient = new OAuth2Client(
   config.GOOGLE.ID,
   config.GOOGLE.SECRET,
   GOOGLE_AUTH_REDIRECT
@@ -27,11 +27,12 @@ export const authenticateForGoogleSheetsApi = (req, res) => {
     scope: SCOPES,
     prompt: 'consent'
   })
-
+  res.set('Cache-Control', 'private, max-age=0, s-maxage=0')
   res.redirect(redirectUrl)
 }
 
 export const setGooogleSheetsApiTokens = (request, response) => {
+  request.set('Cache-Control', 'private, max-age=0, s-maxage=0')
   const code = request.query.code
   // TODO: how to encase this directly in a Future?
   functionsOauthClient.getToken(code, (error, token) => {
@@ -91,8 +92,8 @@ function appendFuture(requestWithoutAuth) {
 
 const GOOGLE_SHEET_ID = config.GOOGLE.SHEET_ID
 
-export const appendNewEmailToSpreadsheetOnCreate = event => {
-  const newParticipant = event.data.data()
+export const appendNewEmailToSpreadsheetOnCreate = (snap, _context) => {
+  const newParticipant = snap.data()
 
   notifySlack(newParticipant.email)
 
