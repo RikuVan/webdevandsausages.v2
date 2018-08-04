@@ -10,7 +10,7 @@ const GOOGLE_AUTH_REDIRECT = `https://us-central1-wds-event-${
   config.VERSION === 'dev' ? 'dev' : 'tool'
 }.cloudfunctions.net/OauthCallback`
 
-const oauthTokens = null
+let oauthTokens = null
 
 const functionsOauthClient = new OAuth2Client(
   config.GOOGLE.ID,
@@ -32,7 +32,7 @@ export const authenticateForGoogleSheetsApi = (req, res) => {
 }
 
 export const setGooogleSheetsApiTokens = (request, response) => {
-  request.set('Cache-Control', 'private, max-age=0, s-maxage=0')
+  response.set('Cache-Control', 'private, max-age=0, s-maxage=0')
   const code = request.query.code
   // TODO: how to encase this directly in a Future?
   functionsOauthClient.getToken(code, (error, token) => {
@@ -50,23 +50,27 @@ export const setGooogleSheetsApiTokens = (request, response) => {
 }
 
 function getAuthorizedClient() {
-  return Future((res, rej) => {
+  return Future((rej, res) => {
     if (oauthTokens) {
       return res(functionsOauthClient)
     }
     return res(null)
   }).chain(res => {
     if (!res) {
-      return tryP(() => tokensRef.doc('googleSheetsApi').get()).map(
-        docDataOrNull
-      )
+      return tryP(() => tokensRef.doc('googleSheetsApi').get())
+        .map(docDataOrNull)
+        .chain(data => {
+          oauthTokens = data
+          functionsOauthClient.setCredentials(oauthTokens)
+          return of(functionsOauthClient)
+        })
     }
     return of(res)
   })
 }
 
 function appendFuture(requestWithoutAuth) {
-  getAuthorizedClient()
+  return getAuthorizedClient()
     .chain(client => {
       if (!client) {
         return reject(null)
@@ -94,7 +98,6 @@ const GOOGLE_SHEET_ID = config.GOOGLE.SHEET_ID
 
 export const appendNewEmailToSpreadsheetOnCreate = (snap, _context) => {
   const newParticipant = snap.data()
-
   notifySlack(newParticipant.email)
 
   return appendFuture({

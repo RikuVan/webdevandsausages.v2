@@ -1,4 +1,3 @@
-//const twilio = require('twilio')
 const Nexmo = require('nexmo')
 import Future from 'fluture'
 import { config } from '..'

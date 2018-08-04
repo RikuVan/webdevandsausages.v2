@@ -6,7 +6,7 @@ export default fns => ({
   GOOGLE: {
     SECRET: fns.config().googleapi.client_secret,
     ID: fns.config().googleapi.client_id,
-    SHEET_ID: fns.config().sheet_id
+    SHEET_ID: fns.config().googleapi.sheet_id
   },
   NEXMO: {
     SECRET: fns.config().nexmo.api_secret,

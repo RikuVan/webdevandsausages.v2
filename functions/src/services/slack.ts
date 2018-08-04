@@ -3,6 +3,7 @@ import { encaseP2 } from 'fluture'
 import { config } from '../'
 const axiosF = encaseP2(axios.post)
 
+// FIXME: this is returning a 500
 export const notifySlack = email => {
   const body = { text: `${email} joined the mailing list!` }
   axiosF(config.SLACK_URL, { body }).fork(
