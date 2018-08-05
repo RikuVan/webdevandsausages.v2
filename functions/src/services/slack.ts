@@ -3,10 +3,9 @@ import { encaseP2 } from 'fluture'
 import { config } from '../'
 const axiosF = encaseP2(axios.post)
 
-// FIXME: this is returning a 500
 export const notifySlack = email => {
-  const body = { text: `${email} joined the mailing list!` }
-  axiosF(config.SLACK_URL, { body }).fork(
+  const data = { text: `${email} joined the mailing list!` }
+  axiosF(config.SLACK_URL, data).fork(
     err =>
       console.log('An error occurred dispatching a message to slack: ', err),
     () => console.log(`Slack has received a notification about ${email}`)
