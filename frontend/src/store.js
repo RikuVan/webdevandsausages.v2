@@ -1,6 +1,7 @@
 import { createStore } from 'smitty'
 import R from './helpers'
 import actions from './actions'
+import Event from './Event'
 
 const initialState = {
   ui: {
@@ -10,6 +11,7 @@ const initialState = {
     showSidebar: false,
     isSideClosed: true
   },
+  event: Event.NotAsked,
   api: {},
   notifications: {},
   popup: null,
@@ -27,7 +29,13 @@ const store = createStore(initialState)
 store.createActions(actions)
 
 const togglePath = (slicePath, state) =>
-  R.assocPath(slicePath, R.compose(R.not, R.path(slicePath))(state))(state)
+  R.assocPath(
+    slicePath,
+    R.compose(
+      R.not,
+      R.path(slicePath)
+    )(state)
+  )(state)
 
 /* eslint no-console: 0, no-unused-vars: 0, arrow-body-style: 0 */
 const log = (type, e, state) => {
@@ -48,6 +56,10 @@ store.handleActions({
     R.assocPath(['api', key], { status: 'started' }, state),
   [store.actions.apiFinish]: (state, { key, status, data, error }) =>
     R.assocPath(['api', key], { status, data, error }, state),
+  [store.actions.eventFetching]: state =>
+    R.assocPath(['event'], Event.Loading, state),
+  [store.actions.eventFinish]: (state, { Event }) =>
+    R.assocPath(['event'], Event, state),
   [store.actions.resetApi]: (state, { key }) =>
     R.dissocPath(['api', key, 'status'], state),
   [store.actions.notify]: (state, { key, status }) =>
@@ -65,7 +77,7 @@ store.handleActions({
     R.assocPath(['auth'], R.merge(R.prop('auth', state), data), state),
   '*': (state, e, type) => {
     // for dev purposes
-    // log(type, e, state)
+    log(type, e, state)
     return state
   }
 })

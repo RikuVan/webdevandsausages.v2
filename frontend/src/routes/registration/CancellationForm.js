@@ -47,7 +47,7 @@ class CancellationForm extends Component {
     this.props.actions.delete({
       key: 'cancellation',
       resource: 'registration',
-      id: this.props.eventId,
+      id: this.props.event.id,
       values: R.trimValues(values)
     })
     form.reset()
@@ -57,7 +57,7 @@ class CancellationForm extends Component {
     this.props.actions.resetApi({ key: 'cancellation' })
   }
 
-  render({ hasStatus, loading, showErrorMsg, showSuccessMsg, valid }) {
+  render({ hasStatus, loading }) {
     return (
       <FormWrapper>
         <Form
@@ -67,8 +67,8 @@ class CancellationForm extends Component {
             <form onSubmit={handleSubmit} id="cancellation">
               <Info>
                 To cancel your registration for the event on{' '}
-                {this.props.eventDate}, submit the token sent you by email. It
-                should consist of two silly words joined by a hyphen.
+                {this.props.event.eventDate}, submit the token sent you by
+                email. It should consist of two silly words joined by a hyphen.
               </Info>
               <PopupNotification
                 id="cancellationError"
@@ -121,9 +121,10 @@ const cancellationPath = ['api', 'cancellation']
 const cancellationStatusPath = cancellationPath.concat(['status'])
 
 const mapStateToProps = state => {
-  const hasStatus = R.compose(R.has('status'), R.pathOr({}, cancellationPath))(
-    state
-  )
+  const hasStatus = R.compose(
+    R.has('status'),
+    R.pathOr({}, cancellationPath)
+  )(state)
   const loading = R.pathEq(cancellationStatusPath, 'started', state)
 
   return {

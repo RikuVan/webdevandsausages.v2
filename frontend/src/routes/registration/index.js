@@ -16,6 +16,7 @@ import Panel from '../../components/Panel'
 import PageTitle from '../../components/PageTitle'
 import Spinner from '../../components/Spinner'
 import InlineLink from '../../components/InlineLink'
+import EventConsumer from '../../components/EventConsumer'
 
 import RegistrationForm from './RegistrationForm'
 import CancellationForm from './CancellationForm'
@@ -93,28 +94,23 @@ class Registration extends Component {
       R.pathOr(null, ['matches', 'tab'])
     )(props)
 
-  getEventMessage = (date, isOpen, loading) => {
-    if (loading) {
-      return null
-    }
-    if (isOpen) {
-      return (
-        <span>
-          Sign up here for the event on {format(date, 'MMMM Do, YYYY')}. Using
-          the verification token you receive by email, you can also check or
-          cancel your registration below.
-        </span>
-      )
-    }
-    return (
-      <span>
-        <h2>CLOSED</h2>
-        Join our mailing list from the{' '}
-        <InlineLink href="/">homepage</InlineLink> and we will let you know when
-        registration opens for the next event
-      </span>
-    )
-  }
+  getDefaultEventMessage = () => (
+    <span>
+      <h2>CLOSED</h2>
+      Join our mailing list from the <InlineLink href="/">
+        homepage
+      </InlineLink>{' '}
+      and we will let you know when registration opens for the next event
+    </span>
+  )
+
+  renderEvenMessageForOpenRegistration = event => (
+    <span>
+      Sign up here for the event on {event.eventDate}. Using the verification
+      token you receive by email, you can also check or cancel your registration
+      below.
+    </span>
+  )
 
   componentDidMount() {
     if (!this.getTab()) {
@@ -128,17 +124,7 @@ class Registration extends Component {
     }
   }
 
-  renderForm = (FormComponent, loading, { datetime, id }) => {
-    if (loading) {
-      return <Spinner marginTop="80" />
-    }
-    return (
-      <FormComponent
-        eventDate={datetime ? format(datetime, 'MMMM Do, YYYY') : ''}
-        eventId={id}
-      />
-    )
-  }
+  renderForm = (FormComponent, event) => <FormComponent event={event} />
 
   render({
     isExpandedMobileNav,
@@ -157,49 +143,64 @@ class Registration extends Component {
           <PageTitle>Registration</PageTitle>
           <Separator />
           <Event>
-            {this.getEventMessage(
-              event.datetime,
-              isRegistrationOpen,
-              loadingEvent
-            )}
+            <EventConsumer
+              renderOpenEventWithRegistration={
+                this.renderEvenMessageForOpenRegistration
+              }
+              renderOpenEvent={this.renderEventMessage}
+              renderClosedEventWithFeedback={this.renderEventMessage}
+              renderNoEvent={this.renderEventMessage}
+              map={data => ({
+                eventDate: format(data.datetime, 'MMMM Do, YYYY'),
+                ...data
+              })}
+            />
           </Event>
-          {loadingEvent && <Spinner white marginTop="80" />}
-          {isRegistrationOpen && (
-            <TabsContainer>
-              <Tabs>
-                <Tab
-                  id={tabs.REGISTRATION}
-                  active={tab === tabs.REGISTRATION}
-                  onClick={this.handleTabChange(tabs.REGISTRATION)}
-                >
-                  Registration
-                </Tab>
-                <Tab
-                  id={tabs.CANCELLATION}
-                  active={tab === tabs.CANCELLATION}
-                  onClick={this.handleTabChange(tabs.CANCELLATION)}
-                >
-                  Cancellation
-                </Tab>
-                <Tab
-                  id={tabs.VERIFICATION}
-                  active={tab === tabs.VERIFICATION}
-                  onClick={this.handleTabChange(tabs.VERIFICATION)}
-                >
-                  Check registration
-                </Tab>
-              </Tabs>
-              <Panel active={tab === tabs.REGISTRATION}>
-                {this.renderForm(RegistrationForm, loadingEvent, event)}
-              </Panel>
-              <Panel active={tab === tabs.CANCELLATION}>
-                {this.renderForm(CancellationForm, loadingEvent, event)}
-              </Panel>
-              <Panel active={tab === tabs.VERIFICATION}>
-                {this.renderForm(VerificationForm, loadingEvent, event)}
-              </Panel>
-            </TabsContainer>
-          )}
+          <EventConsumer
+            renderLoading={<Spinner white marginTop="80" />}
+            renderOpenEventWithRegistration={event => (
+              <TabsContainer>
+                <Tabs>
+                  <Tab
+                    id={tabs.REGISTRATION}
+                    active={tab === tabs.REGISTRATION}
+                    onClick={this.handleTabChange(tabs.REGISTRATION)}
+                  >
+                    Registration
+                  </Tab>
+                  <Tab
+                    id={tabs.CANCELLATION}
+                    active={tab === tabs.CANCELLATION}
+                    onClick={this.handleTabChange(tabs.CANCELLATION)}
+                  >
+                    Cancellation
+                  </Tab>
+                  <Tab
+                    id={tabs.VERIFICATION}
+                    active={tab === tabs.VERIFICATION}
+                    onClick={this.handleTabChange(tabs.VERIFICATION)}
+                  >
+                    Check registration
+                  </Tab>
+                </Tabs>
+                <Panel active={tab === tabs.REGISTRATION}>
+                  {this.renderForm(RegistrationForm, event)}
+                </Panel>
+                <Panel active={tab === tabs.CANCELLATION}>
+                  {this.renderForm(CancellationForm, event)}
+                </Panel>
+                <Panel active={tab === tabs.VERIFICATION}>
+                  {this.renderForm(VerificationForm, event)}
+                </Panel>
+              </TabsContainer>
+            )}
+            map={event => ({
+              eventDate: event.datetime
+                ? format(event.datetime, 'MMMM Do, YYYY')
+                : '',
+              ...event
+            })}
+          />
         </TopSection>
         <Footer color="primaryOrange" />
       </PageWrapper>

@@ -27,10 +27,19 @@ import map from 'ramda/src/map'
 import toPairs from 'ramda/src/toPairs'
 import omit from 'ramda/src/omit'
 import mapObjIndexed from 'ramda/src/mapObjIndexed'
+import reduceWhile from 'ramda/src/reduceWhile'
 
-const dashify = compose(join('-'), split(' '), toLower)
+const dashify = compose(
+  join('-'),
+  split(' '),
+  toLower
+)
 const firstUpper = replace(/^./, toUpper)
-const dedashify = compose(join(''), map(firstUpper), split('-'))
+const dedashify = compose(
+  join(''),
+  map(firstUpper),
+  split('-')
+)
 const trimValues = mapObjIndexed(
   (val, key) => (is(String, val) ? val.trim() : val)
 )
@@ -61,5 +70,6 @@ export default {
   map,
   omit,
   assoc,
-  trimValues
+  trimValues,
+  reduceWhile
 }

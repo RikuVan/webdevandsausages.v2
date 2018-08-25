@@ -9,6 +9,7 @@ import { toRem, tablet } from '../../helpers/styleHelpers'
 
 import PageWrapper from '../../components/PageWrapper'
 import Footer from '../../components/Footer'
+import EventConsumer from '../../components/EventConsumer'
 
 import PageTitle from '../../components/PageTitle'
 import Spinner from '../../components/Spinner'
@@ -55,11 +56,11 @@ class Feedback extends Component {
     this.props.actions.resetApi({ key: 'feedback' })
   }
 
-  onSubmit = (values, form) => {
+  onSubmit = (values, form, id) => {
     this.props.actions.post({
       key: 'feedback',
       resource: 'feedback',
-      id: this.props.event.id,
+      id,
       values: R.trimValues(values)
     })
     form.reset()
@@ -72,10 +73,11 @@ class Feedback extends Component {
     }
   }
 
-  renderFormOrClosedMessage = (isOpen, event, loading, hasStatus) =>
-    isOpen ? (
+  renderForm = event => {
+    const { loading, hasStatus } = this.props
+    return (
       <Form
-        onSubmit={this.onSubmit}
+        onSubmit={(values, form) => this.onSubmit(values, form, event.id)}
         validate={validate}
         render={({ handleSubmit, valid, pristine, reset }) => (
           <FeedbackForm onSubmit={handleSubmit} id="feedback">
@@ -107,28 +109,25 @@ class Feedback extends Component {
           </FeedbackForm>
         )}
       />
-    ) : (
-      <ClosedMessage>Closed</ClosedMessage>
     )
+  }
 
-  render({
-    isExpandedMobileNav,
-    event,
-    loadingEvent,
-    isOpen,
-    loading,
-    hasStatus
-  }) {
+  render({ isExpandedMobileNav }) {
     return (
       <PageWrapper>
         <Section isExpandedMobileNav={isExpandedMobileNav}>
           <PageTitle>Feedback</PageTitle>
           <FeedbackFormWrapper>
-            {loadingEvent ? (
-              <Spinner marginTop={80} />
-            ) : (
-              this.renderFormOrClosedMessage(isOpen, event, loading, hasStatus)
-            )}
+            <EventConsumer
+              renderLoading={() => <Spinner marginTop={80} />}
+              renderOpenEvent={() => <ClosedMessage>Closed</ClosedMessage>}
+              renderOpenEventWithRegistration={() => (
+                <ClosedMessage>Closed</ClosedMessage>
+              )}
+              renderClosedEvent={() => <ClosedMessage>Closed</ClosedMessage>}
+              renderClosedEventWithFeedback={this.renderForm}
+              renderNoEvent={() => <ClosedMessage>Closed</ClosedMessage>}
+            />
           </FeedbackFormWrapper>
         </Section>
         <Footer color="primaryOrange" />

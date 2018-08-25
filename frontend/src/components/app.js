@@ -35,7 +35,10 @@ class App extends Component {
     }
 
     this.currentUrl = e.url
-    const { reverseTheme, actions: { changeTheme } } = this.props
+    const {
+      reverseTheme,
+      actions: { changeTheme }
+    } = this.props
 
     if (this.currentUrl.includes('registration')) {
       changeTheme('reverse')
@@ -55,13 +58,7 @@ class App extends Component {
 
   //TODO: conditional rendering is broken https://github.com/developit/preact-router/issues/178
   //when fixed, hide feedback route
-  render({
-    latestEvent,
-    loadingEvent,
-    isEventOpen,
-    isRegistrationOpen,
-    isFeedbackOpen
-  }) {
+  render({ latestEvent, loadingEvent, isRegistrationOpen, isFeedbackOpen }) {
     return (
       <ThemeProvider theme={theme}>
         <Main id="app">
@@ -72,13 +69,7 @@ class App extends Component {
             />
           </ScrollWatcher>
           <Router onChange={this.handleRoute}>
-            <Home
-              path="/"
-              event={latestEvent}
-              loadingEvent={loadingEvent}
-              isEventOpen={isEventOpen}
-              isRegistrationOpen={isRegistrationOpen}
-            />
+            <Home path="/" />
             <About path="/about/" />
             <Registration
               path="/registration/"
@@ -86,12 +77,7 @@ class App extends Component {
               loadingEvent={loadingEvent}
               isRegistrationOpen={isRegistrationOpen}
             />
-            <Feedback
-              path="/feedback/"
-              event={latestEvent}
-              loadingEvent={loadingEvent}
-              isOpen={isFeedbackOpen}
-            />
+            <Feedback path="/feedback/" />
             <Admin path="/__admin__/:section?" />
             <NotFound default />
           </Router>
@@ -113,9 +99,6 @@ const getIsRegistrationOpen = event => {
 
 const eventPath = ['api', 'latestEvent']
 
-const getIsEventOpen = ({ datetime }) =>
-  isBefore(new Date(), addHours(datetime, 24))
-
 const mapStateToProps = state => {
   const latestEvent = R.pathOr(
     {},
@@ -124,7 +107,6 @@ const mapStateToProps = state => {
   )
   const loadingEvent = R.pathEq(eventPath.concat(['status']), 'started', state)
   const isRegistrationOpen = getIsRegistrationOpen(latestEvent)
-  const isEventOpen = getIsEventOpen(latestEvent)
   const isFeedbackOpen = R.pathEq(
     eventPath.concat(['data', 'feedbackOpen']),
     true,
@@ -134,7 +116,6 @@ const mapStateToProps = state => {
   return {
     latestEvent,
     loadingEvent,
-    isEventOpen,
     isFeedbackOpen,
     isRegistrationOpen,
     reverseTheme

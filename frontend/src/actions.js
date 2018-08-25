@@ -1,9 +1,33 @@
 import { of, encaseP2, tryP, reject, encase } from 'fluture'
 import R from './helpers'
+import Event from './Event'
+import isWithinRange from 'date-fns/is_within_range'
+import isBefore from 'date-fns/is_before'
+import addHours from 'date-fns/add_hours'
 
 import { endpoints } from './api'
 
+const getIsEventOpen = ({ datetime }) =>
+  isBefore(new Date(), addHours(datetime, 24))
+
+const getIsRegistrationOpen = event => {
+  if (event.registrationOpens) {
+    const endDate = event.registrationCloses
+      ? event.registrationCloses
+      : new Date(8640000000000000)
+    return isWithinRange(new Date(), event.registrationOpens, endDate)
+  }
+  return false
+}
+
 const fetchf = encaseP2(fetch)
+
+const handleResponse = minStatus => response => {
+  if (response.status >= minStatus) {
+    return reject({ status })
+  }
+  return tryP(() => response.json())
+}
 
 const headers = {
   Accept: 'application/json',
@@ -18,7 +42,9 @@ const actions = {
   toggleSidebar: 'ui/SIDE_TOGGLE',
   setIsScrolled: 'ui/IS_SCROLLED',
   apiStart: 'api/START',
-  apiFinish: 'api/FINNISH',
+  apiFinish: 'api/FINISH',
+  eventFinish: 'event/FINISH',
+  eventFetching: 'event/FETCHING',
   resetApi: 'api/RESET',
   notify: 'notifications/NOTIFY',
   closeNotification: 'notifications/CLOSE',
@@ -45,12 +71,7 @@ const actions = {
           body: data
         })
       )
-      .chain(res => {
-        if (res.status >= 300) {
-          return reject(res.status)
-        }
-        return tryP(() => res.json())
-      })
+      .chain(handleResponse(300))
       .fork(
         error => {
           if (R.is(Number, error)) {
@@ -98,12 +119,7 @@ const actions = {
           credentials: 'include'
         })
       )
-      .chain(response => {
-        if (response.status >= 204) {
-          return reject({ status })
-        }
-        return tryP(() => response.json())
-      })
+      .chain(handleResponse(204))
       .map(transform)
       .fork(
         error => {
@@ -112,7 +128,6 @@ const actions = {
             notificationTime
           })
           store.actions.apiFinish({ key: key || resource, status, error })
-          store.actions.broadcastNotification({ key: `${key}Error` })
         },
         data => {
           store.actions.broadcastNotification({
@@ -128,6 +143,37 @@ const actions = {
             })
           }
         }
+      )
+  },
+  getEvent: () => store => {
+    of(store.actions.eventFetching())
+      .chain(() =>
+        fetchf(endpoints.latestEvent(), {
+          headers,
+          credentials: 'include'
+        })
+      )
+      .chain(handleResponse(204))
+      .map(({ data }) => {
+        const event = R.pathOr(null, ['currentEvent'], data)
+        if (!data.currentEvent) {
+          return Event.NoEvent
+        }
+        if (data.feedbackOpen) {
+          return Event.ClosedEventWithFeedback(event)
+        } else if (getIsEventOpen(event) && getIsRegistrationOpen(event)) {
+          return Event.OpenEventWithRegistration(event)
+        } else if (getIsEventOpen(event)) {
+          return Event.OpenEvent(event)
+        }
+        return Event.ClosedEvent(event)
+      })
+      .fork(
+        error => store.actions.eventFinish({ Event: Event.Failure(error) }),
+        Event =>
+          store.actions.eventFinish({
+            Event
+          })
       )
   },
   delete: ({ key, resource, id, values = {}, cb }) => store => {

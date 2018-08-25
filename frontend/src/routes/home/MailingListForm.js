@@ -97,14 +97,7 @@ class MailingListForm extends Component {
           onSubmit={this.onSubmit}
           initialValues={{ receivesMail: true }}
           validate={validate}
-          render={({
-            handleSubmit,
-            reset,
-            submitting,
-            pristine,
-            values,
-            valid
-          }) => (
+          render={({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <TitleWrapper>
                 <Title>

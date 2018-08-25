@@ -2,7 +2,9 @@ import { h, Component } from 'preact'
 import { route } from 'preact-router'
 import styled, { css, keyframes } from 'styled-components'
 import darken from 'polished/lib/color/darken'
+import EventConsumer from '../../components/EventConsumer'
 
+import format from 'date-fns/format'
 import { toRem, phone, tablet } from '../../helpers/styleHelpers'
 import { theme } from '../../style/theme'
 import Markup from 'preact-markup'
@@ -159,50 +161,69 @@ export const Console = ({ children }) => (
   </EventWrapper>
 )
 
+const RegistrationConsole = ({ event, children }) => (
+  <div id="current-event-console">
+    <SponsorAnnouncement>Sponsored by</SponsorAnnouncement>
+    {event.sponsor && (
+      <a href={event.sponsorWWWLink || null}>
+        <SponsorLogo
+          src={`../../../assets/${event.sponsor.toLowerCase()}-logo.svg`}
+        />
+      </a>
+    )}
+    <Console>
+      <Screen>
+        <EventDetailLabel>$ which</EventDetailLabel>
+        <EventDetail>Volume {event.volume}</EventDetail>
+        <EventDetailLabel>$ when</EventDetailLabel>
+        <EventDetail>{event.eventDate}</EventDetail>
+        <EventDetailLabel>$ what</EventDetailLabel>
+        <EventDetail>
+          <Markup type="html" markup={event.details} />
+        </EventDetail>
+        <EventDetailLabel>$ where</EventDetailLabel>
+        <EventDetail>
+          <Markup type="html" markup={event.location} />
+        </EventDetail>
+        <EventDetailLabel>$ who</EventDetailLabel>
+        <EventDetail>
+          <Markup type="html" markup={event.contact} />
+        </EventDetail>
+        {children}
+      </Screen>
+    </Console>
+  </div>
+)
+
 class CurrentEvent extends Component {
   handleKeyPress = e => {
     if (e.key === 'Enter') route('/registration')
   }
-  render({ event, eventDate, isRegistrationOpen }) {
+  renderEvent = event => <RegistrationConsole event={event} />
+
+  renderEventWithRegistration = event => {
     return (
-      <div id="current-event-console">
-        <SponsorAnnouncement>Sponsored by</SponsorAnnouncement>
-        {event.sponsor && (
-          <a href={event.sponsorWWWLink || null}>
-            <SponsorLogo
-              src={`../../../assets/${event.sponsor.toLowerCase()}-logo.svg`}
-            />
-          </a>
-        )}
-        <Console>
-          <Screen>
-            <EventDetailLabel>$ which</EventDetailLabel>
-            <EventDetail>Volume {event.volume}</EventDetail>
-            <EventDetailLabel>$ when</EventDetailLabel>
-            <EventDetail>{eventDate}</EventDetail>
-            <EventDetailLabel>$ what</EventDetailLabel>
-            <EventDetail>
-              <Markup type="html" markup={event.details} />
-            </EventDetail>
-            <EventDetailLabel>$ where</EventDetailLabel>
-            <EventDetail>
-              <Markup type="html" markup={event.location} />
-            </EventDetail>
-            <EventDetailLabel>$ who</EventDetailLabel>
-            <EventDetail>
-              <Markup type="html" markup={event.contact} />
-            </EventDetail>
-            {isRegistrationOpen && (
-              <EventDetailLabel>[?] coming</EventDetailLabel>
-            )}
-            {isRegistrationOpen && (
-              <EventDetailLabel onKeyPress={this.handleKeyPress}>
-                $ <Cursor placeholder="_" />
-              </EventDetailLabel>
-            )}
-          </Screen>
-        </Console>
-      </div>
+      <RegistrationConsole event={event}>
+        <EventDetailLabel>[?] coming</EventDetailLabel>
+        <EventDetailLabel onKeyPress={this.handleKeyPress}>
+          $ <Cursor placeholder="_" />
+        </EventDetailLabel>
+      </RegistrationConsole>
+    )
+  }
+  render() {
+    console.log('here')
+    return (
+      <EventConsumer
+        renderOpenEvent={this.renderEvent}
+        renderOpenEventWithRegistration={this.renderEventWithRegistration}
+        map={event => ({
+          eventDate: event.datetime
+            ? format(event.datetime, 'MMMM Do, YYYY, HH:mm')
+            : '',
+          ...event
+        })}
+      />
     )
   }
 }

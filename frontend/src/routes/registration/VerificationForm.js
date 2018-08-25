@@ -49,7 +49,7 @@ class CancellationForm extends Component {
     this.props.actions.get({
       key: 'verification',
       resource: 'registration',
-      id: this.props.eventId,
+      id: this.props.event.id,
       params: { e: email, t: verificationToken }
     })
     form.reset()
@@ -76,8 +76,8 @@ class CancellationForm extends Component {
             <form onSubmit={handleSubmit} id="verification">
               <Info>
                 To check your registration or your position in the wait list for
-                the event on {this.props.eventDate}, submit the token sent you
-                by email. It should consist of two silly words joined by a
+                the event on {this.props.event.eventDate}, submit the token sent
+                you by email. It should consist of two silly words joined by a
                 hyphen.
               </Info>
               <PopupNotification
@@ -95,7 +95,10 @@ class CancellationForm extends Component {
                     R.pathOr({}, ['verification', 'data'])
                   )(api)
                   return waitListPosition &&
-                    R.compose(R.is(Number), v => Number(v))(waitListPosition)
+                    R.compose(
+                      R.is(Number),
+                      v => Number(v)
+                    )(waitListPosition)
                     ? `You are ${toOrdinal(
                         waitListPosition
                       )} in the waiting list for this event.`
@@ -142,9 +145,10 @@ const verificationPath = ['api', 'verification']
 const verificationStatusPath = verificationPath.concat(['status'])
 
 const mapStateToProps = state => {
-  const hasStatus = R.compose(R.has('status'), R.pathOr({}, verificationPath))(
-    state
-  )
+  const hasStatus = R.compose(
+    R.has('status'),
+    R.pathOr({}, verificationPath)
+  )(state)
   const loading = R.pathEq(verificationStatusPath, 'started', state)
 
   return {

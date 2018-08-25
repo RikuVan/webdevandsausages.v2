@@ -81,7 +81,7 @@ class RegistrationForm extends Component {
     this.props.actions.post({
       key: 'registration',
       resource: 'registration',
-      id: this.props.eventId,
+      id: this.props.event.id,
       values: R.trimValues(values)
     })
     form.reset()
@@ -102,9 +102,9 @@ class RegistrationForm extends Component {
             <form onSubmit={handleSubmit} id="registration">
               <Info>
                 The following registration is for the event on{' '}
-                {this.props.eventDate}. After registering, you should receive a
-                unique verification token by email. Please save this in case you
-                need to cancel or check your registration later.
+                {this.props.event.eventDate}. After registering, you should
+                receive a unique verification token by email. Please save this
+                in case you need to cancel or check your registration later.
               </Info>
               <PopupNotification
                 id="registrationError"
@@ -176,9 +176,10 @@ const registrationPath = ['api', 'registration']
 const registrationStatusPath = registrationPath.concat(['status'])
 
 const mapStateToProps = state => {
-  const hasStatus = R.compose(R.has('status'), R.pathOr({}, registrationPath))(
-    state
-  )
+  const hasStatus = R.compose(
+    R.has('status'),
+    R.pathOr({}, registrationPath)
+  )(state)
   const loading = R.pathEq(registrationStatusPath, 'started', state)
   return {
     hasStatus,

@@ -13,15 +13,14 @@ import Footer from '../../components/Footer'
 import Separator from '../../components/Separator'
 import SausageIcon from '../../components/SausageIcon'
 import SectionTitle from '../../components/SectionTitle'
+import EventConsumer from '../../components/EventConsumer'
 
-import MainTitle from './MainTitle'
 import PreviousEvents from './PreviousEvents'
 import CurrentEvent from './CurrentEvent'
 import FutureEvent from './FutureEvent'
 import Merchandise from './Merchandise'
 
-import format from 'date-fns/format'
-import LargeLogo from '../../components/LargeLogo';
+import LargeLogo from '../../components/LargeLogo'
 
 const moveSausages = keyframes`
 from {background-position: bottom right;}
@@ -80,63 +79,40 @@ const InnerWrapper = styled.div`
     `};
 `
 
-const getEventUi = (loadingEvent, isEventOpen, isRegistrationOpen, event) => {
-  if (loadingEvent) {
-    return (
-      <InnerWrapper>
-        <Spinner />
-      </InnerWrapper>
-    )
-  } else if (event && isEventOpen) {
-    const eventDate = event.datetime
-      ? format(event.datetime, 'MMMM Do, YYYY, HH:mm')
-      : ''
-    return (
-      <CurrentEvent
-        event={event}
-        eventDate={eventDate}
-        isRegistrationOpen={isRegistrationOpen}
-      />
-    )
-  }
-  return <FutureEvent />
-}
+const RegistrationLink = () => (
+  <InnerWrapper marginTop={60}>
+    <ButtonLink id="register-link-button" big light href="/registration">
+      Register
+    </ButtonLink>
+  </InnerWrapper>
+)
 
-const Home = ({
-  isExpandedMobileNav,
-  hideIcon,
-  event,
-  loadingEvent,
-  isEventOpen,
-  isRegistrationOpen
-}) => (
+const Loading = () => (
+  <InnerWrapper>
+    <Spinner />
+  </InnerWrapper>
+)
+
+const Home = ({ isExpandedMobileNav }) => (
   <PageWrapper>
     <TopSection isExpandedMobileNav={isExpandedMobileNav}>
-      {/* <MainTitle
-        isExpandedMobileNav={isExpandedMobileNav}
-        hideIcon={hideIcon}
-      />
-      <SausageIcon /> */}
       <LargeLogo />
       <Separator />
       <MailingListForm />
     </TopSection>
     <CurrentEventWrapper>
       <SectionTitle>Our Next Meetup</SectionTitle>
-      {getEventUi(loadingEvent, isEventOpen, isRegistrationOpen, event)}
-      {!loadingEvent &&
-        isRegistrationOpen && (
-          <InnerWrapper marginTop={60}>
-            <ButtonLink
-              id="register-link-button"
-              big
-              light
-              href="/registration"
-            >
-              Register
-            </ButtonLink>
-          </InnerWrapper>
-        )}
+      <EventConsumer
+        renderLoading={() => <Loading />}
+        renderOpenEvent={() => <CurrentEvent />}
+        renderOpenEventWithRegistration={() => <CurrentEvent />}
+        renderClosedEvent={() => <FutureEvent />}
+        renderNoEvent={() => <FutureEvent />}
+      />
+      <EventConsumer
+        renderOpenEvent={() => <RegistrationLink />}
+        renderOpenEventWithRegistration={() => <RegistrationLink />}
+      />
     </CurrentEventWrapper>
     <Separator orange />
     <PreviousEventsWrapper>
