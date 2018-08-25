@@ -119,21 +119,36 @@ const About = ({ isExpandedMobileNav }) => (
       </MissionStatement>
       <PresentersSection>
         <Heading color="primaryOrange" small>
-          Former Presenters
+          Speakers
         </Heading>
         <Article>
           <Grid columns="repeat(auto-fit,minmax(220px,1fr))">
-            {speakers.names.map(name => <Speaker>{name}</Speaker>)}
+            {speakers.names.map(name => (
+              <Speaker>{name}</Speaker>
+            ))}
           </Grid>
         </Article>
       </PresentersSection>
       <Heading small>Former Sponsors</Heading>
       <Article>
-        <a href="https://futurice.com"><SponsorLogo src="../../assets/futurice-logo.svg" /></a>
-        <a href="https://gofore.com"><SponsorLogo src="../../assets/gofore-logo.svg" /></a>
-        <a href="https://wapice.com"><SponsorLogo src="../../assets/wapice-logo.svg" /></a>
-        <a href="https://vincit.com"><SponsorLogo src="../../assets/vincit-logo.svg" /></a>
-        <a href="https://www.solita.fi"><SponsorLogo src="../../assets/solita-logo-white.svg" /></a>
+        <a href="https://futurice.com">
+          <SponsorLogo src="../../assets/futurice-logo.svg" />
+        </a>
+        <a href="https://gofore.com">
+          <SponsorLogo src="../../assets/gofore-logo.svg" />
+        </a>
+        <a href="https://wapice.com">
+          <SponsorLogo src="../../assets/wapice-logo.svg" />
+        </a>
+        <a href="https://vincit.com">
+          <SponsorLogo src="../../assets/vincit-logo.svg" />
+        </a>
+        <a href="https://www.solita.fi">
+          <SponsorLogo src="../../assets/solita-logo-white.svg" />
+        </a>
+        <a href="https://www.happy-or-not.com">
+          <SponsorLogo src="../../assets/happyornot.svg" />
+        </a>
       </Article>
     </Section>
     <Footer color="primaryOrange" />

@@ -1,6 +1,28 @@
 {
   "talks": [
     {
+      "title": "We built our own UI component library and it was totally fine",
+      "details": "Riku Rouvila - Vol. 8. HappyOrNot, 2018-08-23",
+      "youtubeId": "3pe7aWDU5DY",
+      "startFrom": "1m00s"
+    },
+    {
+      "title": "Would you say that CSS is awesome",
+      "details": "Joonas Kallunki - Vol. 8. HappyOrNot, 2018-08-23",
+      "youtubeId": "xnAmrv95C10"
+    },
+    {
+      "title": "Our new front-end stack",
+      "details": "Lauri Fjällström - Vol. 8. HappyOrNot, 2018-08-23",
+      "youtubeId": "pFfOx4FQDhE"
+    },
+    {
+      "title": "We built our own UI component library and it was totally fine",
+      "details": "Riku Rouvila - Vol. 8. HappyOrNot, 2018-08-23",
+      "youtubeId": "3pe7aWDU5DY",
+      "startFrom": "12m22s"
+    },
+    {
       "title": "Connecting with Music Through AI and Magenta.js",
       "details": "Tero Parviainen - Vol 7. Vincit, 2018-05-17",
       "youtubeId": "VIk9Pf2md0c",
