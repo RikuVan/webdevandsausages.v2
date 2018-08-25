@@ -201,18 +201,16 @@ class CurrentEvent extends Component {
   }
   renderEvent = event => <RegistrationConsole event={event} />
 
-  renderEventWithRegistration = event => {
-    return (
-      <RegistrationConsole event={event}>
-        <EventDetailLabel>[?] coming</EventDetailLabel>
-        <EventDetailLabel onKeyPress={this.handleKeyPress}>
-          $ <Cursor placeholder="_" />
-        </EventDetailLabel>
-      </RegistrationConsole>
-    )
-  }
+  renderEventWithRegistration = event => (
+    <RegistrationConsole event={event}>
+      <EventDetailLabel>[?] coming</EventDetailLabel>
+      <EventDetailLabel onKeyPress={this.handleKeyPress}>
+        $ <Cursor placeholder="_" />
+      </EventDetailLabel>
+    </RegistrationConsole>
+  )
+
   render() {
-    console.log('here')
     return (
       <EventConsumer
         renderOpenEvent={this.renderEvent}

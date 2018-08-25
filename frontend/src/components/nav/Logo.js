@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { Link } from 'preact-router/match';
-import { toRem } from '../../helpers/styleHelpers';
+import styled from 'styled-components'
+import { Link } from 'preact-router/match'
+import { toRem } from '../../helpers/styleHelpers'
 
 const MainLogo = styled.img`
   position: absolute;

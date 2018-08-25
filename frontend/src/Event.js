@@ -11,4 +11,7 @@ const Event = daggy.taggedSum('Event', {
   NoEvent: []
 })
 
+// alias
+Event.prototype.case = Event.prototype.cata
+
 export default Event
