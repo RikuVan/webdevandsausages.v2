@@ -1,23 +1,8 @@
 import { h, Component } from 'preact'
 import R from '../helpers'
 import { connect } from '../preact-smitty'
-import Event from '../Event'
 
 class EventConsumer extends Component {
-  rendererOrNull = (renderer, data) => {
-    if (typeof renderer === 'function') {
-      return renderer(data)
-    }
-    if (Array.isArray(renderer)) {
-      return R.reduceWhile(
-        R.isNil,
-        (acc, r) => acc || this.rendererOrNull(r, data),
-        null,
-        renderer
-      )
-    }
-    return null
-  }
   foldIntoView(event, map = v => v, renderers) {
     const {
       renderLoading,
@@ -29,7 +14,7 @@ class EventConsumer extends Component {
       renderNoEvent
     } = renderers
 
-    return event.cata({
+    return event.case({
       NotAsked: () => this.props.actions.getEvent(),
       Loading: () => this.rendererOrNull(renderLoading),
       Failure: () => this.rendererOrNull(renderFailure),
@@ -44,6 +29,21 @@ class EventConsumer extends Component {
         ),
       NoEvent: () => this.rendererOrNull(renderNoEvent)
     })
+  }
+
+  rendererOrNull = (renderer, data) => {
+    if (typeof renderer === 'function') {
+      return renderer(data)
+    }
+    if (Array.isArray(renderer)) {
+      return R.reduceWhile(
+        R.isNil,
+        (acc, r) => acc || this.rendererOrNull(r, data),
+        null,
+        renderer
+      )
+    }
+    return null
   }
 
   render({ event, map, ...rest }) {

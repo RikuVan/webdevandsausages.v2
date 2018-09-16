@@ -104,14 +104,6 @@ class Registration extends Component {
     </span>
   )
 
-  renderEvenMessageForOpenRegistration = event => (
-    <span>
-      Sign up here for the event on {event.eventDate}. Using the verification
-      token you receive by email, you can also check or cancel your registration
-      below.
-    </span>
-  )
-
   componentDidMount() {
     if (!this.getTab()) {
       this.setTab(tabs.REGISTRATION)
@@ -124,15 +116,17 @@ class Registration extends Component {
     }
   }
 
+  renderEventMessageForOpenRegistration = event => (
+    <span>
+      Sign up here for the event on {event.eventDate}. Using the verification
+      token you receive by email, you can also check or cancel your registration
+      below.
+    </span>
+  )
+
   renderForm = (FormComponent, event) => <FormComponent event={event} />
 
-  render({
-    isExpandedMobileNav,
-    hideIcon,
-    event,
-    loadingEvent,
-    isRegistrationOpen
-  }) {
+  render({ isExpandedMobileNav, isRegistrationOpen }) {
     const tab = this.getTab()
     return (
       <PageWrapper>
@@ -145,7 +139,7 @@ class Registration extends Component {
           <Event>
             <EventConsumer
               renderOpenEventWithRegistration={
-                this.renderEvenMessageForOpenRegistration
+                this.renderEventMessageForOpenRegistration
               }
               renderOpenEvent={this.renderEventMessage}
               renderClosedEventWithFeedback={this.renderEventMessage}

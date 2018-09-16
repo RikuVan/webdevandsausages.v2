@@ -11,7 +11,6 @@ import { ButtonLink } from '../../components/Button'
 import PageWrapper from '../../components/PageWrapper'
 import Footer from '../../components/Footer'
 import Separator from '../../components/Separator'
-import SausageIcon from '../../components/SausageIcon'
 import SectionTitle from '../../components/SectionTitle'
 import EventConsumer from '../../components/EventConsumer'
 

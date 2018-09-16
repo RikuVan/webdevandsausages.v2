@@ -77,7 +77,7 @@ store.handleActions({
     R.assocPath(['auth'], R.merge(R.prop('auth', state), data), state),
   '*': (state, e, type) => {
     // for dev purposes
-    log(type, e, state)
+    // log(type, e, state)
     return state
   }
 })

@@ -4,8 +4,6 @@ import styled, { ThemeProvider } from 'styled-components'
 import { connect } from '../preact-smitty'
 import R from '../helpers'
 import isWithinRange from 'date-fns/is_within_range'
-import isBefore from 'date-fns/is_before'
-import addHours from 'date-fns/add_hours'
 
 import Nav from './nav'
 import Home from '../routes/home'
