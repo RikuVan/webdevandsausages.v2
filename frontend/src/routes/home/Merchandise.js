@@ -38,7 +38,7 @@ const ImgCell = styled(Cell)`
   margin-bottom: 0;
 `
 
-const MERCH = ['stickers', 'hat', 'cup', 'shirt', 'pipo', 'mugs']
+const MERCH = ['stickers', 'hat', 'cup', 'shirt', 'pipo', 'mugs', 'beer']
 
 const Merchandise = () => (
   <Wrapper>
@@ -46,7 +46,11 @@ const Merchandise = () => (
     <Grid columns="repeat(auto-fit,minmax(350px,1fr))">
       {MERCH.map(item => (
         <ImgCell>
-          <LazyImg src={`../../../assets/merchandise/${item}.jpg`} alt={item} />
+          <LazyImg
+            src={`../../../assets/merchandise/${item}.jpg`}
+            alt={item}
+            height={item === 'beer' && 250}
+          />
         </ImgCell>
       ))}
     </Grid>

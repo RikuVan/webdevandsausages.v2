@@ -14,10 +14,6 @@ const Loading = keyframes`
 `
 
 const Placeholder = styled.div`
-  ${({ height, width }) => css`
-    height: ${height}px;
-    width: ${height}px;
-  `};
   animation: ${Loading} 3s;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
@@ -33,12 +29,12 @@ const Placeholder = styled.div`
   border-radius: 3px;
 `
 
-const renderImg = (inView, src, alt, ...rest) =>
-  inView ? <img src={src} alt={alt} /> : <Placeholder {...rest} />
+const renderImg = (inView, src, alt, height) =>
+  inView ? <img src={src} alt={alt} height={height} /> : <Placeholder />
 
-const LazyImg = ({ src, height = '250', width = '250', alt = 'image' }) => (
+const LazyImg = ({ src, height = 250, alt = 'image' }) => (
   <Observer triggerOnce>
-    {inView => renderImg(inView, src, alt, height, width)}
+    {inView => renderImg(inView, src, alt, height)}
   </Observer>
 )
 
