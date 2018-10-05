@@ -109,7 +109,6 @@ const Home = ({ isExpandedMobileNav }) => (
         renderNoEvent={() => <FutureEvent />}
       />
       <EventConsumer
-        renderOpenEvent={() => <RegistrationLink />}
         renderOpenEventWithRegistration={() => <RegistrationLink />}
       />
     </CurrentEventWrapper>
