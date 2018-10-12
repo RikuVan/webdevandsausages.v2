@@ -40,16 +40,16 @@ const TopSection = styled.div`
     `)};
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
   width: 100%;
-  background-image: url(../../assets/sausage-bg.svg),
+  background-image: url('../../assets/witch.svg'),
     linear-gradient(15deg, ${theme.primaryOrange}, ${'#52bdf6'});
   animation: ${moveSausages} 90s linear infinite;
   background-size: 60px, auto;
-  background-repeat: repeat;
+  background-repeat: repeat space;
   margin-top: -30px;
 `
 
 const PreviousEventsWrapper = styled.section`
-  background: #fff
+  background: #fff;
   min-height: 50vh;
   width: 100%;
   padding-bottom: 5rem;

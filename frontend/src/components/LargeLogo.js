@@ -7,6 +7,7 @@ const Logo = styled.img`
   border-radius: 100%;
   margin-top: 50px;
 `
+// halloweeb orange filter: hue-rotate(200deg) saturate(2);
 
 const LargeLogo = () => <Logo src="assets/wds-logo-round.svg" />
 
