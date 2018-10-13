@@ -13,6 +13,7 @@ import Registration from 'async!../routes/registration'
 import Feedback from '../routes/feedback'
 import Admin from 'async!../routes/admin'
 import ScrollWatcher from './ScrollWatcher'
+import { HalloweenHeader } from './HalloweenHeader'
 
 import { theme } from '../style/theme'
 
@@ -60,6 +61,7 @@ class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <Main id="app">
+          <HalloweenHeader />
           <ScrollWatcher>
             <Nav
               disableRegistration={!isRegistrationOpen || loadingEvent}

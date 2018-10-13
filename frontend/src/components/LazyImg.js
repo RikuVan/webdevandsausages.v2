@@ -1,6 +1,5 @@
 import { h } from 'preact'
 import styled, { css, keyframes } from 'styled-components'
-import 'intersection-observer'
 import Observer from 'react-intersection-observer'
 
 const Loading = keyframes`
@@ -29,12 +28,16 @@ const Placeholder = styled.div`
   border-radius: 3px;
 `
 
-const renderImg = (inView, src, alt, height) =>
-  inView ? <img src={src} alt={alt} height={height} /> : <Placeholder />
+const renderImg = (inView, src, alt, height, ref) =>
+  ({ inView, ref } ? (
+    <img src={src} alt={alt} height={height} ref={ref} />
+  ) : (
+    <Placeholder />
+  ))
 
 const LazyImg = ({ src, height = 250, alt = 'image' }) => (
   <Observer triggerOnce>
-    {inView => renderImg(inView, src, alt, height)}
+    {({ inView, ref }) => renderImg(inView, src, alt, height, ref)}
   </Observer>
 )
 

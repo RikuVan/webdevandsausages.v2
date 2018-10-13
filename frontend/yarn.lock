@@ -4148,6 +4148,12 @@ invariant@^2.2.0, invariant@^2.2.2:
   dependencies:
     loose-envify "^1.0.0"
 
+invariant@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
+  dependencies:
+    loose-envify "^1.0.0"
+
 invert-kv@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
@@ -6457,9 +6463,11 @@ react-final-form@^2.1.1:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-2.2.0.tgz#29c63cf944fc4c70c647a85085664dd89dbf2a06"
 
-react-intersection-observer@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-3.0.3.tgz#3df67f413c36c28b02426e7fdbf9670790fb50ab"
+react-intersection-observer@^6.2.3:
+  version "6.2.3"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-6.2.3.tgz#42c150d71ef835e5a89a480eed1f07cc416f3700"
+  dependencies:
+    invariant "^2.2.4"
 
 reactabular-table@^8.12.0:
   version "8.12.0"

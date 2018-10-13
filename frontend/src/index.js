@@ -5,6 +5,7 @@ import './style/fonts/fonts'
 import App from './components/app'
 import { Provider } from './preact-smitty'
 import store from './store'
+import 'intersection-observer'
 
 const AppWithStore = () => (
   <Provider store={store}>
