@@ -36,8 +36,7 @@ export const baseInput = ({ theme, active, width, valid }) => `
 export const activeInput = ({ active, theme }) => {
   if (active) {
     return `
-        background-color: ${transparentize(0.3, theme.secondaryBlue)};
-        color: #fff;
+        border: 2px solid ${theme.secondaryBlue};
       `
   }
   return null
@@ -46,9 +45,16 @@ export const activeInput = ({ active, theme }) => {
 export const validInput = ({ active, valid, theme }) => {
   if (active && valid) {
     return `
-    background-color: ${transparentize(0.1, theme.secondaryBlue)};
     border: 2px solid ${theme.secondaryBlue};
-    color: #fff;
+  `
+  }
+  return null
+}
+
+export const invalidInput = ({ active, error, theme }) => {
+  if (error) {
+    return `
+    border: 2px solid ${darken(0.2, theme.notificationError)};
   `
   }
   return null
@@ -56,9 +62,10 @@ export const validInput = ({ active, valid, theme }) => {
 
 export const Input = styled.input`
   height: 52px;
-  ${props => baseInput(props)};
-  ${props => activeInput(props)};
-  ${props => validInput(props)};
+  ${baseInput};
+  ${activeInput};
+  ${validInput};
+  ${invalidInput};
   ${({ width }) =>
     width &&
     css`
@@ -99,7 +106,10 @@ export const Label = ({ text }) => <LabelWrapper>{text}</LabelWrapper>
 export const Error = styled.div`
   text-align: left;
   font-weight: 700;
-  color: ${darken(0.2, 'red')};
+  color: ${({ theme }) => darken(0.1, theme.notificationError)};
+  height: 24px;
+  margin-top: -10px;
+  padding: 0;
 `
 
 const LabeledField = ({ name, label, type = 'text', placeholder, ...rest }) => {
@@ -118,6 +128,7 @@ const LabeledField = ({ name, label, type = 'text', placeholder, ...rest }) => {
                 valid={meta.valid}
                 placeholder={placeholder}
                 active={!!input.value.length}
+                error={meta.touched && meta.error}
               />
             </FieldWrapper>
             {meta.touched && meta.error && <Error>{meta.error}</Error>}
