@@ -34,8 +34,14 @@ export const S = create({ checkTypes, env: env.concat(flutureEnv) })
 // safety utils
 export const docDataOrNull = doc => (!doc || !doc.exists ? null : doc.data())
 export const docIdOrNull = doc => (!doc || !doc.exists ? null : doc.id)
-export const areValidResults = compose(not, either(isNil, has('error')))
-export const notNil = compose(not, isNil)
+export const areValidResults = compose(
+  not,
+  either(isNil, has('error'))
+)
+export const notNil = compose(
+  not,
+  isNil
+)
 
 // date utils
 export const addInsertionDate = assoc(
@@ -44,7 +50,7 @@ export const addInsertionDate = assoc(
 )
 export const formatDate = date =>
   `${moment(date)
-    .add(3, 'hours')
+    .add(2, 'hours')
     .format('dddd, MMMM Do YYYY, HH:mm')}`
 export const isWithin24Hours = datetime => {
   const start = moment(datetime)
@@ -73,4 +79,8 @@ export const findByEmailAndPassword = (
 export const findIndexOfRegistration = registration =>
   findIndex(equals(registration))
 export const propHasLength = prop =>
-  compose(flip(gt)(0), length, propOr([], prop))
+  compose(
+    flip(gt)(0),
+    length,
+    propOr([], prop)
+  )
