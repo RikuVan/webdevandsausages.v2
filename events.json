@@ -1,6 +1,24 @@
 {
   "talks": [
     {
+      "title": "The unknown unknown",
+      "details": "Asta Suokas - Vol 9. Futurice, 2018-10-08",
+      "youtubeId": "BTHX3Gw_3sw",
+      "startFrom": "23m26s"
+    },
+    {
+      "title": "Intro to rich text editing in React with Draft.js",
+      "details": "Tuomo Kankaanpää - Vol 9. Futurice, 2018-10-08",
+      "youtubeId": "BTHX3Gw_3sw",
+      "startFrom": "1h05m25s"
+    },
+    {
+      "title": "Crowdfunding as a Service",
+      "details": "Anna Ruokonen - Vol 9. Futurice, 2018-10-08",
+      "youtubeId": "BTHX3Gw_3sw",
+      "startFrom": "1h46m54s"
+    },
+    {
       "title": "We built our own UI component library and it was totally fine",
       "details": "Riku Rouvila - Vol. 8. HappyOrNot, 2018-08-23",
       "youtubeId": "3pe7aWDU5DY",

@@ -24,7 +24,7 @@ const fetchf = encaseP2(fetch)
 
 const handleResponse = minStatus => response => {
   if (response.status >= minStatus) {
-    return reject({ status })
+    return reject({ error: response.error })
   }
   return tryP(() => response.json())
 }
@@ -74,6 +74,7 @@ const actions = {
       .chain(handleResponse(300))
       .fork(
         error => {
+          console.log(error)
           if (R.is(Number, error)) {
             store.actions.broadcastNotification({
               key: `${key}Error`,
