@@ -1,25 +1,25 @@
-import { h } from 'preact'
-import styled, { css, keyframes } from 'styled-components'
-import { connect } from '../../preact-smitty'
-import R from '../../helpers'
+import { h } from "preact"
+import styled, { css, keyframes } from "styled-components"
+import { connect } from "../../preact-smitty"
+import R from "../../helpers"
 
-import { toRem, tablet, phone } from '../../helpers/styleHelpers'
-import MailingListForm from './MailingListForm'
-import { theme } from '../../style/theme'
-import Spinner from '../../components/Spinner'
-import { ButtonLink } from '../../components/Button'
-import PageWrapper from '../../components/PageWrapper'
-import Footer from '../../components/Footer'
-import Separator from '../../components/Separator'
-import SectionTitle from '../../components/SectionTitle'
-import EventConsumer from '../../components/EventConsumer'
+import { toRem, tablet, phone } from "../../helpers/styleHelpers"
+import MailingListForm from "./MailingListForm"
+import { theme } from "../../style/theme"
+import Spinner from "../../components/Spinner"
+import { ButtonLink, StyledButton } from "../../components/Button"
+import PageWrapper from "../../components/PageWrapper"
+import Footer from "../../components/Footer"
+import Separator from "../../components/Separator"
+import SectionTitle from "../../components/SectionTitle"
+import EventConsumer from "../../components/EventConsumer"
 
-import PreviousEvents from './PreviousEvents'
-import CurrentEvent from './CurrentEvent'
-import FutureEvent from './FutureEvent'
-import Merchandise from './Merchandise'
+import PreviousEvents from "./PreviousEvents"
+import CurrentEvent from "./CurrentEvent"
+// import FutureEvent from "./FutureEvent"
+import Merchandise from "./Merchandise"
 
-import LargeLogo from '../../components/LargeLogo'
+import LargeLogo from "../../components/LargeLogo"
 
 const moveSausages = keyframes`
 from {background-position: bottom right;}
@@ -41,7 +41,7 @@ const TopSection = styled.div`
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.17);
   width: 100%;
   background-image: url(../../assets/sausage-bg.svg),
-    linear-gradient(15deg, ${theme.primaryOrange}, ${'#52bdf6'});
+    linear-gradient(15deg, ${theme.primaryOrange}, ${"#52bdf6"});
   animation: ${moveSausages} 90s linear infinite;
   background-size: 60px, auto;
   background-repeat: repeat;
@@ -86,6 +86,16 @@ const RegistrationLink = () => (
   </InnerWrapper>
 )
 
+const TempRegistrationLink = () => (
+  <InnerWrapper marginTop={60}>
+    <a href="https://ssl.eventilla.com/event/nKgpD">
+      <StyledButton big light>
+        Register
+      </StyledButton>
+    </a>
+  </InnerWrapper>
+)
+
 const Loading = () => (
   <InnerWrapper>
     <Spinner />
@@ -105,11 +115,13 @@ const Home = ({ isExpandedMobileNav }) => (
         renderLoading={() => <Loading />}
         renderOpenEvent={() => <CurrentEvent />}
         renderOpenEventWithRegistration={() => <CurrentEvent />}
-        renderClosedEvent={() => <FutureEvent />}
-        renderNoEvent={() => <FutureEvent />}
+        renderClosedEvent={() => <CurrentEvent />}
+        renderNoEvent={() => <CurrentEvent />}
       />
       <EventConsumer
         renderOpenEventWithRegistration={() => <RegistrationLink />}
+        renderNoEvent={() => <TempRegistrationLink />}
+        renderClosedEvent={() => <TempRegistrationLink />}
       />
     </CurrentEventWrapper>
     <Separator orange />
@@ -123,6 +135,6 @@ const Home = ({ isExpandedMobileNav }) => (
 )
 
 export default connect(state => ({
-  isExpandedMobileNav: R.pathOr(false, ['ui', 'showMobileNav'], state),
-  hideIcon: R.pathEq(['ui', 'isScrolled'], true, state)
+  isExpandedMobileNav: R.pathOr(false, ["ui", "showMobileNav"], state),
+  hideIcon: R.pathEq(["ui", "isScrolled"], true, state)
 }))(Home)

@@ -1,13 +1,13 @@
-import { h, Component } from 'preact'
-import { route } from 'preact-router'
-import styled, { css, keyframes } from 'styled-components'
-import darken from 'polished/lib/color/darken'
-import EventConsumer from '../../components/EventConsumer'
+import { h, Component } from "preact"
+import { route } from "preact-router"
+import styled, { css, keyframes } from "styled-components"
+import darken from "polished/lib/color/darken"
+import EventConsumer from "../../components/EventConsumer"
 
-import format from 'date-fns/format'
-import { toRem, phone, tablet } from '../../helpers/styleHelpers'
-import { theme } from '../../style/theme'
-import Markup from 'preact-markup'
+import format from "date-fns/format"
+import { toRem, phone, tablet } from "../../helpers/styleHelpers"
+import { theme } from "../../style/theme"
+import Markup from "preact-markup"
 
 export const EventWrapper = styled.article`
   font-size: ${toRem(20)};
@@ -164,30 +164,37 @@ export const Console = ({ children }) => (
 const RegistrationConsole = ({ event, children }) => (
   <div id="current-event-console">
     <SponsorAnnouncement>Sponsored by</SponsorAnnouncement>
+    <a href={event.sponsorWWWLink || null}>
+      <SponsorLogo src="../../../assets/gofore-logo.svg" />
+    </a>
     {event.sponsor && (
       <a href={event.sponsorWWWLink || null}>
-        <SponsorLogo
-          src={`../../../assets/${event.sponsor.toLowerCase()}-logo.svg`}
-        />
+        <SponsorLogo src={`../../../assets/${event.sponsor.toLowerCase()}-logo.svg`} />
       </a>
     )}
     <Console>
       <Screen>
         <EventDetailLabel>$ which</EventDetailLabel>
-        <EventDetail>Volume {event.volume}</EventDetail>
+        <EventDetail>Volume 10</EventDetail>
         <EventDetailLabel>$ when</EventDetailLabel>
-        <EventDetail>{event.eventDate}</EventDetail>
+        <EventDetail>7.3.2019 18:00</EventDetail>
         <EventDetailLabel>$ what</EventDetailLabel>
         <EventDetail>
-          <Markup type="html" markup={event.details} />
+          <p style={{ marginTop: "5px" }}>
+            Tapio Rautonen (Umbra) - Planetary scale 3d optimization
+          </p>
+          <p>Akseli Piilola (Gofore) - How easy hacking a website can be</p>
+          <p style={{ marginBottom: "5px" }}>3rd presentation TBA</p>
         </EventDetail>
         <EventDetailLabel>$ where</EventDetailLabel>
         <EventDetail>
-          <Markup type="html" markup={event.location} />
+          <p style={{ marginTop: "5px" }}>Gofore Oyj / D-building 8th Floor (Pormestari)</p>
+          <p>Kalevantie 2, 33100</p>
+          <p style={{ marginBottom: "5px" }}>Tampere</p>
         </EventDetail>
         <EventDetailLabel>$ who</EventDetailLabel>
         <EventDetail>
-          <Markup type="html" markup={event.contact} />
+          Organized by Leo (0445176923), Juhani (0466001077) &amp; Richard (0407761337)
         </EventDetail>
         {children}
       </Screen>
@@ -197,7 +204,8 @@ const RegistrationConsole = ({ event, children }) => (
 
 class CurrentEvent extends Component {
   handleKeyPress = e => {
-    if (e.key === 'Enter') route('/registration')
+    if (e.key === "Enter") window.location.href = "https://ssl.eventilla.com/event/nKgpD"
+    //route("/registration")
   }
   renderEvent = event => <RegistrationConsole event={event} />
 
@@ -213,12 +221,11 @@ class CurrentEvent extends Component {
   render() {
     return (
       <EventConsumer
+        renderClosedEvent={this.renderEventWithRegistration}
         renderOpenEvent={this.renderEvent}
         renderOpenEventWithRegistration={this.renderEventWithRegistration}
         map={event => ({
-          eventDate: event.datetime
-            ? format(event.datetime, 'MMMM Do, YYYY, HH:mm')
-            : '',
+          eventDate: event.datetime ? format(event.datetime, "MMMM Do, YYYY, HH:mm") : "",
           ...event
         })}
       />

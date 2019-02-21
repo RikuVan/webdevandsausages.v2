@@ -1,14 +1,14 @@
-import { h } from 'preact'
-import styled, { css } from 'styled-components'
-import { Link } from 'preact-router/match'
+import { h } from "preact"
+import styled, { css } from "styled-components"
+import { Link } from "preact-router/match"
 
-import { toRem } from '../helpers/styleHelpers'
-import Spinner from './Spinner'
-import opacify from 'polished/lib/color/opacify'
-import lighten from 'polished/lib/color/lighten'
-import transparentize from 'polished/lib/color/transparentize'
+import { toRem } from "../helpers/styleHelpers"
+import Spinner from "./Spinner"
+import opacify from "polished/lib/color/opacify"
+import lighten from "polished/lib/color/lighten"
+import transparentize from "polished/lib/color/transparentize"
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   display: inline-block;
   zoom: 1;
   line-height: normal;
@@ -141,30 +141,14 @@ const StyledButton = styled.button`
   }
 `
 
-const Button = ({
-  type = 'button',
-  id,
-  loading,
-  primary,
-  children,
-  white,
-  ...rest
-}) => (
+const Button = ({ type = "button", id, loading, primary, children, white, ...rest }) => (
   <StyledButton type={type} id={id} primary={primary} {...rest}>
     {!loading && children}
     {loading && <Spinner small white={white} />}
   </StyledButton>
 )
 
-export const ButtonLink = ({
-  type = 'button',
-  id,
-  loading,
-  primary,
-  children,
-  href,
-  ...rest
-}) => (
+export const ButtonLink = ({ type = "button", id, loading, primary, children, href, ...rest }) => (
   <Link href={href}>
     <StyledButton type={type} id={id} primary={primary} {...rest}>
       {!loading && children}

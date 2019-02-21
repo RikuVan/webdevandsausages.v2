@@ -1,9 +1,9 @@
-import { h } from 'preact'
-import styled, { css } from 'styled-components'
-import { Link } from 'preact-router/match'
-import { toRem } from '../../helpers/styleHelpers'
-import darken from 'polished/lib/color/darken'
-import transparentize from 'polished/lib/color/transparentize'
+import { h } from "preact"
+import styled, { css } from "styled-components"
+import { Link } from "preact-router/match"
+import { toRem } from "../../helpers/styleHelpers"
+import darken from "polished/lib/color/darken"
+import transparentize from "polished/lib/color/transparentize"
 
 const Wrapper = styled.nav`
   display: flex;
@@ -59,11 +59,7 @@ export const NavSeparator = styled.span`
   opacity: 0.35;
 `
 
-const NavLinks = ({
-  showMobileNav,
-  disableRegistration,
-  isFeedbackLinkVisible
-}) => (
+const NavLinks = ({ showMobileNav, disableRegistration, isFeedbackLinkVisible }) => (
   <Wrapper>
     <NavLink id="home" activeClassName="active" href="/" showMobileNav>
       HOME
@@ -72,8 +68,8 @@ const NavLinks = ({
     <NavLink id="about" activeClassName="active" href="/about" showMobileNav>
       ABOUT
     </NavLink>
-    <NavSeparator />
-    <NavLink
+    {/*<NavSeparator /> */}
+    {/* <NavLink
       id="registration"
       activeClassName={!disableRegistration && 'active'}
       href={`/${disableRegistration ? '' : 'registration'}`}
@@ -81,15 +77,10 @@ const NavLinks = ({
       disabled={disableRegistration}
     >
       REGISTRATION
-    </NavLink>
+   </NavLink> */}
     {isFeedbackLinkVisible && <NavSeparator />}
     {isFeedbackLinkVisible && (
-      <NavLink
-        id="feedback"
-        activeClassName="active"
-        href="/feedback"
-        showMobileNav
-      >
+      <NavLink id="feedback" activeClassName="active" href="/feedback" showMobileNav>
         FEEDBACK
       </NavLink>
     )}
