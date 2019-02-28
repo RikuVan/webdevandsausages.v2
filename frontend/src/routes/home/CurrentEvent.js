@@ -184,7 +184,7 @@ const RegistrationConsole = ({ event, children }) => (
             Tapio Rautonen (Umbra) - Planetary scale 3d optimization
           </p>
           <p>Akseli Piilola (Gofore) - How easy hacking a website can be</p>
-          <p style={{ marginBottom: "5px" }}>3rd presentation TBA</p>
+          <p style={{ marginBottom: "5px" }}>Richard Van Camp (Gofore) - Ends unite!</p>
         </EventDetail>
         <EventDetailLabel>$ where</EventDetailLabel>
         <EventDetail>
