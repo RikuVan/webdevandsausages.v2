@@ -1,6 +1,24 @@
 {
   "talks": [
     {
+      "title": "Planetary scale 3d optimization",
+      "details": "Tapio Rautonen - Vol 10. Gofore, 2019-03-07",
+      "youtubeId": "BbLXaYdBDTI",
+      "startFrom": "32m27s"
+    },
+    {
+      "title": "How easy hacking a website can be",
+      "details": "Aleksi Piilola - Vol. 10 Gofore, 2019-03-07",
+      "youtubeId": "BbLXaYdBDTI",
+      "startFrom": "1h20m46s"
+    },
+    {
+      "title": "Richard Van Camp",
+      "details": "Ends unite! - Vol. 10 Gofore, 2019-03-07",
+      "youtubeId": "BbLXaYdBDTI",
+      "startFrom": "2h01m18s"
+    },
+    {
       "title": "The unknown unknown",
       "details": "Asta Suokas - Vol 9. Futurice, 2018-10-08",
       "youtubeId": "BTHX3Gw_3sw",
@@ -70,16 +88,13 @@
     {
       "title": "The Micro-Christmas Hackathon",
       "titleLink": "https://battle3.site/",
-      "details":
-        "Leo Melin, Richard Van Camp, Teemu Erkkola - Vol. 5, Gofore, 2017-24-11",
+      "details": "Leo Melin, Richard Van Camp, Teemu Erkkola - Vol. 5, Gofore, 2017-24-11",
       "youtubeId": "pPxpUJyg1ss"
     },
     {
       "title": "WB&S Coders' quiz",
-      "titleLink":
-        "https://github.com/webDevAndSausages/archivedMeetupStuff/blob/master/2017-08-17%20%40%20Wapice%20Oy%20-%20Kampusklubi/Quiz/quiz.pdf",
-      "details":
-        "Richard Van Camp, Mikko Matilainen & Leo Melin - Vol. 4, Wapice, 2017-08-17",
+      "titleLink": "https://github.com/webDevAndSausages/archivedMeetupStuff/blob/master/2017-08-17%20%40%20Wapice%20Oy%20-%20Kampusklubi/Quiz/quiz.pdf",
+      "details": "Richard Van Camp, Mikko Matilainen & Leo Melin - Vol. 4, Wapice, 2017-08-17",
       "youtubeId": "1n4BbAfbt5w"
     },
     {
@@ -90,8 +105,7 @@
     },
     {
       "title": "Uh...Yeah...Let's talk about Polymer, then...",
-      "titleLink":
-        "https://github.com/webDevAndSausages/archivedMeetupStuff/blob/master/2017-08-17%20%40%20Wapice%20Oy%20-%20Kampusklubi/Uh...Yeah...Let's%20talk%20about%20Polymer%2C%20then...%20-%20Fabiano%20Brito%20%26%20Andr%C3%A9%20Valgrande/Polymer1.x.pdf",
+      "titleLink": "https://github.com/webDevAndSausages/archivedMeetupStuff/blob/master/2017-08-17%20%40%20Wapice%20Oy%20-%20Kampusklubi/Uh...Yeah...Let's%20talk%20about%20Polymer%2C%20then...%20-%20Fabiano%20Brito%20%26%20Andr%C3%A9%20Valgrande/Polymer1.x.pdf",
       "details": "Fabiano Brito & André Valgrande - Vol. 4, Wapice, 2017-08-17",
       "youtubeId": "4YKilvpDOFI"
     },
@@ -102,8 +116,7 @@
     },
     {
       "title": "The Web Assembly Challenge",
-      "details":
-        "Teemu Erkkola, Jaakko Huuso, & Rick VC - Vol. 3, Vincit, 2017-01-11",
+      "details": "Teemu Erkkola, Jaakko Huuso, & Rick VC - Vol. 3, Vincit, 2017-01-11",
       "youtubeId": "JXKIaZRJAS0",
       "startFrom": "2h17m36s"
     },
